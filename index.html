@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/styles.css">
+    <title>Sprint2 Starter</title>
+</head>
+<body class="main-layout" onload1="onInit()">
+
+    <div class="main-screen"></div>
+
+    <header class="main-header full main-layout">
+        <div class="wrapper flex align-center space-between">
+            <div class="brand-logo">Meme-Generator</div>
+            <nav class="main-nav">
+                <ul class="nav-links clean-list flex">
+                    <li> <a href="#" class="nav-link">Gallery</a> </li>
+                    <li> <a href="#" class="nav-link">Editor</a> </li>
+                    <li> <a href="#" class="nav-link">Saved</a> </li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    <main class="main-content">
+        <section class="meme-editor flex justify-center">
+            <div class="canvas-container">
+                <canvas id="meme-canvas" width="200" height="200"></canvas>
+            </div>
+                <aside class="controls flex align-center justify-center">
+                    <h3>Controls</h3>
+                    <input type="text" name="textline" id="textLine" placeholder="Your Text Line">
+                </aside>
+            </div>
+        </section>
+    </main>
+    <footer class="main-footer full main-layout">
+        <div class="wrapper">
+            <small>This Meme-Generator Designed and Built By Noam Dahan</small>
+        </div>
+    </footer>
+    <div class="modal-wrapper">
+        <div class="modal-content"></div>
+    </div>
+
+    <script src="js/utils.service.js"></script>
+    <script src="js/gallery.service.js"></script>
+    <script src="js/gallery.controller.js"></script>
+    <script src="js/meme.service.js"></script>
+    <script src="js/meme.controller.js"></script>
+
+</body>
+</html>

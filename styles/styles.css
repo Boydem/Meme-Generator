@@ -1,0 +1,248 @@
+/* basics */
+
+@font-face {
+  font-family: "logo";
+  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Bold.ttf);
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Regular.ttf);
+}
+@font-face {
+  font-family: "Oswald-Bold";
+  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Bold.ttf);
+}
+@font-face {
+  font-family: "textual";
+  src: url(./fonts/PermanentMarkerOverpass/Overpass/Overpass-Regular.ttf);
+}
+
+:root {
+  --a: 0.35;
+  /* colors */
+  --clr-1: rgb(255, 239, 12);
+  --clr0: rgb(255, 253, 228);
+  --clr1: rgb(190, 47, 118);
+  --clr1a: rgba(190, 47, 118, var(--a));
+  --blacka4: rgba(0, 0, 0, 0.4);
+  /* breakpoints */
+  --s: 600px;
+  --m: 900px;
+  --l: 1140px;
+}
+
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--clr0);
+  font-family: "textual";
+  -webkit-font-smoothing: antialiased;
+}
+body {
+  background-color: var(--clr1);
+}
+
+/* css reset */
+html,
+body {
+  overflow-x: hidden;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: inherit;
+}
+a,
+button {
+  text-decoration: none;
+  font: inherit;
+  font-family: "Oswald-Bold";
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  text-transform: uppercase;
+}
+input[type="email"]:select,
+input[type="text"]:select {
+  outline: none;
+}
+p {
+  margin-block-end: 1.6rem;
+}
+/* general stylings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Oswald";
+  color: var(--clr-1);
+  font-weight: unset;
+  margin-block-end: 0.875rem;
+}
+h1 {
+  font-size: 4.209rem;
+}
+h2 {
+  font-size: 3.157rem;
+}
+h3 {
+  text-transform: uppercase;
+  font-size: 2.369rem;
+  letter-spacing: -1px;
+}
+h4 {
+  font-size: 1.777rem;
+}
+input {
+  padding: 0.25em 1em;
+  border: 1px solid var(--clr1a);
+  border-radius: 2em;
+  vertical-align: baseline;
+  transition: 0.3s border;
+  color: var(--clr1);
+}
+input::placeholder {
+  color: var(--clr1);
+}
+input:focus {
+  border: 1px solid var(--clr1);
+  outline: none;
+}
+
+/* layout */
+
+.main-layout > *:not(.full) {
+  max-width: var(--l);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* helpers */
+.flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.space-between {
+  justify-content: space-between;
+}
+.space-around {
+  justify-content: space-around;
+}
+.grid {
+  display: grid;
+}
+.clean-list {
+  list-style: none;
+}
+/* .canvas-container {
+} */
+
+/* components */
+
+/* GALLERY */
+
+/* CANVAS */
+.meme-editor {
+  height: 80vh;
+  padding: 3.33em 0;
+}
+.canvas-container {
+  flex: 1;
+  padding: 1.33em;
+}
+.meme-editor .controls {
+  flex-basis: 40%;
+  flex-direction: column;
+  background-color: var(--clr0);
+  border-radius: 0.5em;
+  box-shadow: 0px 10px 20px -10px var(--blacka4);
+  padding: 1.33em;
+}
+.controls > * {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0.2em;
+}
+.controls h3 {
+  color: var(--clr1);
+}
+
+/* FOOTER */
+.main-footer {
+  background-color: var(--clr0);
+  color: var(--clr1);
+  text-align: center;
+}
+
+/* HEADER */
+.main-header {
+  background-color: var(--clr-1);
+  color: var(--clr1);
+}
+
+.brand-logo {
+  font-size: 1.45rem;
+  font-family: "logo";
+  text-transform: uppercase;
+  color: var(--clr1);
+}
+.nav-links > * {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 150px;
+  text-align: center;
+}
+.nav-link {
+  width: 100%;
+  padding-top: 1.35em;
+  padding-bottom: 1.35em;
+  transition: box-shadow 0.25s, color 0.5s;
+  box-shadow: inset 1px 0px 0px 0px var(--clr1);
+}
+.nav-links > *:last-of-type > a {
+  box-shadow: inset 1px 0px 0px 0px var(--clr1),
+    inset -1px 0px 0px 0px var(--clr1);
+}
+.nav-links > * > a:hover {
+  box-shadow: inset 0px 0px 0px 1em var(--clr1);
+  color: var(--clr1);
+}
+
+/* Buttons Styles */
+button {
+  padding: 0.5em 1.25em;
+  border-radius: 0.25em;
+  color: var(--clr1);
+  background-color: var(--clr-1);
+}
+/* Header & Nav Styles */
+/* Main Content Styles */
+/* Modal Styles */
+/* Offscreen mobile-menu Styles */
+/* Widget Styles */
+/* Footer Styles */
+/* Form Styles */
