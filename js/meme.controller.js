@@ -12,6 +12,30 @@ function renderMeme(img, elImg) {
     gElCurrMemeImg = elImg
     resizeCanvas(elImg)
     renderImg(elImg)
+    drawLine()
+}
+
+function renderImg(img) {
+    // Draw the img on the canvas
+    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+}
+
+function drawLine() {
+    let text = 'Hello World'
+    let x = gElCanvas.width / 2
+    let y = 50
+
+    gCtx.beginPath()
+
+    gCtx.font = '32px impact'
+    gCtx.textAlign = 'center'
+    gCtx.direction = 'ltr'
+
+    gCtx.lineWidth = 3;
+    gCtx.strokeStyle = 'black';
+    gCtx.strokeText(text, x, y)
+    gCtx.fillStyle = 'white';
+    gCtx.fillText(text, x, y)
 }
 
 function initCanvas() {
@@ -79,10 +103,7 @@ function resizeCanvas(elImg) {
     gElCanvas.height = getInnerHeight(elCanvasContainer)
 }
 
-function renderImg(img) {
-    // Draw the img on the canvas
-    gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-}
+
 
 function getEvPos(ev) {
     let pos = {
