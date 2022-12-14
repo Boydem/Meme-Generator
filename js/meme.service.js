@@ -128,6 +128,7 @@ function setColor(action, color) {
 }
 
 function alignTo(action) {
+    let idx = getSelectedLineIdx()
     switch (action) {
         case 'left':
             gMeme.lines[idx].alignTo = 'end'
@@ -144,6 +145,7 @@ function alignTo(action) {
 }
 
 function setLineFont(action, fontFamily) {
+    let idx = getSelectedLineIdx()
     switch (action) {
         case 'family':
             gMeme.lines[idx].fontFamily = fontFamily
