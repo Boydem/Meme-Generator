@@ -8,11 +8,14 @@ let gElCurrMemeImg
 // let gFillColor = document.querySelector('input[name="fill"]').value
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
-function renderMeme(img, elImg) {
+function renderMeme(elImg, lineIdx = 0) {
     gElCurrMemeImg = elImg
     resizeCanvas(elImg)
     renderImg(elImg)
-    drawLine()
+    let memeLines = getMemeLines()
+    console.log('memeLines:', memeLines)
+    drawLine(memeLines[lineIdx])
+    showEditor()
 }
 
 function renderImg(img) {
@@ -20,22 +23,52 @@ function renderImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function drawLine() {
-    let text = 'Hello World'
-    let x = gElCanvas.width / 2
-    let y = 50
+function onNewLine() {
+    addLine()
+    const memeLines = getMemeLines()
+    drawLine(memeLines[memeLines.length - 1])
+}
+
+function onSetLineTxt(ev) {
+    const txt = ev.target.value
+    console.log('txt:', txt)
+    setLineTxt(txt)
+    renderMeme(gElCurrMemeImg)
+
+}
+
+function drawLine(memeLine) {
+    const memeLines = getMemeLines()
+    let {
+        text,
+        fontSize,
+        alignTo,
+        strokeColor,
+        fillColor,
+        fontFamily
+    } = memeLine
+    let pos = {
+        x: gElCanvas.width / 2,
+        y: 50
+    }
+
+    if (memeLines.length > 1) {
+        pos.y = (memeLines.length - 1) * 50 + 50
+    }
+
+    saveLinePos(memeLines.length - 1, pos)
 
     gCtx.beginPath()
 
-    gCtx.font = '32px impact'
-    gCtx.textAlign = 'center'
+    gCtx.font = `${fontSize} ${fontFamily}`
+    gCtx.textAlign = alignTo
     gCtx.direction = 'ltr'
 
     gCtx.lineWidth = 3;
-    gCtx.strokeStyle = 'black';
-    gCtx.strokeText(text, x, y)
-    gCtx.fillStyle = 'white';
-    gCtx.fillText(text, x, y)
+    gCtx.strokeStyle = strokeColor;
+    gCtx.strokeText(text, pos.x, pos.y)
+    gCtx.fillStyle = fillColor;
+    gCtx.fillText(text, pos.x, pos.y)
 }
 
 function initCanvas() {
