@@ -189,6 +189,9 @@ input:focus {
   flex: 1;
   padding: 1.33em;
 }
+.canvas-container canvas {
+  margin: auto;
+}
 .meme-editor .controls {
   flex-basis: 40%;
   flex-direction: column;

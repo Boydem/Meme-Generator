@@ -8,6 +8,7 @@ let gIsDrag = false
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
 function renderMeme(elImg) {
+    resizeCanvas(elImg)
     renderImg(elImg)
 }
 onInitCanvas()
@@ -69,10 +70,13 @@ function clearCanvas() {
     gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function resizeCanvas() {
+function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
-    gElCanvas.width = elCanvasContainer.offsetWidth
-    gElCanvas.height = elCanvasContainer.offsetHeight
+    const imgH = elImg.height
+    const imgW = elImg.width
+    const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
+    gElCanvas.width = canvasW
+    gElCanvas.height = getInnerHeight(elCanvasContainer)
 }
 
 function renderImg(img) {
@@ -94,4 +98,10 @@ function getEvPos(ev) {
         }
     }
     return pos
+}
+
+function getInnerHeight(elm) {
+    var computed = getComputedStyle(elm),
+        padding = parseInt(computed.paddingTop) + parseInt(computed.paddingBottom);
+    return elm.clientHeight - padding
 }
