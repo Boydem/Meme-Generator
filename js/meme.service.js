@@ -3,9 +3,9 @@
 let gMeme
 let gMemes
 
-function onInit() {
-    gMemes = _createMemes()
-}
+// function onInit() {
+//     gMemes = _createMemes()
+// }
 
 function _createMeme(keywords, img) {
     return {

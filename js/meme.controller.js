@@ -2,13 +2,18 @@
 
 let gElCanvas
 let gCtx
-
+let gIsDrag = false
 // let gStrokeColor = document.querySelector('input[name="stroke"]').value
 // let gFillColor = document.querySelector('input[name="fill"]').value
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
+function renderMeme(elImg) {
+    renderImg(elImg)
+}
+onInitCanvas()
+
 function onInitCanvas() {
-    gElCanvas = document.querySelector('.meme-canvas')
+    gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     const elCanvasContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elCanvasContainer.offsetWidth
