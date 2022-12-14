@@ -5,18 +5,38 @@ let gMeme = {
     selectedLineIdx: 0,
     lines: [{
         id: 1,
-        text: 'LolXdHaHa',
+        text: 'Your Text Here',
         fontSize: 48,
         strokeColor: 'black',
         fillColor: 'white',
         alignTo: 'center',
         fontFamily: 'impact',
-        isSelected: false,
+        isSelected: true,
         isDrag: false,
     }]
 }
 
+let gLastLineId
+let gSelectedLine
+
+function genLineId() {
+    gLastLineId = gMeme.lines[gMeme.lines.length - 1].id + 1
+    return gLastLineId
+}
+
+
+function getSelectedLine() {
+    return gMeme.lines.find(gLine => gLine.isSelected) || gMeme.lines[0]
+}
+
+function getSelectedLineIdx() {
+    return gMeme.lines.findIndex(gLine => gLine.isSelected) || 0
+}
+
 function selectLine(line) {
+    if (gMeme.lines.find(gLine => gLine.isSelected)) {
+        gMeme.lines.find(gLine => gLine.isSelected).isSelected = false
+    }
     gMeme.lines.find(gLine => line.id === gLine.id).isSelected = true
 }
 
@@ -26,6 +46,10 @@ function getCurrMeme() {
 
 function getMemeLines() {
     return gMeme.lines
+}
+
+function saveLinePosForRect(idx, pos) {
+    gMeme.lines[idx].posForRect = pos
 }
 
 function saveLinePos(idx, pos) {
@@ -41,32 +65,50 @@ function getLineSizes(idx) {
 }
 
 function setLineTxt(text) {
-    gMeme.lines[0].text = text
+    let idx = getSelectedLineIdx()
+    gMeme.lines[idx].text = text
 }
 
 function addLine() {
     gMeme.lines.push({
-        text: 'XD XD XD',
-        fontSize: 32,
+        id: genLineId(),
+        text: 'Another Line',
+        fontSize: 48,
         strokeColor: 'black',
         fillColor: 'white',
         alignTo: 'center',
         fontFamily: 'impact',
-        isSelected: false,
-        isDrag: false
+        isSelected: true,
+        isDrag: false,
     })
+    gMeme.lines[gMeme.lines.length - 1].isSelected = false
+}
+
+function resetLines() {
+    gMeme.lines = [{
+        id: 1,
+        text: 'Your Text Here',
+        fontSize: 48,
+        strokeColor: 'black',
+        fillColor: 'white',
+        alignTo: 'center',
+        fontFamily: 'impact',
+        isSelected: true,
+        isDrag: false,
+    }]
 }
 
 // EDITOR SERVICE
 
 
 function setColor(action, color) {
+    let idx = getSelectedLineIdx()
     switch (action) {
         case 'stroke':
-            gMeme.lines[0].strokeColor = color
+            gMeme.lines[idx].strokeColor = color
             break;
         case 'fill':
-            gMeme.lines[0].fillColor = color
+            gMeme.lines[idx].fillColor = color
             break;
         default:
             break;
@@ -76,13 +118,13 @@ function setColor(action, color) {
 function alignTo(action) {
     switch (action) {
         case 'left':
-            gMeme.lines[0].alignTo = 'end'
+            gMeme.lines[idx].alignTo = 'end'
             break;
         case 'center':
-            gMeme.lines[0].alignTo = 'center'
+            gMeme.lines[idx].alignTo = 'center'
             break;
         case 'right':
-            gMeme.lines[0].alignTo = 'start'
+            gMeme.lines[idx].alignTo = 'start'
             break;
         default:
             break;
@@ -92,13 +134,13 @@ function alignTo(action) {
 function setLineFont(action, fontFamily) {
     switch (action) {
         case 'family':
-            gMeme.lines[0].fontFamily = fontFamily
+            gMeme.lines[idx].fontFamily = fontFamily
             break;
         case 'size+':
-            gMeme.lines[0].fontSize += 10
+            gMeme.lines[idx].fontSize += 10
             break;
         case 'size-':
-            gMeme.lines[0].fontSize -= 10
+            gMeme.lines[idx].fontSize -= 10
             break;
         default:
             break;

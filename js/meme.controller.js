@@ -12,8 +12,7 @@ function renderMeme(elImg, lineIdx = 0) {
     gElCurrMemeImg = elImg
     resizeCanvas(elImg)
     renderImg(elImg)
-    let memeLines = getMemeLines()
-    drawLine(memeLines[lineIdx])
+    drawLine()
     showEditor()
 }
 
@@ -22,62 +21,66 @@ function renderImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
-function onNewLine() {
-    addLine()
+
+function drawLine() {
     const memeLines = getMemeLines()
-    drawLine(memeLines[memeLines.length - 1])
-}
 
-function onSetLineTxt(ev) {
-    const txt = ev.target.value
-    console.log('txt:', txt)
-    setLineTxt(txt)
-    renderMeme(gElCurrMemeImg)
-}
+    memeLines.forEach((line, idx) => {
+        let pos = {
+            x: gElCanvas.width / 2,
+            y: 60
+        }
+        if (idx === 1) {
+            pos.y = gElCanvas.height - 20
+        }
+        if (idx === memeLines.length - 1 && idx > 1 & !line.pos) {
+            pos.y = getRandomInt(60, gElCanvas.height - 60)
+            pos.x = getRandomInt(60, gElCanvas.width - 60)
+            // pos.x = gElCanvas.width / 2
+        } else if (idx > 1) {
+            pos.y = line.pos.y
+            pos.x = line.pos.x
+        }
 
-function drawLine(memeLine) {
-    const memeLines = getMemeLines()
-    let {
-        text,
-        fontSize,
-        alignTo,
-        strokeColor,
-        fillColor,
-        fontFamily
-    } = memeLine
-    let pos = {
-        x: gElCanvas.width / 2,
-        y: 60
-    }
 
-    if (memeLines.length > 1) {
-        pos.y = (memeLines.length - 1) * 60 + 60
-    }
+        gCtx.beginPath()
 
-    gCtx.beginPath()
+        gCtx.font = `${line.fontSize}px ${line.fontFamily}`
+        gCtx.textAlign = line.alignTo
+        gCtx.direction = 'ltr'
 
-    gCtx.font = `${fontSize}px ${fontFamily}`
-    gCtx.textAlign = alignTo
-    gCtx.direction = 'ltr'
+        gCtx.lineWidth = 8;
+        gCtx.setLineDash([0, 0])
+        gCtx.strokeStyle = line.strokeColor;
+        gCtx.lineJoin = 'miter'
+        gCtx.miterLimit = 2
+        gCtx.strokeText(line.text, pos.x, pos.y)
 
-    gCtx.lineWidth = 8;
-    gCtx.strokeStyle = strokeColor;
-    gCtx.strokeText(text, pos.x, pos.y)
-    gCtx.fillStyle = fillColor;
-    gCtx.fillText(text, pos.x, pos.y)
-
-    let metrics = gCtx.measureText(text)
-    const lineSizes = {
-        width: gCtx.measureText(text).width,
-        height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-    }
-    saveLineSizes(memeLines.length - 1, lineSizes)
-    saveLinePos(memeLines.length - 1, {
-        x: gElCanvas.width / 2 - lineSizes.width / 2,
-        y: 60
+        gCtx.fillStyle = line.fillColor;
+        gCtx.fillText(line.text, pos.x, pos.y)
+        gCtx.closePath()
+        let metrics = gCtx.measureText(line.text)
+        const lineSizes = {
+            width: gCtx.measureText(line.text).width,
+            height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+        }
+        if (idx === memeLines.length - 1) {
+            saveLineSizes(idx, lineSizes)
+            const lineActualX = pos.x - lineSizes.width / 2
+            saveLinePosForRect(idx, {
+                x: lineActualX,
+                y: pos.y
+            })
+            saveLinePos(idx, pos)
+        }
+        if (line.isSelected) {
+            gCtx.beginPath()
+            gCtx.lineWidth = 3
+            gCtx.strokeStyle = "white"
+            gCtx.setLineDash([15, 5])
+            gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - lineSizes.height - 10, lineSizes.width + 25, lineSizes.height + 25)
+        }
     })
-
-
 }
 
 function initCanvas() {
@@ -95,6 +98,7 @@ function addListeners() {
     window.addEventListener('resize', () => {
         resizeCanvas(gElCurrMemeImg)
         renderImg(gElCurrMemeImg)
+        drawLine()
     })
 }
 
@@ -170,6 +174,7 @@ function hideEditor() {
     const elEditor = document.querySelector('.meme-editor')
     elEditor.classList.add('hide')
     elEditor.classList.remove('show')
+    resetLines()
 }
 
 function showEditor() {
@@ -187,26 +192,38 @@ function onCanvasClick(ev) {
     const currMeme = getCurrMeme()
     const line = currMeme.lines.find(line => {
         return (
-            offsetX >= line.pos.x && offsetX <= line.pos.x + lineSizes.width &&
-            offsetY <= line.pos.y && offsetY >= line.pos.y - lineSizes.height
+            offsetX >= line.posForRect.x && offsetX <= line.posForRect.x + lineSizes.width &&
+            offsetY <= line.posForRect.y && offsetY >= line.posForRect.y - lineSizes.height
         )
     })
     if (line) {
+        console.log('line:', line)
         selectLine(line)
+        renderImg(gElCurrMemeImg)
+        drawLine()
     }
-    console.log('line:', line)
 }
 
 
 // ON CONTROLS EVENTS
 
+function onSetLineTxt(ev) {
+    const txt = ev.target.value
+    setLineTxt(txt)
+    renderImg(gElCurrMemeImg)
+    drawLine()
+}
 
 function onSwitchLine() {
 
 }
 
 function onAddLine() {
-
+    addLine()
+    const memeLines = getMemeLines()
+    renderImg(gElCurrMemeImg)
+    selectLine(memeLines[memeLines.length - 1])
+    drawLine()
 }
 
 function onDeleteLine() {
@@ -224,9 +241,8 @@ function onSetColors(action, color) {
         default:
             break;
     }
-    let currLine = getMemeLines()[0]
     renderImg(gElCurrMemeImg)
-    drawLine(currLine)
+    drawLine()
 }
 
 function onAlign(action) {
@@ -243,9 +259,8 @@ function onAlign(action) {
         default:
             break;
     }
-    let currLine = getMemeLines()[0]
     renderImg(gElCurrMemeImg)
-    drawLine(currLine)
+    drawLine()
 }
 
 function onChangeFont(action, fontFamily) {
@@ -262,7 +277,6 @@ function onChangeFont(action, fontFamily) {
         default:
             break;
     }
-    let currLine = getMemeLines()[0]
     renderImg(gElCurrMemeImg)
-    drawLine(currLine)
+    drawLine()
 }
