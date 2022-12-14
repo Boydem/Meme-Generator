@@ -75,7 +75,7 @@ function drawLine() {
         }
         if (line.isSelected) {
             gCtx.beginPath()
-            gCtx.lineWidth = 3
+            gCtx.lineWidth = 2
             gCtx.strokeStyle = "white"
             gCtx.setLineDash([15, 5])
             gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - lineSizes.height - 10, lineSizes.width + 25, lineSizes.height + 25)
@@ -197,8 +197,11 @@ function onCanvasClick(ev) {
         )
     })
     if (line) {
-        console.log('line:', line)
         selectLine(line)
+        renderImg(gElCurrMemeImg)
+        drawLine()
+    } else {
+        unselectLines()
         renderImg(gElCurrMemeImg)
         drawLine()
     }

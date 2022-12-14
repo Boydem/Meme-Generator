@@ -2,7 +2,7 @@
 
 @font-face {
   font-family: "logo";
-  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Regular.ttf);
+  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Bold.ttf);
 }
 @font-face {
   font-family: "Oswald";
@@ -18,12 +18,15 @@
 }
 
 :root {
-  --a: 0.35;
+  --app-clr1: 190, 47, 118;
+  --app-clr2: 255, 239, 12;
+  --a: 0.25;
   /* colors */
-  --clr-1: rgb(255, 239, 12);
-  --clr0: rgb(255, 253, 228);
-  --clr1: rgb(190, 47, 118);
-  --clr1a: rgba(190, 47, 118, var(--a));
+  --clr2: rgb(var(--app-clr2));
+  --white: rgb(255, 255, 255);
+  --whitea: rgba(255, 255, 255, var(--a));
+  --clr1: rgb(var(--app-clr1));
+  --clr1a: rgba(var(--app-clr1), var(--a));
   --blacka: rgba(0, 0, 0, 0.3);
   /* breakpoints */
   --s: 600px;
@@ -33,7 +36,7 @@
 html {
   font-size: 16px;
   line-height: 1.5;
-  color: var(--clr0);
+  color: var(--white);
   font-family: "textual";
   -webkit-font-smoothing: antialiased;
 }
@@ -77,6 +80,9 @@ button {
   color: inherit;
   text-transform: uppercase;
 }
+input[type="color"] {
+  cursor: pointer;
+}
 input[type="email"]:select,
 input[type="text"]:select {
   outline: none;
@@ -102,7 +108,7 @@ h4,
 h5,
 h6 {
   font-family: "Oswald";
-  color: var(--clr-1);
+  color: var(--clr2);
   font-weight: unset;
   margin-block-end: 0.875rem;
 }
@@ -135,7 +141,7 @@ input::placeholder {
   color: var(--clr1);
 }
 input:focus {
-  border: 2px solid var(--clr-1);
+  border: 2px solid var(--clr2);
   outline: none;
 }
 input[type="color"] {
@@ -151,16 +157,16 @@ button {
 }
 button:hover {
   color: var(--clr1);
-  background-color: var(--clr0);
+  background-color: var(--white);
 }
 
 /* layout */
 
-.main-layout > *:not(.full) {
+/* .main-layout > *:not(.full) {
   max-width: var(--l);
   margin-left: auto;
   margin-right: auto;
-}
+} */
 
 body.grid {
   grid-template-columns: max-content 1fr;
@@ -262,7 +268,7 @@ footer {
   bottom: 0;
   transform: translateY(-50%);
   margin: auto;
-  background-color: var(--clr0);
+  background-color: var(--white);
   max-height: max-content;
   max-width: var(--l);
   border-radius: 2rem;
@@ -306,39 +312,39 @@ footer {
   margin-top: auto;
 }
 .controls h2 {
-  color: var(--clr0);
+  color: var(--white);
+  text-shadow: -3px -3px 0px #000, 3px 3px 0px var(--clr1);
 }
 .colors-controls img {
   display: none;
 }
 /* FOOTER */
 .main-footer {
-  background-color: var(--clr0);
+  background-color: var(--white);
   color: var(--clr1);
   text-align: center;
 }
 
 /* HEADER */
 .main-header {
-  background-color: var(--clr-1);
+  background-color: var(--clr2);
   color: var(--clr1);
-}
-
-.main-header .wrapper {
-  height: 100%;
-  flex-direction: column;
   padding: 2em;
+  flex-direction: column;
+  box-shadow: 13px 1px 20px -10px var(--blacka);
 }
 
 .brand-logo {
-  font-size: 1.45rem;
+  font-size: 3rem;
   font-family: "logo";
   text-transform: uppercase;
-  color: var(--clr1);
+  color: var(--white);
+  text-shadow: -3px -3px 0px var(--clr1a), 3px 3px 0px var(--clr1);
+  /* -webkit-text-stroke: 5px black; */
+  /* text-stroke: 5px black; */
 }
 
 .main-nav {
-  flex: 1;
   width: 100%;
 }
 .nav-links {
@@ -357,26 +363,46 @@ footer {
   margin-block-start: 1em;
   padding-block-start: 0.5em;
   padding-block-end: 0.5em;
-  color: var(--clr0);
+  color: var(--white);
   background-color: var(--clr1);
-  transition: color 0.3s, background-color 0.3s, box-shadow 0.3s;
+  transition: color 0.3s, background-color 0.3s, box-shadow 0.3s,
+    text-shadow 0.3s;
 }
 .nav-links > *:last-of-type > a {
 }
 .nav-links > * > a:hover {
-  box-shadow: 0px 0px 0px 0.25em var(--clr0) inset, 0px 0px 0px 2px var(--clr1);
-  /* color: var(--clr1); */
+  box-shadow: 0px 0px 0px 0.15em var(--whitea) inset,
+    0px 0px 0px 2px var(--clr1);
+  text-shadow: -3px -3px 0px var(--whitea), -3px -3px 6px var(--blacka);
+}
+.nav-links > * > a.active:hover {
+  box-shadow: 0px 0px 0px 0.15em var(--clr1a) inset, 0px 0px 0px 2px var(--clr1);
+  text-shadow: -3px -3px 0px var(--clr1a), -3px -3px 6px var(--clr1a);
 }
 .nav-links > * > a.active {
-  background-color: var(--clr0);
+  background-color: var(--white);
   color: var(--clr1);
+}
+
+.app-clrs-btns > img {
+  display: none;
+}
+.app-clrs-btns > *:not(:last-child) {
+  margin-inline-end: 0.5em;
+}
+.app-clrs-btns {
+  background-color: var(--white);
+  margin-top: auto;
+  padding: 0.55em 1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 5px 10px -8px var(--blacka);
 }
 /* Buttons Styles */
 button {
   padding: 0.5em 1.25em;
   border-radius: 0.25em;
   color: var(--clr1);
-  background-color: var(--clr-1);
+  background-color: var(--clr2);
 }
 /* Header & Nav Styles */
 /* Main Content Styles */

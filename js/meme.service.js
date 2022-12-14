@@ -33,9 +33,21 @@ function getSelectedLineIdx() {
     return gMeme.lines.findIndex(gLine => gLine.isSelected) || 0
 }
 
-function selectLine(line) {
+function unselectLines() {
     if (gMeme.lines.find(gLine => gLine.isSelected)) {
         gMeme.lines.find(gLine => gLine.isSelected).isSelected = false
+    }
+}
+
+function selectLine(line) {
+    const isSelectedLine = gMeme.lines.find(gLine => gLine.isSelected)
+    if (isSelectedLine) {
+        gMeme.lines.find(gLine => gLine.isSelected).isSelected = false
+    } else if (!isSelectedLine) {
+        gMeme.lines[line.id - 1].isSelected = true
+    }
+    if (isSelectedLine && isSelectedLine.id === line.id) {
+        return
     }
     gMeme.lines.find(gLine => line.id === gLine.id).isSelected = true
 }

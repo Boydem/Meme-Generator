@@ -5,13 +5,12 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="styles/styles.css">
-    <title>Sprint2 Starter</title>
+    <title>Memeozaurus</title>
 </head>
 <body class="grid" onload="onInit()">
 
-    <header class="main-header full main-layout">
-        <div class="wrapper flex align-center">
-            <div class="brand-logo">Meme-Generator</div>
+    <header class="main-header flex justify-center align-center">
+            <div class="brand-logo">Memeozaurus</div>
             <nav class="main-nav">
                 <ul class="nav-links clean-list flex">
                     <li> <a href="#" class="nav-link active">Gallery</a> </li>
@@ -19,12 +18,16 @@
                     <li> <a href="#" class="nav-link">Saved</a> </li>
                 </ul>
             </nav>
-        </div>
+            <div class="app-clrs-btns flex align-center justify-center">
+                <label>App Colors:</label>
+                        <input oninput="onSetAppColors('clr1',this.value)" type="color" name="fillColor" id="fillColor" value="#FFEF0C">
+                        <input oninput="onSetAppColors('clr2',this.value)" type="color" name="strokeColor" id="strokeColor" value="#BD2F76">
+            </div>
     </header>
     <main class="main-content">
         <section class="meme-gallery grid">
         </section>
-        <section class="meme-editor main-layout hide">
+        <section class="meme-editor hide">
             <div class="wrapper flex justify-center">
                 <div class="editor-ui">
                     <button onclick="hideEditor()" class="close-editor btn-editor-ui">✕</button>
@@ -70,7 +73,7 @@
         </div>
         </section>
     </main>
-    <footer class="main-footer full main-layout">
+    <footer class="main-footer">
         <div class="wrapper">
             <small>This Meme-Generator Designed and Built By Noam Dahan</small>
         </div>
