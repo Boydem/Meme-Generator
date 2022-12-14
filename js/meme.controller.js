@@ -143,9 +143,15 @@ function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
     const imgH = elImg.offsetHeight
     const imgW = elImg.offsetWidth
-    const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
-    gElCanvas.width = canvasW
-    gElCanvas.height = getInnerHeight(elCanvasContainer)
+    if (imgW < imgH) {
+        const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
+        gElCanvas.width = canvasW
+        gElCanvas.height = getInnerHeight(elCanvasContainer)
+    } else {
+        const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
+        gElCanvas.width = elCanvasContainer.offsetWidth
+        gElCanvas.height = canvasH
+    }
 }
 
 function getEvPos(ev) {

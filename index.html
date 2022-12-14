@@ -37,32 +37,32 @@
                 </div>
                 <aside class="controls flex align-center">
                     <h2>Controls</h2>
-                    <input oninput="onSetLineTxt(event)" type="text" name="textline" id="textLine" placeholder="Your Text Line">
                     <div class="selection-controls control-widget-space-between">
                         <button onclick="onSwitchLine()">Switch Line</button>
                         <button onclick="onAddLine()">Add line</button>
                         <button onclick="onDeleteLine()">Delete line</button>
                     </div>
+                    <input oninput="onSetLineTxt(event)" type="text" name="textline" id="textLine" placeholder="Your Text Line">
                     <div class="colors-controls control-widget-center">
                         <label for="fillColor">Text Color:</label>
                         <input oninput="onSetColors('fill',this.value)" type="color" name="fillColor" id="fillColor" value="#ffffff">
                         <label for="strokeColor">Stroke Color:</label>
                         <input oninput="onSetColors('stroke',this.value)" type="color" name="strokeColor" id="strokeColor" value="#000000">
-                    </div>
-                    <div class="text-align-controls control-widget-space-between">
-                        <button onclick="onAlign('left')" class="btn">Left</button>
-                        <button onclick="onAlign('center')" class="btn">Center</button>
-                        <button onclick="onAlign('right')" class="btn">Right</button>
-                    </div>
-                    <div class="font-controls control-widget-center">
-                        <button onclick="onChangeFont('size+')">Size+</button>
                         <label for="fontFamily">Font:</label>
                         <select onchange="onChangeFont('family',this.value)" name="fontFamilies" id="fontFamily">
                             <option value="impact">Impact</option>
                             <option value="arial">Arial</option>
                             <option value="tahoma">Tahoma</option>
                         </select>
+                    </div>
+                    <div class="font-controls control-widget-center">
+                        <button onclick="onChangeFont('size+')">Size+</button>
                         <button onclick="onChangeFont('size-')">Size-</button>
+                    </div>
+                    <div class="text-align-controls control-widget-center">
+                        <button onclick="onAlign('left')" class="btn">Left</button>
+                        <button onclick="onAlign('center')" class="btn">Center</button>
+                        <button onclick="onAlign('right')" class="btn">Right</button>
                     </div>
                     <div class="links-controls control-widget-space-between">
                         <button><a onclick="onShareMeme()" href="#" class="share-link">Share</a></button>

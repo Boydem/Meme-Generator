@@ -23,7 +23,15 @@ let gImgs = [
     ['black', 'man'],
     ['white', 'man'],
     ['white', 'man', 'funny', 'busted'],
-    ['putin', 'boring']
+    ['putin', 'boring'],
+    ['handsome', 'wine'],
+    ['black', 'man'],
+    ['white', 'man'],
+    ['white', 'man', 'funny', 'busted'],
+    ['putin', 'boring'],
+    ['handsome', 'wine'],
+    ['black', 'man'],
+    ['white', 'man']
 ]
 
 let gKeyWords = ['funny', 'cat', 'baby', 'cute', 'animals']
@@ -32,7 +40,7 @@ function createInitImgs() {
     gImgs = gImgs.reduce((acc, img, id) => {
         acc.push({
             id: id + 1,
-            url: `images/meme-imgs (square)/${id+1}.jpg`,
+            url: `images/meme-imgs (various aspect ratios)/${id+1}.jpg`,
             keywords: img
         })
         return acc
