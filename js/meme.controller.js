@@ -13,9 +13,8 @@ function renderMeme(elImg) {
     resizeCanvas(gElCurrMemeImg)
     renderImg(gElCurrMemeImg)
 }
-onInitCanvas()
 
-function onInitCanvas() {
+function initCanvas() {
     gElCanvas = document.querySelector('canvas')
     gCtx = gElCanvas.getContext('2d')
     const elCanvasContainer = document.querySelector('.canvas-container')
