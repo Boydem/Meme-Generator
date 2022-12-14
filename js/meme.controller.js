@@ -13,7 +13,6 @@ function renderMeme(elImg, lineIdx = 0) {
     resizeCanvas(elImg)
     renderImg(elImg)
     let memeLines = getMemeLines()
-    console.log('memeLines:', memeLines)
     drawLine(memeLines[lineIdx])
     showEditor()
 }
@@ -34,7 +33,6 @@ function onSetLineTxt(ev) {
     console.log('txt:', txt)
     setLineTxt(txt)
     renderMeme(gElCurrMemeImg)
-
 }
 
 function drawLine(memeLine) {
@@ -60,7 +58,7 @@ function drawLine(memeLine) {
 
     gCtx.beginPath()
 
-    gCtx.font = `${fontSize} ${fontFamily}`
+    gCtx.font = `${fontSize}px ${fontFamily}`
     gCtx.textAlign = alignTo
     gCtx.direction = 'ltr'
 
@@ -101,7 +99,6 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchend', onUp)
 }
 
-
 function onMove(ev) {
     if (gIsDrag) {
         const pos = getEvPos(ev)
@@ -136,8 +133,6 @@ function resizeCanvas(elImg) {
     gElCanvas.height = getInnerHeight(elCanvasContainer)
 }
 
-
-
 function getEvPos(ev) {
     let pos = {
         x: ev.offsetX,
@@ -170,4 +165,73 @@ function showEditor() {
     const elEditor = document.querySelector('.meme-editor')
     elEditor.classList.add('show')
     elEditor.classList.remove('hide')
+}
+
+// ON CONTROLS EVENTS
+
+
+function onSwitchLine() {
+
+}
+
+function onAddLine() {
+
+}
+
+function onDeleteLine() {
+
+}
+
+function onSetColors(action, color) {
+    switch (action) {
+        case 'stroke':
+            setColor('stroke', color)
+            break;
+        case 'fill':
+            setColor('fill', color)
+            break;
+        default:
+            break;
+    }
+    let currLine = getMemeLines()[0]
+    renderImg(gElCurrMemeImg)
+    drawLine(currLine)
+}
+
+function onAlign(action) {
+    switch (action) {
+        case 'left':
+            alignTo('left')
+            break;
+        case 'center':
+            alignTo('center')
+            break;
+        case 'right':
+            alignTo('right')
+            break;
+        default:
+            break;
+    }
+    let currLine = getMemeLines()[0]
+    renderImg(gElCurrMemeImg)
+    drawLine(currLine)
+}
+
+function onChangeFont(action, fontFamily) {
+    switch (action) {
+        case 'family':
+            setLineFont(action, fontFamily)
+            break;
+        case 'size+':
+            setLineFont(action)
+            break;
+        case 'size-':
+            setLineFont(action)
+            break;
+        default:
+            break;
+    }
+    let currLine = getMemeLines()[0]
+    renderImg(gElCurrMemeImg)
+    drawLine(currLine)
 }
