@@ -8,10 +8,10 @@ let gElCurrMemeImg
 // let gFillColor = document.querySelector('input[name="fill"]').value
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
-function renderMeme(elImg) {
+function renderMeme(img, elImg) {
     gElCurrMemeImg = elImg
-    resizeCanvas(gElCurrMemeImg)
-    renderImg(gElCurrMemeImg)
+    resizeCanvas(elImg)
+    renderImg(elImg)
 }
 
 function initCanvas() {
