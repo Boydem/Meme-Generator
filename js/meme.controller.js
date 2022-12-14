@@ -64,7 +64,7 @@ function drawLine(memeLine) {
     gCtx.textAlign = alignTo
     gCtx.direction = 'ltr'
 
-    gCtx.lineWidth = 10;
+    gCtx.lineWidth = 8;
     gCtx.strokeStyle = strokeColor;
     gCtx.strokeText(text, pos.x, pos.y)
     gCtx.fillStyle = fillColor;

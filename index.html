@@ -35,33 +35,33 @@
                 <aside class="controls flex align-center">
                     <h2>Controls</h2>
                     <input oninput="onSetLineTxt(event)" type="text" name="textline" id="textLine" placeholder="Your Text Line">
-                    <div class="selection-controls flex align-center justify-center">
+                    <div class="selection-controls control-widget-space-between">
                         <button>Switch Line</button>
                         <button>Add line</button>
                         <button>Delete line</button>
                     </div>
-                    <div class="colors-controls flex align-center justify-center">
+                    <div class="colors-controls control-widget-center">
                         <label for="fillColor">Text Color:</label>
                         <input oninput="onSetColors('fill')" type="color" name="fillColor" id="fillColor" value="#ffffff">
                         <label for="strokeColor">Stroke Color:</label>
                         <input oninput="onSetColors('stroke')" type="color" name="strokeColor" id="strokeColor" value="#000000">
                     </div>
-                    <div class="text-align-controls flex align-center justify-center">
+                    <div class="text-align-controls control-widget-space-between">
                         <button class="btn">Left</button>
                         <button class="btn">Center</button>
                         <button class="btn">Right</button>
                     </div>
-                    <div class="font-controls flex align-center justify-center">
+                    <div class="font-controls control-widget-center">
+                        <button>Size+</button>
                         <label for="fontFamily">Font:</label>
                         <select name="fontFamilies" id="fontFamily">
                             <option value="impact">Impact</option>
                             <option value="arial">Arial</option>
                             <option value="tahoma">Tahoma</option>
                         </select>
-                        <button>Size+</button>
                         <button>Size-</button>
                     </div>
-                    <div class="links-controls">
+                    <div class="links-controls control-widget-space-between">
                         <button><a onclick="onShareMeme()" href="#" class="share-link">Share</a></button>
                         <button><a onclick="onDownloadMeme()" href="#" class="share-link" download="myMeme">Download</a></button>
                     </div>
