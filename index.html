@@ -7,16 +7,14 @@
     <link rel="stylesheet" href="styles/styles.css">
     <title>Sprint2 Starter</title>
 </head>
-<body class="main-layout" onload="onInit()">
-
-    <div class="main-screen"></div>
+<body class="main-layout grid" onload="onInit()">
 
     <header class="main-header full main-layout">
-        <div class="wrapper flex align-center space-between">
+        <div class="wrapper flex align-center">
             <div class="brand-logo">Meme-Generator</div>
             <nav class="main-nav">
                 <ul class="nav-links clean-list flex">
-                    <li> <a href="#" class="nav-link">Gallery</a> </li>
+                    <li> <a href="#" class="nav-link active">Gallery</a> </li>
                     <li> <a href="#" class="nav-link">Editor</a> </li>
                     <li> <a href="#" class="nav-link">Saved</a> </li>
                 </ul>
@@ -30,15 +28,20 @@
             <img src="images/meme-imgs (square)/3.jpg" alt="">
             <img src="images/meme-imgs (square)/4.jpg" alt="">
         </section>
-        <section class="meme-editor flex justify-center">
-            <div class="canvas-container">
-                <canvas id="meme-canvas" width="200" height="200"></canvas>
-            </div>
-                <aside class="controls flex align-center justify-center">
-                    <h3>Controls</h3>
+        <section class="meme-editor main-layout hide">
+            <div class="wrapper flex justify-center">
+                <div class="editor-ui">
+                    <button onclick="hideEditor()" class="close-editor btn-editor-ui">✕</button>
+                </div>
+                <div class="canvas-container">
+                    <canvas id="meme-canvas" width="200" height="200"></canvas>
+                </div>
+                <aside class="controls flex align-center">
+                    <h2>Controls</h2>
                     <input type="text" name="textline" id="textLine" placeholder="Your Text Line">
                 </aside>
             </div>
+        </div>
         </section>
     </main>
     <footer class="main-footer full main-layout">
@@ -46,9 +49,6 @@
             <small>This Meme-Generator Designed and Built By Noam Dahan</small>
         </div>
     </footer>
-    <div class="modal-wrapper">
-        <div class="modal-content"></div>
-    </div>
 
     <script src="js/utils.service.js"></script>
     <script src="js/gallery.service.js"></script>

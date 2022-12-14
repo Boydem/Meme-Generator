@@ -3,13 +3,15 @@
 let gElCanvas
 let gCtx
 let gIsDrag = false
+let gElCurrMemeImg
 // let gStrokeColor = document.querySelector('input[name="stroke"]').value
 // let gFillColor = document.querySelector('input[name="fill"]').value
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
 function renderMeme(elImg) {
-    resizeCanvas(elImg)
-    renderImg(elImg)
+    gElCurrMemeImg = elImg
+    resizeCanvas(gElCurrMemeImg)
+    renderImg(gElCurrMemeImg)
 }
 onInitCanvas()
 
@@ -18,8 +20,7 @@ function onInitCanvas() {
     gCtx = gElCanvas.getContext('2d')
     const elCanvasContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elCanvasContainer.offsetWidth
-    gElCanvas.height = elCanvasContainer.offsetHeight
-    clearCanvas()
+    gElCanvas.height = elCanvasContainer.clientHeight
     addListeners()
 }
 
@@ -27,8 +28,8 @@ function addListeners() {
     addMouseListeners()
     addTouchListeners()
     window.addEventListener('resize', () => {
-        resizeCanvas()
-        clearCanvas()
+        resizeCanvas(gElCurrMemeImg)
+        renderImg(gElCurrMemeImg)
     })
 }
 
@@ -72,8 +73,8 @@ function clearCanvas() {
 
 function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
-    const imgH = elImg.height
-    const imgW = elImg.width
+    const imgH = elImg.offsetHeight
+    const imgW = elImg.offsetWidth
     const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
     gElCanvas.width = canvasW
     gElCanvas.height = getInnerHeight(elCanvasContainer)
@@ -104,4 +105,16 @@ function getInnerHeight(elm) {
     var computed = getComputedStyle(elm),
         padding = parseInt(computed.paddingTop) + parseInt(computed.paddingBottom);
     return elm.clientHeight - padding
+}
+
+function hideEditor() {
+    const elEditor = document.querySelector('.meme-editor')
+    elEditor.classList.add('hide')
+    elEditor.classList.remove('show')
+}
+
+function showEditor() {
+    const elEditor = document.querySelector('.meme-editor')
+    elEditor.classList.add('show')
+    elEditor.classList.remove('hide')
 }

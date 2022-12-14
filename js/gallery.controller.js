@@ -15,4 +15,5 @@ function renderGallery() {
 
 function onImageClick(elImg) {
     renderMeme(elImg)
+    showEditor()
 }
