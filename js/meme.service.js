@@ -4,6 +4,7 @@ let gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
     lines: [{
+        id: 1,
         text: 'LolXdHaHa',
         fontSize: 48,
         strokeColor: 'black',
@@ -15,12 +16,28 @@ let gMeme = {
     }]
 }
 
+function selectLine(line) {
+    gMeme.lines.find(gLine => line.id === gLine.id).isSelected = true
+}
+
+function getCurrMeme() {
+    return gMeme
+}
+
 function getMemeLines() {
     return gMeme.lines
 }
 
 function saveLinePos(idx, pos) {
     gMeme.lines[idx].pos = pos
+}
+
+function saveLineSizes(idx, lineSizes) {
+    gMeme.lines[idx].sizes = lineSizes
+}
+
+function getLineSizes(idx) {
+    return gMeme.lines[idx].sizes
 }
 
 function setLineTxt(text) {
