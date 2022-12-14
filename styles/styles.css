@@ -84,7 +84,17 @@ input[type="text"]:select {
 p {
   margin-block-end: 1.6rem;
 }
+
+input[type="color"]::-webkit-color-swatch-wrapper {
+  padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+  border: none;
+  border-radius: 0.2em;
+}
+
 /* general stylings */
+
 h1,
 h2,
 h3,
@@ -114,8 +124,8 @@ h4 {
 }
 input {
   padding: 0.25em 1em;
-  border: 2px inset var(--clr1);
-  border-radius: 0em;
+  border: 2px solid var(--clr1);
+  border-radius: 2em;
   font-size: 1.25rem;
   vertical-align: baseline;
   transition: 0.3s border;
@@ -125,8 +135,15 @@ input::placeholder {
   color: var(--clr1);
 }
 input:focus {
-  border: 2px inset var(--clr-1);
+  border: 2px solid var(--clr-1);
   outline: none;
+}
+input[type="color"] {
+  -webkit-appearance: none;
+  border: none;
+  width: 24px;
+  height: 24px;
+  padding: 0;
 }
 
 .btn-editor-ui {
@@ -229,7 +246,7 @@ footer {
   transform: translateY(-50%);
   margin: auto;
   background-color: var(--clr0);
-  min-height: 60vh;
+  max-height: max-content;
   max-width: var(--l);
   border-radius: 2rem;
   padding: 2em 2em;
@@ -237,7 +254,8 @@ footer {
   transition: opacity 0.4s, transform 0.5s;
 }
 .meme-editor .wrapper {
-  height: 100%;
+  /* min-height: 60vh; */
+  /* height: 100%; */
 }
 .canvas-container {
   flex: 1;
@@ -263,12 +281,19 @@ footer {
   width: 100%;
   margin-left: auto;
   margin-right: auto;
-  margin-bottom: 0.2em;
+  margin-bottom: 0.75rem;
 }
 .controls h2 {
   color: var(--clr0);
 }
-
+.colors-controls img {
+  display: none;
+}
+.colors-controls > *,
+.font-controls > *,
+.text-align-controls > * {
+  margin-inline-end: 0.3em;
+}
 /* FOOTER */
 .main-footer {
   background-color: var(--clr0);

@@ -49,11 +49,11 @@ function drawLine(memeLine) {
     } = memeLine
     let pos = {
         x: gElCanvas.width / 2,
-        y: 50
+        y: 60
     }
 
     if (memeLines.length > 1) {
-        pos.y = (memeLines.length - 1) * 50 + 50
+        pos.y = (memeLines.length - 1) * 60 + 60
     }
 
     saveLinePos(memeLines.length - 1, pos)
@@ -64,7 +64,7 @@ function drawLine(memeLine) {
     gCtx.textAlign = alignTo
     gCtx.direction = 'ltr'
 
-    gCtx.lineWidth = 3;
+    gCtx.lineWidth = 10;
     gCtx.strokeStyle = strokeColor;
     gCtx.strokeText(text, pos.x, pos.y)
     gCtx.fillStyle = fillColor;
