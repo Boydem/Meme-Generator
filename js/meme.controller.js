@@ -133,17 +133,20 @@ function getEvPos(ev) {
     }
     if (TOUCH_EVS.includes(ev.type)) {
         ev.preventDefault()
+
         ev = ev.changedTouches[0]
         pos = {
             x: ev.pageX,
             y: ev.pageY
         }
+
     }
     return pos
 }
 
 function onCanvasClick(ev) {
-    ev.stopPropagation()
+    // ev.stopPropagation()
+    // ev.preventDefault()
     const line = getEvPosLine(ev.offsetX, ev.offsetY)
     if (line) {
         selectLine(line)
@@ -157,11 +160,12 @@ function onCanvasClick(ev) {
 }
 
 function onMove(ev) {
-    ev.stopPropagation()
+    // ev.stopPropagation()
     const line = getSelectedLine()
     if (!line) return
-    if (line.isSelected) {
+    if (line.isSelected && line.isDrag) {
         const pos = getEvPos(ev)
+        console.log('pos:', pos)
         // const dx = pos.x - line.pos.x
         // const dy = pos.y - line.pos.y
         const newPos = {
@@ -175,7 +179,7 @@ function onMove(ev) {
 }
 
 function onDown(ev) {
-    ev.stopPropagation()
+    // ev.stopPropagation()
     const line = getEvPosLine(ev.offsetX, ev.offsetY)
     selectLine(line)
     gDraggedLine = line
@@ -183,7 +187,7 @@ function onDown(ev) {
 }
 
 function onUp(ev) {
-    ev.stopPropagation()
+    // ev.stopPropagation()
     disableDrag(gDraggedLine)
 }
 
@@ -196,14 +200,14 @@ function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
     const imgH = elImg.offsetHeight
     const imgW = elImg.offsetWidth
-    if (imgW < imgH) {
-        const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
-        gElCanvas.width = canvasW
-        gElCanvas.height = getInnerHeight(elCanvasContainer)
-    } else {
+    if (imgH < imgW) {
         const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
         gElCanvas.width = elCanvasContainer.offsetWidth
         gElCanvas.height = canvasH
+    } else {
+        const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
+        gElCanvas.width = canvasW
+        gElCanvas.height = getInnerHeight(elCanvasContainer)
     }
 }
 
