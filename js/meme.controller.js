@@ -2,9 +2,8 @@
 
 let gElCanvas
 let gCtx
-let gIsDrag = false
+
 let gElCurrMemeImg
-let gPrevPos
 let gDraggedLine
 
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
@@ -30,6 +29,7 @@ function renderMeme() {
 function renderCanvas() {
     drawImg(gElCurrMemeImg)
     drawLines()
+    drawRect()
 }
 // draw img
 function drawImg(img) {
@@ -67,8 +67,6 @@ function drawLines() {
                 pos.x = line.pos.x
             }
         }
-
-
         // draw line
         gCtx.beginPath()
         // font
@@ -86,20 +84,11 @@ function drawLines() {
         gCtx.fillStyle = line.fillColor;
         gCtx.fillText(line.text, pos.x, pos.y)
         gCtx.closePath()
-        // save line pos for resize *and* pos for selection rect *and* measureText dimensions for calculations
-        const lineSizes = measureLineSizes(line)
-        if (idx === memeLines.length - 1) {
-            saveLineSizes(idx, lineSizes)
-            const lineActualX = pos.x - lineSizes.width / 2
-            saveLinePosForRect(idx, {
-                x: lineActualX,
-                y: pos.y
-            })
-            saveLinePos(idx, pos)
-        }
-        // draw selection rectangle if line isSelected
+        // if selected save new pos and sizes
         if (line.isSelected) {
-            drawRect()
+            const lineSizes = measureLineSizes(line)
+            saveLineSizes(idx, lineSizes)
+            saveLinePos(idx, pos)
         }
     })
 }
@@ -112,7 +101,7 @@ function drawRect() {
         gCtx.lineWidth = 2
         gCtx.strokeStyle = "white"
         gCtx.setLineDash([15, 5])
-        gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
+        gCtx.strokeRect(line.pos.x - line.sizes.width / 2 - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
     }
 }
 
@@ -137,21 +126,6 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchend', onUp)
 }
 
-function getEvPosLine(ev) {
-    const {
-        offsetX,
-        offsetY
-    } = ev
-    const currMeme = getCurrMeme()
-    // here im using posForRect thats the top left corner of the text
-    return currMeme.lines.find(line => {
-        return (
-            offsetX >= line.posForRect.x && offsetX <= line.posForRect.x + line.sizes.width &&
-            offsetY <= line.posForRect.y && offsetY >= line.posForRect.y - line.sizes.height
-        )
-    })
-}
-
 function getEvPos(ev) {
     let pos = {
         x: ev.offsetX,
@@ -170,15 +144,15 @@ function getEvPos(ev) {
 
 function onCanvasClick(ev) {
     ev.stopPropagation()
-    const line = getEvPosLine(ev)
+    const line = getEvPosLine(ev.offsetX, ev.offsetY)
     if (line) {
         selectLine(line)
         renderCanvas()
-        drawRect()
+
     } else {
         unselectLines()
         renderCanvas()
-        drawRect()
+
     }
 }
 
@@ -196,13 +170,13 @@ function onMove(ev) {
         }
         moveLine(line, newPos)
         renderCanvas()
-        drawRect()
+
     }
 }
 
 function onDown(ev) {
     ev.stopPropagation()
-    const line = getEvPosLine(ev)
+    const line = getEvPosLine(ev.offsetX, ev.offsetY)
     selectLine(line)
     gDraggedLine = line
     allowDrag(line)
@@ -210,7 +184,6 @@ function onDown(ev) {
 
 function onUp(ev) {
     ev.stopPropagation()
-    const line = getEvPosLine(ev)
     disableDrag(gDraggedLine)
 }
 
@@ -275,7 +248,7 @@ function onSetLineTxt(ev) {
 function onSwitchLine() {
     switchLine()
     renderCanvas()
-    drawRect()
+
 }
 
 function onAddLine() {
@@ -289,7 +262,7 @@ function onAddLine() {
 function onDeleteLine() {
     deleteLine()
     renderCanvas()
-    drawRect()
+
 }
 
 function onSetColors(action, color) {
@@ -304,7 +277,7 @@ function onSetColors(action, color) {
             break;
     }
     renderCanvas()
-    drawRect()
+
 }
 
 function onAlign(action) {
@@ -322,7 +295,7 @@ function onAlign(action) {
             break;
     }
     renderCanvas()
-    drawRect()
+
 }
 
 function onChangeFont(action, elFontInput) {
@@ -342,7 +315,7 @@ function onChangeFont(action, elFontInput) {
             break;
     }
     renderCanvas()
-    drawRect()
+
 }
 
 // END OF FLOW => SHARE / DOWNLOAD

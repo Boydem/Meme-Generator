@@ -12,7 +12,7 @@ let gMeme = {
         alignTo: 'center',
         fontFamily: 'impact',
         isSelected: true,
-        isDrag: false,
+        isDrag: false
     }]
 }
 
@@ -45,10 +45,6 @@ function unselectLines() {
     })
 }
 
-function unselectLine(line) {
-    gMeme.lines.find(gLine => gLine.id === line.id).isSelected = false
-}
-
 function selectLine(line) {
     if (!line) return
     const currSelectedIdx = gMeme.lines.findIndex(gLine => gPrevSelectedLine.id === gLine.id && gLine.isSelected === true)
@@ -78,8 +74,7 @@ function moveLine(line, toPos) {
     if (!line) return
     const draggedLineIdx = gMeme.lines.findIndex(gLine => gLine.isDrag && gLine.isSelected)
     if (draggedLineIdx === -1) return
-    console.log('toPos:', toPos)
-    console.log('line:', line)
+
     gMeme.lines[draggedLineIdx].pos.x = toPos.x
     gMeme.lines[draggedLineIdx].pos.y = toPos.y
 }
@@ -100,10 +95,6 @@ function getCurrMeme() {
 
 function getMemeLines() {
     return gMeme.lines
-}
-
-function saveLinePosForRect(idx, pos) {
-    gMeme.lines[idx].posForRect = pos
 }
 
 function saveLinePos(idx, pos) {
@@ -136,7 +127,6 @@ function addLine() {
         isSelected: true,
         isDrag: false,
     })
-    gMeme.lines[gMeme.lines.length - 1].isSelected = false
 }
 
 function deleteLine() {
@@ -160,6 +150,17 @@ function resetLines() {
 }
 
 // EDITOR SERVICE
+
+
+function getEvPosLine(mouseX, mouseY) {
+    return gMeme.lines.find(line => {
+        const actualLineX = line.pos.x - line.sizes.width / 2
+        return (
+            mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
+            mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height
+        )
+    })
+}
 
 
 function setColor(action, color) {
