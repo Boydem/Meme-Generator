@@ -204,6 +204,10 @@ button:hover {
   cursor: pointer;
 }
 
+button i {
+  font-size: 1.25em;
+}
+
 /* layout */
 
 body.grid {
