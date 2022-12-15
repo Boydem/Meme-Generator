@@ -21,8 +21,8 @@ let gSelectedLine
 let gPrevSelectedLine = gMeme.lines[0]
 
 function genLineId() {
-    gLastLineId = gMeme.lines[gMeme.lines.length - 1].id + 1
-    return gLastLineId
+    gLastLineId = (gMeme.lines.length ? gMeme.lines[gMeme.lines.length - 1].id + 1 : 1)
+    return gLastLineId || 1
 }
 
 function setImg(elImg) {
@@ -30,7 +30,7 @@ function setImg(elImg) {
 }
 
 function getSelectedLine() {
-    return gMeme.lines.find(gLine => gLine.isSelected) || gMeme.lines[0]
+    return gMeme.lines.find(gLine => gLine.isSelected) || null
 }
 
 function getSelectedLineIdx() {
@@ -61,7 +61,11 @@ function selectLine(line) {
 
 function switchLine() {
     const currSelectedIdx = gMeme.lines.findIndex(line => line.isSelected === true)
-    console.log('currSelectedIdx:', currSelectedIdx)
+    if (currSelectedIdx === -1) {
+        if (!gMeme.lines.length) return
+        gMeme.lines[0].isSelected = true
+        return
+    }
     gMeme.lines[currSelectedIdx].isSelected = false
     if (currSelectedIdx === 0) {
         gMeme.lines[gMeme.lines.length - 1].isSelected = true
@@ -133,6 +137,12 @@ function addLine() {
         isDrag: false,
     })
     gMeme.lines[gMeme.lines.length - 1].isSelected = false
+}
+
+function deleteLine() {
+    const lineIdx = gMeme.lines.findIndex(line => line.isSelected)
+    if (lineIdx < 0) return
+    gMeme.lines.splice(lineIdx, 1)
 }
 
 function resetLines() {

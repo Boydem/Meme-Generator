@@ -138,7 +138,6 @@ function addTouchListeners() {
 }
 
 function getEvPosLine(ev) {
-    const lineSizes = getLineSizes(0)
     const {
         offsetX,
         offsetY
@@ -147,8 +146,8 @@ function getEvPosLine(ev) {
     // here im using posForRect thats the top left corner of the text
     return currMeme.lines.find(line => {
         return (
-            offsetX >= line.posForRect.x && offsetX <= line.posForRect.x + lineSizes.width &&
-            offsetY <= line.posForRect.y && offsetY >= line.posForRect.y - lineSizes.height
+            offsetX >= line.posForRect.x && offsetX <= line.posForRect.x + line.sizes.width &&
+            offsetY <= line.posForRect.y && offsetY >= line.posForRect.y - line.sizes.height
         )
     })
 }
@@ -185,7 +184,7 @@ function onCanvasClick(ev) {
 
 function onMove(ev) {
     ev.stopPropagation()
-    const line = getEvPosLine(ev)
+    const line = getSelectedLine()
     if (!line) return
     if (line.isSelected) {
         const pos = getEvPos(ev)
@@ -288,7 +287,9 @@ function onAddLine() {
 }
 
 function onDeleteLine() {
-
+    deleteLine()
+    renderCanvas()
+    drawRect()
 }
 
 function onSetColors(action, color) {
