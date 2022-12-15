@@ -132,8 +132,7 @@ function getEvPos(ev) {
         y: ev.offsetY
     }
     if (TOUCH_EVS.includes(ev.type)) {
-        ev.preventDefault()
-
+        // ev.preventDefault()
         ev = ev.changedTouches[0]
         pos = {
             x: ev.pageX,
@@ -145,34 +144,52 @@ function getEvPos(ev) {
 }
 
 function onMove(ev) {
-    const line = getSelectedLine()
-    if (!line) return
+    if (!gDraggedLine) return
+    let newPos
+    const line = gDraggedLine
     if (line.isSelected && line.isDrag) {
         const pos = getEvPos(ev)
-        const newPos = {
-            x: pos.x,
-            y: pos.y + line.sizes.height / 2
+        if (TOUCH_EVS.includes(ev.type)) {
+            newPos = {
+                x: pos.x,
+                y: pos.y
+            }
+        } else {
+            newPos = {
+                x: pos.x,
+                y: pos.y + line.sizes.height / 2
+            }
         }
+
         moveLine(line, newPos)
         renderCanvas()
     }
 }
 
 function onDown(ev) {
-    const line = getEvPosLine(ev.offsetX, ev.offsetY)
+    let line
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        line = getEvPosLine('touchstart', ev.pageX, ev.pageY)
+    } else {
+        line = getEvPosLine(ev.offsetX, ev.offsetY)
+    }
     if (line) {
         selectLine(line)
         renderCanvas()
     } else {
         unselectLines()
         renderCanvas()
+        return
     }
     gDraggedLine = line
     allowDrag(line)
 }
 
 function onUp(ev) {
-    disableDrag(gDraggedLine)
+    gDraggedLine = null
+    // disableDrag(gDraggedLine)
 }
 
 function clearCanvas() {
@@ -328,7 +345,7 @@ function onShareMeme() {
 
 // The next 2 functions handle IMAGE UPLOADING to img tag from file system:
 function onImgInput(ev) {
-    loadImageFromInput(ev, renderImg)
+    loadImageFromInput(ev, drawImg)
 }
 
 // CallBack func will run on success load of the img
@@ -339,7 +356,9 @@ function loadImageFromInput(ev, onImageReady) {
         let img = new Image() // Create a new html img element
         img.src = event.target.result // Set the img src to the img file we read
         // Run the callBack func, To render the img on the canvas
-        img.onload = () => onImageReady(img)
+        img.onload = () => {
+            onImageReady(img)
+        }
     }
 
     reader.readAsDataURL(ev.target.files[0]) // Read the file we picked

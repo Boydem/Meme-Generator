@@ -150,13 +150,28 @@ function resetLines() {
 // EDITOR SERVICE
 
 
-function getEvPosLine(mouseX, mouseY) {
+function getEvPosLine(evType, mouseX, mouseY) {
     return gMeme.lines.find(line => {
-        const actualLineX = line.pos.x - line.sizes.width / 2
-        return (
-            mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
-            mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height
-        )
+        let actualLineX
+        let actualLineY
+        if (TOUCH_EVS.includes(evType)) {
+            actualLineX = line.pos.x - line.sizes.width / 2
+            actualLineY = line.pos.y - line.sizes.height
+            console.log('mouseY:', mouseY)
+            console.log('line.pos.y:', line.pos.y)
+            // console.log('mouseX:', mouseX)
+            // console.log('line.pos.x:', line.pos.x)
+            return (
+                mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
+                mouseY <= line.pos.y + line.sizes.height && mouseY >= actualLineY
+            )
+        } else {
+            actualLineX = line.pos.x - line.sizes.width / 2
+            return (
+                mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
+                mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height
+            )
+        }
     })
 }
 
