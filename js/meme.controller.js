@@ -4,14 +4,18 @@ let gElCanvas
 let gCtx
 let gIsDrag = false
 let gElCurrMemeImg
+let gPrevPos
+let gDraggedLine
 // let gStrokeColor = document.querySelector('input[name="stroke"]').value
 // let gFillColor = document.querySelector('input[name="fill"]').value
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
 function renderMeme() {
+    const memeLines = getMemeLines()
     resizeCanvas(gElCurrMemeImg)
-    renderImg(gElCurrMemeImg)
-    drawLine()
+    renderCanvas()
+    selectLine(memeLines[0])
+    drawRect(memeLines[0])
     showEditor()
 }
 
@@ -21,48 +25,58 @@ function renderImg(img) {
 }
 
 
-function drawLine() {
+function drawLines() {
     const memeLines = getMemeLines()
 
     memeLines.forEach((line, idx) => {
-        let pos = {
-            x: gElCanvas.width / 2,
-            y: 60
-        }
-        if (idx === 1) {
-            pos.y = gElCanvas.height - 20
-        }
-        if (idx === memeLines.length - 1 && idx > 1 & !line.pos) {
-            pos.y = getRandomInt(60, gElCanvas.height - 60)
-            pos.x = getRandomInt(60, gElCanvas.width - 60)
-            // pos.x = gElCanvas.width / 2
-        } else if (idx > 1) {
-            pos.y = line.pos.y
-            pos.x = line.pos.x
+        let pos = {}
+        // if line already have position , place it there else init line pos
+        if (line.pos) {
+            pos = {
+                x: line.pos.x,
+                y: line.pos.y
+            }
+        } else {
+            // first line pos
+            pos = {
+                x: gElCanvas.width / 2,
+                y: 60
+            }
+            // seconds line pos
+            if (idx === 1) {
+                pos.y = gElCanvas.height - 20
+            }
+            // more then two lines pos
+            if (idx === memeLines.length - 1 && idx > 1 & !line.pos) {
+                pos.y = getRandomInt(60, gElCanvas.height - 60)
+                pos.x = getRandomInt(60, gElCanvas.width - 60)
+                // pos.x = gElCanvas.width / 2
+            } else if (idx > 1) {
+                pos.y = line.pos.y
+                pos.x = line.pos.x
+            }
         }
 
 
+        // draw line
         gCtx.beginPath()
-
+        // font
         gCtx.font = `${line.fontSize}px ${line.fontFamily}`
         gCtx.textAlign = line.alignTo
         gCtx.direction = 'ltr'
-
+        // stroke
         gCtx.lineWidth = 8;
         gCtx.setLineDash([0, 0])
         gCtx.strokeStyle = line.strokeColor;
         gCtx.lineJoin = 'miter'
         gCtx.miterLimit = 2
         gCtx.strokeText(line.text, pos.x, pos.y)
-
+        // fill
         gCtx.fillStyle = line.fillColor;
         gCtx.fillText(line.text, pos.x, pos.y)
         gCtx.closePath()
-        let metrics = gCtx.measureText(line.text)
-        const lineSizes = {
-            width: gCtx.measureText(line.text).width,
-            height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
-        }
+        // save line pos for resize *and* pos for selection rect *and* measureText dimensions for calculations
+        const lineSizes = measureLineSizes(line)
         if (idx === memeLines.length - 1) {
             saveLineSizes(idx, lineSizes)
             const lineActualX = pos.x - lineSizes.width / 2
@@ -72,14 +86,19 @@ function drawLine() {
             })
             saveLinePos(idx, pos)
         }
+        // draw selection rectangle if line isSelected
         if (line.isSelected) {
-            gCtx.beginPath()
-            gCtx.lineWidth = 2
-            gCtx.strokeStyle = "white"
-            gCtx.setLineDash([15, 5])
-            gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - lineSizes.height - 10, lineSizes.width + 25, lineSizes.height + 25)
+            drawRect(line)
         }
     })
+}
+
+function measureLineSizes(line) {
+    let metrics = gCtx.measureText(line.text)
+    return {
+        width: gCtx.measureText(line.text).width,
+        height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+    }
 }
 
 function initCanvas() {
@@ -92,12 +111,11 @@ function initCanvas() {
 }
 
 function addListeners() {
-    // addMouseListeners()
-    // addTouchListeners()
+    addMouseListeners()
+    addTouchListeners()
     window.addEventListener('resize', () => {
         resizeCanvas(gElCurrMemeImg)
-        renderImg(gElCurrMemeImg)
-        drawLine()
+        renderCanvas()
     })
 }
 
@@ -113,24 +131,79 @@ function addTouchListeners() {
     gElCanvas.addEventListener('touchend', onUp)
 }
 
+function getEvPosLine(ev) {
+    const lineSizes = getLineSizes(0)
+    const {
+        offsetX,
+        offsetY
+    } = ev
+    const currMeme = getCurrMeme()
+    // here im using posForRect thats the top left corner of the text
+    return currMeme.lines.find(line => {
+        return (
+            offsetX >= line.posForRect.x && offsetX <= line.posForRect.x + lineSizes.width &&
+            offsetY <= line.posForRect.y && offsetY >= line.posForRect.y - lineSizes.height
+        )
+    })
+}
+
+function onCanvasClick(ev) {
+    ev.preventDefault()
+    const line = getEvPosLine(ev)
+    if (line) {
+        selectLine(line)
+        renderCanvas()
+        drawRect(line)
+    } else {
+        unselectLines()
+        renderCanvas()
+        drawRect(line)
+    }
+}
+
+function drawRect(line) {
+    if (!line) return
+    if (line.isSelected) {
+        gCtx.beginPath()
+        gCtx.lineWidth = 2
+        gCtx.strokeStyle = "white"
+        gCtx.setLineDash([15, 5])
+        gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
+    }
+}
+
+
 function onMove(ev) {
-    if (gIsDrag) {
+    ev.stopPropagation()
+    const line = getEvPosLine(ev)
+    if (!line) return
+    if (line.isSelected) {
         const pos = getEvPos(ev)
-        const dx = pos.x - gPrevPos.x
-        const dy = pos.y - gPrevPos.y
-        gPrevPos = pos
-        draw(pos.x, pos.y, dx, dy)
+        // const dx = pos.x - line.pos.x
+        // const dy = pos.y - line.pos.y
+        const newPos = {
+            x: pos.x,
+            y: pos.y + line.sizes.height / 2
+        }
+        moveLine(line, newPos)
+        renderCanvas()
+        drawRect(line)
     }
 }
 
 function onDown(ev) {
-    const pos = getEvPos(ev)
-    gPrevPos = pos
-    gIsDrag = true
+    ev.preventDefault()
+    const line = getEvPosLine(ev)
+    gDraggedLine = line
+    allowDrag(line)
 }
 
-function onUp() {
-    gIsDrag = false
+function onUp(ev) {
+    ev.preventDefault()
+    const line = getEvPosLine(ev)
+    disableDrag(gDraggedLine)
+    // drawLines()
+    // drawRect(line)
 }
 
 function clearCanvas() {
@@ -180,6 +253,10 @@ function hideEditor() {
     elEditor.classList.add('hide')
     elEditor.classList.remove('show')
     resetLines()
+    // reset text line in editor
+    const textLine = document.querySelector('.text-line')
+    textLine.style.fontFamily = 'impact'
+    textLine.value = ''
 }
 
 function showEditor() {
@@ -188,38 +265,18 @@ function showEditor() {
     elEditor.classList.remove('hide')
 }
 
-function onCanvasClick(ev) {
-    const lineSizes = getLineSizes(0)
-    const {
-        offsetX,
-        offsetY
-    } = ev
-    const currMeme = getCurrMeme()
-    const line = currMeme.lines.find(line => {
-        return (
-            offsetX >= line.posForRect.x && offsetX <= line.posForRect.x + lineSizes.width &&
-            offsetY <= line.posForRect.y && offsetY >= line.posForRect.y - lineSizes.height
-        )
-    })
-    if (line) {
-        selectLine(line)
-        renderImg(gElCurrMemeImg)
-        drawLine()
-    } else {
-        unselectLines()
-        renderImg(gElCurrMemeImg)
-        drawLine()
-    }
-}
 
 
 // ON CONTROLS EVENTS
 
+function disableControls() {
+
+}
+
 function onSetLineTxt(ev) {
     const txt = ev.target.value
     setLineTxt(txt)
-    renderImg(gElCurrMemeImg)
-    drawLine()
+    renderCanvas()
 }
 
 function onSwitchLine() {
@@ -229,13 +286,18 @@ function onSwitchLine() {
 function onAddLine() {
     addLine()
     const memeLines = getMemeLines()
-    renderImg(gElCurrMemeImg)
     selectLine(memeLines[memeLines.length - 1])
-    drawLine()
+    renderCanvas()
+    drawRect(memeLines[memeLines.length - 1])
 }
 
 function onDeleteLine() {
 
+}
+
+function renderCanvas() {
+    renderImg(gElCurrMemeImg)
+    drawLines()
 }
 
 function onSetColors(action, color) {
@@ -250,7 +312,8 @@ function onSetColors(action, color) {
             break;
     }
     renderImg(gElCurrMemeImg)
-    drawLine()
+    drawLines()
+    drawRect()
 }
 
 function onAlign(action) {
@@ -268,13 +331,16 @@ function onAlign(action) {
             break;
     }
     renderImg(gElCurrMemeImg)
-    drawLine()
+    drawLines()
+    drawRect()
 }
 
-function onChangeFont(action, fontFamily) {
+function onChangeFont(action, elFontInput) {
     switch (action) {
         case 'family':
-            setLineFont(action, fontFamily)
+            elFontInput.style.fontFamily = elFontInput.value
+            document.querySelector('.text-line').style.fontFamily = elFontInput.value
+            setLineFont(action, elFontInput.value)
             break;
         case 'size+':
             setLineFont(action)
@@ -286,10 +352,11 @@ function onChangeFont(action, fontFamily) {
             break;
     }
     renderImg(gElCurrMemeImg)
-    drawLine()
+    drawLines()
+    drawRect()
 }
 
-// END OF FLOW - SHARE / DOWNLOAD
+// END OF FLOW => SHARE / DOWNLOAD
 
 function onDownloadMeme(elLink) {
     const data = gElCanvas.toDataURL('image/png')
@@ -307,4 +374,24 @@ function onShareMeme() {
     }
     // Send the image to the server
     doUploadImg(imgDataUrl, onSuccess)
+}
+
+// The next 2 functions handle IMAGE UPLOADING to img tag from file system:
+function onImgInput(ev) {
+    loadImageFromInput(ev, renderImg)
+}
+
+// CallBack func will run on success load of the img
+function loadImageFromInput(ev, onImageReady) {
+    const reader = new FileReader()
+    // After we read the file
+    reader.onload = (event) => {
+        let img = new Image() // Create a new html img element
+        img.src = event.target.result // Set the img src to the img file we read
+        // Run the callBack func, To render the img on the canvas
+        img.onload = () => onImageReady(img)
+    }
+
+    reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
+
 }

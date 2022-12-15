@@ -98,6 +98,27 @@ input[type="color"]::-webkit-color-swatch {
   border: none;
   border-radius: 0.2em;
 }
+select {
+  appearance: none;
+  background-color: var(--white);
+  border: none;
+  padding: 0 0.1em 0 0.1em;
+  margin: 0;
+  /* width: 100%; */
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  font-size: 1.2em;
+  cursor: pointer;
+  line-height: inherit;
+  text-align: center;
+  color: #111;
+  border-radius: 0.2em;
+  height: 100%;
+  box-shadow: 0px 5px 10px -2px --blacka;
+  transition: outline 0.2s;
+}
+select:focus-visible {
+  outline-color: var(--clr1);
+}
 
 /* general stylings */
 
@@ -138,7 +159,8 @@ input {
   color: var(--clr1);
 }
 input::placeholder {
-  color: var(--clr1);
+  color: var(--blacka);
+  text-transform: uppercase;
 }
 input:focus {
   border: 2px solid var(--clr2);
@@ -151,13 +173,33 @@ input[type="color"] {
   height: 24px;
   padding: 0;
 }
-
+/* Buttons Styles */
+button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25em;
+  color: var(--clr1);
+  background-color: var(--clr2);
+}
 button {
   transition: color 0.3s, background-color 0.3s;
 }
 button:hover {
   color: var(--clr1);
   background-color: var(--white);
+}
+
+.load-file-input {
+  font-weight: 900;
+  font-size: 1.5rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  border-radius: 0.5rem 1rem 0.5rem 2rem;
+  padding: 0rem;
+}
+.load-file-input label {
+  cursor: pointer;
+  padding: 0.5em 1.25em;
 }
 
 /* layout */
@@ -304,6 +346,11 @@ footer {
   box-shadow: 0px 30px 30px -20px var(--blacka);
   padding: 1.33em;
 }
+.text-line {
+  color: #111;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
+  text-align: center;
+}
 .controls > * {
   width: 100%;
   margin-left: auto;
@@ -401,17 +448,15 @@ footer {
   border-radius: 0.2em;
   box-shadow: 0px 5px 10px -8px var(--blacka);
 }
-/* Buttons Styles */
-button {
-  padding: 0.5em 1.25em;
-  border-radius: 0.25em;
-  color: var(--clr1);
-  background-color: var(--clr2);
+
+option[value="impact"] {
+  font-family: impact;
 }
-/* Header & Nav Styles */
-/* Main Content Styles */
-/* Modal Styles */
-/* Offscreen mobile-menu Styles */
-/* Widget Styles */
-/* Footer Styles */
-/* Form Styles */
+
+option[value="arial"] {
+  font-family: arial;
+}
+
+option[value="tahoma"] {
+  font-family: tahoma;
+}

@@ -18,6 +18,7 @@ let gMeme = {
 
 let gLastLineId
 let gSelectedLine
+let gPrevSelectedLine = gMeme.lines[0]
 
 function genLineId() {
     gLastLineId = gMeme.lines[gMeme.lines.length - 1].id + 1
@@ -37,22 +38,45 @@ function getSelectedLineIdx() {
 }
 
 function unselectLines() {
-    if (gMeme.lines.find(gLine => gLine.isSelected)) {
-        gMeme.lines.find(gLine => gLine.isSelected).isSelected = false
-    }
+    gMeme.lines.forEach(line => {
+        if (line.isSelected === true) {
+            line.isSelected = false
+        }
+    })
+}
+
+function unselectLine(line) {
+    gMeme.lines.find(gLine => gLine.id === line.id).isSelected = false
 }
 
 function selectLine(line) {
-    const isSelectedLine = gMeme.lines.find(gLine => gLine.isSelected)
-    if (isSelectedLine) {
-        gMeme.lines.find(gLine => gLine.isSelected).isSelected = false
-    } else if (!isSelectedLine) {
-        gMeme.lines[line.id - 1].isSelected = true
-    }
-    if (isSelectedLine && isSelectedLine.id === line.id) {
-        return
+    if (!line) return
+    const alreadySelected = gMeme.lines.findIndex(gLine => gPrevSelectedLine.id === gLine.id && gLine.isSelected === true)
+    gPrevSelectedLine = line
+    if (alreadySelected >= 0) {
+        gMeme.lines[alreadySelected].isSelected = false
     }
     gMeme.lines.find(gLine => line.id === gLine.id).isSelected = true
+}
+
+function moveLine(line, toPos) {
+    if (!line) return
+    const draggedLineIdx = gMeme.lines.findIndex(gLine => gLine.isDrag && gLine.isSelected)
+    if (draggedLineIdx === -1) return
+    console.log('toPos:', toPos)
+    console.log('line:', line)
+    gMeme.lines[draggedLineIdx].pos.x = toPos.x
+    gMeme.lines[draggedLineIdx].pos.y = toPos.y
+}
+
+function allowDrag(line) {
+    if (!line) return
+    gMeme.lines.find(gLine => line.id === gLine.id).isDrag = true
+}
+
+function disableDrag(line) {
+    if (!line) return
+    gMeme.lines.find(gLine => line.id === gLine.id).isDrag = false
 }
 
 function getCurrMeme() {
@@ -81,6 +105,7 @@ function getLineSizes(idx) {
 
 function setLineTxt(text) {
     let idx = getSelectedLineIdx()
+    if (idx < 0) return 'not selected line'
     gMeme.lines[idx].text = text
 }
 
