@@ -51,11 +51,11 @@
                     </div>
                     <input oninput="onSetLineTxt(event)" class="text-line" type="text" name="textline" id="textLine" placeholder="Your Text Line">
                     <div class="colors-controls control-widget-center">
-                        <label for="fillColor">Text Color:</label>
+                        <label for="fillColor">Text</label>
                         <input oninput="onSetColors('fill',this.value)" type="color" name="fillColor" id="fillColor" value="#ffffff">
-                        <label for="strokeColor">Stroke Color:</label>
+                        <label for="strokeColor">Stroke</label>
                         <input oninput="onSetColors('stroke',this.value)" type="color" name="strokeColor" id="strokeColor" value="#000000">
-                        <label for="fontFamily">Font:</label>
+                        <label for="fontFamily">Font</label>
                         <select onchange="onChangeFont('family',this)" name="fontFamilies" id="fontFamily">
                             <option value="impact">Impact</option>
                             <option value="arial">Arial</option>
@@ -63,8 +63,8 @@
                         </select>
                     </div>
                     <div class="font-controls control-widget-center">
-                        <button onclick="onChangeFont('size+')">Size+</button>
-                        <button onclick="onChangeFont('size-')">Size-</button>
+                        <button onclick="onChangeFont('size+')"><i class="fa-solid fa-font"></i><i class="fa-solid fa-plus fa-plusminus"></i></button>
+                        <button onclick="onChangeFont('size-')"><i class="fa-solid fa-font"></i><i class="fa-solid fa-minus fa-plusminus"></i></button>
                     </div>
                     <div class="text-align-controls control-widget-center">
                         <button onclick="onAlign('left')" class="btn"><i class="fa-solid fa-align-left"></i></button>
@@ -72,8 +72,8 @@
                         <button onclick="onAlign('right')" class="btn"><i class="fa-solid fa-align-right"></i></button>
                     </div>
                     <div class="links-controls control-widget-space-between">
-                        <button><a onclick="onShareMeme()" href="#" class="share-link">Share</a></button>
-                        <button><a onclick="onDownloadMeme(this)" href="#" class="share-link" download="myMeme">Download</a></button>
+                        <button><a onclick="onShareMeme()" href="#" class="share-link"><i class="fa-brands fa-facebook"></i></a></button>
+                        <button><a onclick="onDownloadMeme(this)" href="#" class="share-link" download="myMeme"><i class="fa-solid fa-download"></i></a></button>
                     </div>
                 </aside>
             </div>

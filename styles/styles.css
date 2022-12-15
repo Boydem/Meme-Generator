@@ -207,6 +207,9 @@ button:hover {
 button i {
   font-size: 1.25em;
 }
+.fa-plusminus {
+  font-size: 1em;
+}
 
 /* layout */
 
