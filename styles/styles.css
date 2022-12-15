@@ -311,7 +311,7 @@ footer {
   margin-bottom: 0.75rem;
 }
 .controls div:last-child {
-  border-top: 3px solid var(--blacka);
+  border-top: 3px solid var(--whitea);
   padding-top: 1em;
   margin-top: auto;
 }

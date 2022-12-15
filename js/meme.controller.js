@@ -8,10 +8,9 @@ let gElCurrMemeImg
 // let gFillColor = document.querySelector('input[name="fill"]').value
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
-function renderMeme(elImg, lineIdx = 0) {
-    gElCurrMemeImg = elImg
-    resizeCanvas(elImg)
-    renderImg(elImg)
+function renderMeme() {
+    resizeCanvas(gElCurrMemeImg)
+    renderImg(gElCurrMemeImg)
     drawLine()
     showEditor()
 }

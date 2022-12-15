@@ -24,6 +24,9 @@ function genLineId() {
     return gLastLineId
 }
 
+function setImg(elImg) {
+    gElCurrMemeImg = elImg
+}
 
 function getSelectedLine() {
     return gMeme.lines.find(gLine => gLine.isSelected) || gMeme.lines[0]
