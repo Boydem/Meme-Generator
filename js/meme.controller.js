@@ -144,50 +144,34 @@ function getEvPos(ev) {
     return pos
 }
 
-function onCanvasClick(ev) {
-    // ev.stopPropagation()
-    // ev.preventDefault()
-    const line = getEvPosLine(ev.offsetX, ev.offsetY)
-    if (line) {
-        selectLine(line)
-        renderCanvas()
-
-    } else {
-        unselectLines()
-        renderCanvas()
-
-    }
-}
-
 function onMove(ev) {
-    // ev.stopPropagation()
     const line = getSelectedLine()
     if (!line) return
     if (line.isSelected && line.isDrag) {
         const pos = getEvPos(ev)
-        console.log('pos:', pos)
-        // const dx = pos.x - line.pos.x
-        // const dy = pos.y - line.pos.y
         const newPos = {
             x: pos.x,
             y: pos.y + line.sizes.height / 2
         }
         moveLine(line, newPos)
         renderCanvas()
-
     }
 }
 
 function onDown(ev) {
-    // ev.stopPropagation()
     const line = getEvPosLine(ev.offsetX, ev.offsetY)
-    selectLine(line)
+    if (line) {
+        selectLine(line)
+        renderCanvas()
+    } else {
+        unselectLines()
+        renderCanvas()
+    }
     gDraggedLine = line
     allowDrag(line)
 }
 
 function onUp(ev) {
-    // ev.stopPropagation()
     disableDrag(gDraggedLine)
 }
 

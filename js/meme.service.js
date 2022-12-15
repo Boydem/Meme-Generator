@@ -72,11 +72,9 @@ function switchLine() {
 
 function moveLine(line, toPos) {
     if (!line) return
-    const draggedLineIdx = gMeme.lines.findIndex(gLine => gLine.isDrag && gLine.isSelected)
-    if (draggedLineIdx === -1) return
-
-    gMeme.lines[draggedLineIdx].pos.x = toPos.x
-    gMeme.lines[draggedLineIdx].pos.y = toPos.y
+    console.log('draggedLineIdx:', line.id)
+    gMeme.lines[line.id - 1].pos.x = toPos.x
+    gMeme.lines[line.id - 1].pos.y = toPos.y
 }
 
 function allowDrag(line) {
