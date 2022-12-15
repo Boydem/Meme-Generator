@@ -194,7 +194,7 @@ button:hover {
   position: absolute;
   bottom: 0;
   left: 0;
-  border-radius: 0.5rem 1rem 0.5rem 2rem;
+  border-radius: 0.5rem 1rem 0.5rem 0rem;
   padding: 0rem;
 }
 .load-file-input label {
@@ -549,9 +549,11 @@ option[value="tahoma"] {
   .meme-editor {
     padding: 2em;
     display: flex;
+    align-items: center;
   }
   .meme-editor .wrapper {
     flex-direction: row;
+    max-height: 500px;
   }
   .close-editor {
     border-radius: 0 0.5em 0.5em 0.5em;
@@ -617,5 +619,8 @@ option[value="tahoma"] {
   }
   .canvas-container {
     margin-inline-end: 2em;
+  }
+  .load-file-input {
+    border-radius: 0.5rem 1rem 0.5rem 2rem;
   }
 }
