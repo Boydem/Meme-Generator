@@ -315,12 +315,13 @@ footer {
   transform: translateY(0%);
   margin: auto;
   background-color: var(--white);
-  height: 100vh;
   /* border-radius: 2rem; */
   padding: 1.33em;
   box-shadow: 0px 30px 50px -30px var(--blacka);
   transition: opacity 0.4s, transform 0.5s;
   z-index: 3;
+  height: 100%;
+  overflow-y: scroll;
 }
 .meme-editor .wrapper {
   flex-direction: column;
@@ -554,6 +555,7 @@ option[value="tahoma"] {
     padding: 2em;
     display: flex;
     align-items: center;
+    overflow-y: unset;
   }
   .meme-editor .wrapper {
     flex-direction: row;
