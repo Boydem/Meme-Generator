@@ -282,6 +282,7 @@ footer {
   grid-template-rows: masonry;
   align-tracks: start;
   justify-tracks: start;
+  place-items: center;
   /* grid-auto-flow: dense; */
   padding: 3em;
   /* grid-template-rows: ; */
