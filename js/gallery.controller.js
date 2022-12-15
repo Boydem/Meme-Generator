@@ -6,6 +6,10 @@ function onInit() {
     initCanvas()
 }
 
+function onHamburgerBtnToggle() {
+    document.querySelector('.main-nav').classList.toggle('open')
+}
+
 function renderGallery() {
     const elGallery = document.querySelector('.meme-gallery')
     let images = getImgs()
