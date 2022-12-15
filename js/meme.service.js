@@ -180,13 +180,13 @@ function alignTo(action) {
     let idx = getSelectedLineIdx()
     switch (action) {
         case 'left':
-            gMeme.lines[idx].alignTo = 'end'
+            gMeme.lines[idx].pos.x = gMeme.lines[idx].sizes.width / 2 + 20
             break;
         case 'center':
-            gMeme.lines[idx].alignTo = 'center'
+            gMeme.lines[idx].pos.x = gElCanvas.width / 2
             break;
         case 'right':
-            gMeme.lines[idx].alignTo = 'start'
+            gMeme.lines[idx].pos.x = gElCanvas.width - gMeme.lines[idx].sizes.width / 2 - 20
             break;
         default:
             break;

@@ -73,7 +73,7 @@ function drawLines() {
         gCtx.beginPath()
         // font
         gCtx.font = `${line.fontSize}px ${line.fontFamily}`
-        gCtx.textAlign = line.alignTo
+        gCtx.textAlign = 'center'
         gCtx.direction = 'ltr'
         // stroke
         gCtx.lineWidth = 8;
