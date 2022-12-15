@@ -338,7 +338,7 @@ footer {
   box-shadow: 0px 30px 30px -20px var(--blacka);
   border-radius: 0.5em;
   margin: auto;
-  max-height: 280px;
+  max-height: 350px;
   margin-bottom: 30px;
 }
 .meme-editor .controls {
