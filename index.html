@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="styles/styles.css">
     <title>Memozaurus</title>
 </head>
@@ -43,10 +44,10 @@
                 </div>
                 <aside class="controls flex justify-center align-center">
                     <h2>Controls</h2>
-                    <div class="selection-controls control-widget-space-between">
-                        <button onclick="onSwitchLine()">Switch Line</button>
-                        <button onclick="onAddLine()">Add line</button>
-                        <button onclick="onDeleteLine()">Delete line</button>
+                    <div class="selection-controls control-widget-center">
+                        <button onclick="onSwitchLine()"><i class="fa-solid fa-arrow-down-up-across-line"></i></button>
+                        <button onclick="onAddLine()"><i class="fa-regular fa-square-plus"></i></button>
+                        <button onclick="onDeleteLine()"><i class="fa-regular fa-trash-can"></i></button>
                     </div>
                     <input oninput="onSetLineTxt(event)" class="text-line" type="text" name="textline" id="textLine" placeholder="Your Text Line">
                     <div class="colors-controls control-widget-center">
@@ -66,9 +67,9 @@
                         <button onclick="onChangeFont('size-')">Size-</button>
                     </div>
                     <div class="text-align-controls control-widget-center">
-                        <button onclick="onAlign('left')" class="btn">Left</button>
-                        <button onclick="onAlign('center')" class="btn">Center</button>
-                        <button onclick="onAlign('right')" class="btn">Right</button>
+                        <button onclick="onAlign('left')" class="btn"><i class="fa-solid fa-align-left"></i></button>
+                        <button onclick="onAlign('center')" class="btn"><i class="fa-solid fa-align-center"></i></button>
+                        <button onclick="onAlign('right')" class="btn"><i class="fa-solid fa-align-right"></i></button>
                     </div>
                     <div class="links-controls control-widget-space-between">
                         <button><a onclick="onShareMeme()" href="#" class="share-link">Share</a></button>
