@@ -373,6 +373,7 @@ footer {
   color: var(--white);
   text-shadow: -3px -3px 0px #000, 3px 3px 0px var(--clr1);
   text-align: center;
+  font-size: 2.369rem;
 }
 .colors-controls img {
   display: none;
@@ -571,6 +572,9 @@ option[value="tahoma"] {
   .canvas-container canvas {
     max-height: 100%;
     margin-bottom: unset;
+  }
+  .controls h2 {
+    font-size: 3.157rem;
   }
   /* controls */
 }
