@@ -372,6 +372,7 @@ footer {
 .controls h2 {
   color: var(--white);
   text-shadow: -3px -3px 0px #000, 3px 3px 0px var(--clr1);
+  text-align: center;
 }
 .colors-controls img {
   display: none;
