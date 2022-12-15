@@ -51,12 +51,23 @@ function unselectLine(line) {
 
 function selectLine(line) {
     if (!line) return
-    const alreadySelected = gMeme.lines.findIndex(gLine => gPrevSelectedLine.id === gLine.id && gLine.isSelected === true)
+    const currSelectedIdx = gMeme.lines.findIndex(gLine => gPrevSelectedLine.id === gLine.id && gLine.isSelected === true)
     gPrevSelectedLine = line
-    if (alreadySelected >= 0) {
-        gMeme.lines[alreadySelected].isSelected = false
+    if (currSelectedIdx >= 0) {
+        gMeme.lines[currSelectedIdx].isSelected = false
     }
     gMeme.lines.find(gLine => line.id === gLine.id).isSelected = true
+}
+
+function switchLine() {
+    const currSelectedIdx = gMeme.lines.findIndex(line => line.isSelected === true)
+    console.log('currSelectedIdx:', currSelectedIdx)
+    gMeme.lines[currSelectedIdx].isSelected = false
+    if (currSelectedIdx === 0) {
+        gMeme.lines[gMeme.lines.length - 1].isSelected = true
+    } else {
+        gMeme.lines[currSelectedIdx - 1].isSelected = true
+    }
 }
 
 function moveLine(line, toPos) {

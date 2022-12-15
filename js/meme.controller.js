@@ -6,9 +6,17 @@ let gIsDrag = false
 let gElCurrMemeImg
 let gPrevPos
 let gDraggedLine
-// let gStrokeColor = document.querySelector('input[name="stroke"]').value
-// let gFillColor = document.querySelector('input[name="fill"]').value
+
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
+
+function initCanvas() {
+    gElCanvas = document.querySelector('canvas')
+    gCtx = gElCanvas.getContext('2d')
+    const elCanvasContainer = document.querySelector('.canvas-container')
+    gElCanvas.width = elCanvasContainer.offsetWidth
+    gElCanvas.height = elCanvasContainer.clientHeight
+    addListeners()
+}
 
 function renderMeme() {
     const memeLines = getMemeLines()
@@ -18,13 +26,16 @@ function renderMeme() {
     drawRect(memeLines[0])
     showEditor()
 }
-
-function renderImg(img) {
-    // Draw the img on the canvas
+// Every time canvas render redraw img and lines
+function renderCanvas() {
+    drawImg(gElCurrMemeImg)
+    drawLines()
+}
+// draw img
+function drawImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
-
-
+// draw line
 function drawLines() {
     const memeLines = getMemeLines()
 
@@ -88,26 +99,21 @@ function drawLines() {
         }
         // draw selection rectangle if line isSelected
         if (line.isSelected) {
-            drawRect(line)
+            drawRect()
         }
     })
 }
-
-function measureLineSizes(line) {
-    let metrics = gCtx.measureText(line.text)
-    return {
-        width: gCtx.measureText(line.text).width,
-        height: metrics.actualBoundingBoxAscent + metrics.actualBoundingBoxDescent
+// draw rect
+function drawRect() {
+    const line = getSelectedLine()
+    if (!line) return
+    if (line.isSelected) {
+        gCtx.beginPath()
+        gCtx.lineWidth = 2
+        gCtx.strokeStyle = "white"
+        gCtx.setLineDash([15, 5])
+        gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
     }
-}
-
-function initCanvas() {
-    gElCanvas = document.querySelector('canvas')
-    gCtx = gElCanvas.getContext('2d')
-    const elCanvasContainer = document.querySelector('.canvas-container')
-    gElCanvas.width = elCanvasContainer.offsetWidth
-    gElCanvas.height = elCanvasContainer.clientHeight
-    addListeners()
 }
 
 function addListeners() {
@@ -147,31 +153,35 @@ function getEvPosLine(ev) {
     })
 }
 
+function getEvPos(ev) {
+    let pos = {
+        x: ev.offsetX,
+        y: ev.offsetY
+    }
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefault()
+        ev = ev.changedTouches[0]
+        pos = {
+            x: ev.pageX,
+            y: ev.pageY
+        }
+    }
+    return pos
+}
+
 function onCanvasClick(ev) {
-    ev.preventDefault()
+    ev.stopPropagation()
     const line = getEvPosLine(ev)
     if (line) {
         selectLine(line)
         renderCanvas()
-        drawRect(line)
+        drawRect()
     } else {
         unselectLines()
         renderCanvas()
-        drawRect(line)
+        drawRect()
     }
 }
-
-function drawRect(line) {
-    if (!line) return
-    if (line.isSelected) {
-        gCtx.beginPath()
-        gCtx.lineWidth = 2
-        gCtx.strokeStyle = "white"
-        gCtx.setLineDash([15, 5])
-        gCtx.strokeRect(line.posForRect.x - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
-    }
-}
-
 
 function onMove(ev) {
     ev.stopPropagation()
@@ -187,23 +197,22 @@ function onMove(ev) {
         }
         moveLine(line, newPos)
         renderCanvas()
-        drawRect(line)
+        drawRect()
     }
 }
 
 function onDown(ev) {
-    ev.preventDefault()
+    ev.stopPropagation()
     const line = getEvPosLine(ev)
+    selectLine(line)
     gDraggedLine = line
     allowDrag(line)
 }
 
 function onUp(ev) {
-    ev.preventDefault()
+    ev.stopPropagation()
     const line = getEvPosLine(ev)
     disableDrag(gDraggedLine)
-    // drawLines()
-    // drawRect(line)
 }
 
 function clearCanvas() {
@@ -226,21 +235,6 @@ function resizeCanvas(elImg) {
     }
 }
 
-function getEvPos(ev) {
-    let pos = {
-        x: ev.offsetX,
-        y: ev.offsetY
-    }
-    if (TOUCH_EVS.includes(ev.type)) {
-        ev.preventDefault()
-        ev = ev.changedTouches[0]
-        pos = {
-            x: ev.pageX,
-            y: ev.pageY
-        }
-    }
-    return pos
-}
 
 function getInnerHeight(elm) {
     var computed = getComputedStyle(elm),
@@ -280,7 +274,9 @@ function onSetLineTxt(ev) {
 }
 
 function onSwitchLine() {
-
+    switchLine()
+    renderCanvas()
+    drawRect()
 }
 
 function onAddLine() {
@@ -295,11 +291,6 @@ function onDeleteLine() {
 
 }
 
-function renderCanvas() {
-    renderImg(gElCurrMemeImg)
-    drawLines()
-}
-
 function onSetColors(action, color) {
     switch (action) {
         case 'stroke':
@@ -311,8 +302,7 @@ function onSetColors(action, color) {
         default:
             break;
     }
-    renderImg(gElCurrMemeImg)
-    drawLines()
+    renderCanvas()
     drawRect()
 }
 
@@ -330,8 +320,7 @@ function onAlign(action) {
         default:
             break;
     }
-    renderImg(gElCurrMemeImg)
-    drawLines()
+    renderCanvas()
     drawRect()
 }
 
@@ -351,8 +340,7 @@ function onChangeFont(action, elFontInput) {
         default:
             break;
     }
-    renderImg(gElCurrMemeImg)
-    drawLines()
+    renderCanvas()
     drawRect()
 }
 
