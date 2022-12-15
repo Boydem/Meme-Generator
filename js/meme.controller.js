@@ -171,7 +171,7 @@ function onDown(ev) {
     if (TOUCH_EVS.includes(ev.type)) {
         ev.preventDefault()
         ev = ev.changedTouches[0]
-        line = getEvPosLine('touchstart', ev.pageX, ev.pageY)
+        line = getEvPosLine(ev.pageX, ev.pageY, 'touchstart')
     } else {
         line = getEvPosLine(ev.offsetX, ev.offsetY)
     }

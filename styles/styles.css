@@ -162,7 +162,7 @@ input {
   color: var(--clr1);
 }
 input::placeholder {
-  color: var(--blacka);
+  color: var(--clr1a);
   text-transform: uppercase;
 }
 input:focus {

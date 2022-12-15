@@ -72,7 +72,6 @@ function switchLine() {
 
 function moveLine(line, toPos) {
     if (!line) return
-    console.log('draggedLineIdx:', line.id)
     gMeme.lines[line.id - 1].pos.x = toPos.x
     gMeme.lines[line.id - 1].pos.y = toPos.y
 }
@@ -150,17 +149,13 @@ function resetLines() {
 // EDITOR SERVICE
 
 
-function getEvPosLine(evType, mouseX, mouseY) {
+function getEvPosLine(mouseX, mouseY, evType = '') {
     return gMeme.lines.find(line => {
-        let actualLineX
-        let actualLineY
+        let actualLineX = 0
+        let actualLineY = 0
         if (TOUCH_EVS.includes(evType)) {
             actualLineX = line.pos.x - line.sizes.width / 2
             actualLineY = line.pos.y - line.sizes.height
-            console.log('mouseY:', mouseY)
-            console.log('line.pos.y:', line.pos.y)
-            // console.log('mouseX:', mouseX)
-            // console.log('line.pos.x:', line.pos.x)
             return (
                 mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
                 mouseY <= line.pos.y + line.sizes.height && mouseY >= actualLineY
