@@ -1,5 +1,9 @@
 'use strict'
 
+const MEMES_DB_KEY = 'memesDB'
+
+let gMemes = loadFromStorage(MEMES_DB_KEY) || []
+
 let gMeme = {
     selectedImgId: 5,
     selectedLineIdx: 0,
@@ -205,6 +209,7 @@ function alignTo(action) {
         default:
             break;
     }
+    gMeme.lines[idx].alignTo = action
 }
 
 function setLineFont(action, fontFamily) {
@@ -222,4 +227,14 @@ function setLineFont(action, fontFamily) {
         default:
             break;
     }
+}
+
+
+
+function saveMeme(imgDataURL) {
+    if (!gElCurrMemeImg.id) return
+    gMeme.imgDataURL = imgDataURL
+    gMeme.selectedImgId = +gElCurrMemeImg.id
+    gMemes.push(gMeme)
+    saveToStorage(MEMES_DB_KEY, gMemes)
 }

@@ -20,13 +20,13 @@ function initCanvas() {
 function renderMeme() {
     const memeLines = getMemeLines()
     resizeCanvas(gElCurrMemeImg)
-    renderCanvas()
     selectLine(memeLines[0])
     drawRect(memeLines[0])
     showEditor()
 }
 // Every time canvas render redraw img and lines
 function renderCanvas() {
+    if (!gElCurrMemeImg) return
     drawImg(gElCurrMemeImg)
     drawLines()
     drawRect()
@@ -70,11 +70,12 @@ function drawLines() {
         // draw line
         gCtx.beginPath()
         // font
-        console.log('gElCanvas.offsetWidth:', gElCanvas.offsetWidth)
-        console.log('gElCanvas.width:', gElCanvas.width)
-        let fontBase = gElCanvas.offsetWidth
+        // console.log('gElCanvas.offsetWidth:', gElCanvas.offsetWidth)
+        // console.log('gElCanvas.width:', gElCanvas.width)
+        const gElCanvasContainer = document.querySelector('.canvas-container')
+        let fontBase = gElCanvasContainer.offsetWidth
         let fontRatio = line.fontSize / fontBase
-        let actualFontSize = gElCanvas.offsetWidth * fontRatio
+        let actualFontSize = gElCanvasContainer.offsetWidth * fontRatio
 
         gCtx.font = `${actualFontSize}px ${line.fontFamily}`
         gCtx.textAlign = 'center'
@@ -116,7 +117,6 @@ function addListeners() {
     addTouchListeners()
     window.addEventListener('resize', () => {
         resizeCanvas(gElCurrMemeImg)
-        renderCanvas()
     })
 }
 
@@ -154,7 +154,6 @@ function onMove(ev) {
     const line = gDraggedLine
     if (line.isSelected && line.isDrag) {
         const pos = getEvPos(ev)
-        console.log('touchMove');
         if (TOUCH_EVS.includes(ev.type)) {
             newPos = {
                 x: pos.x,
@@ -209,10 +208,6 @@ function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
     const imgH = elImg.height
     const imgW = elImg.width
-    console.log('elImg.height:', elImg.height)
-    console.log('elImg.offsetHeight:', elImg.offsetHeight)
-    console.log('elImg.width:', elImg.width)
-    console.log('elImg.offsetWidth:', elImg.offsetWidth)
     if (imgH < imgW) {
         const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
         gElCanvas.width = elCanvasContainer.offsetWidth
@@ -222,6 +217,7 @@ function resizeCanvas(elImg) {
         gElCanvas.width = canvasW
         gElCanvas.height = getInnerHeight(elCanvasContainer)
     }
+    renderCanvas()
 }
 
 
@@ -235,9 +231,10 @@ function getInnerHeight(elm) {
 
 // ON CONTROLS EVENTS
 
-function disableControls() {
+// function disableControls() {
 
-}
+// }
+
 
 function onSetLineTxt(ev) {
     const txt = ev.target.value
@@ -248,11 +245,12 @@ function onSetLineTxt(ev) {
 function onSwitchLine() {
     switchLine()
     renderCanvas()
-
+    // show action success msg
 }
 
 function onAddLine() {
     addLine()
+    // show action success msg
     const memeLines = getMemeLines()
     selectLine(memeLines[memeLines.length - 1])
     renderCanvas()
@@ -262,7 +260,7 @@ function onAddLine() {
 function onDeleteLine() {
     deleteLine()
     renderCanvas()
-
+    // show action success msg
 }
 
 function onSetColors(action, color) {
@@ -366,4 +364,14 @@ function loadImageFromInput(ev, onImageReady) {
 
     reader.readAsDataURL(ev.target.files[0]) // Read the file we picked
 
+}
+
+function onSaveMeme() {
+    const data = gElCanvas.toDataURL('image/png')
+    // loadImageFromInput(ev, renderUploadedImg)
+    saveMeme(data)
+    hideEditor('saved')
+    renderSaved()
+    // show action success msg
+    // moveToSaved()
 }

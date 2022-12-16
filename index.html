@@ -16,9 +16,9 @@
             <nav class="main-nav">
                 <button class="close-mobile-menu" onclick="onHamburgerBtnToggle()"><i class="fa-solid fa-xmark"></i></button>
                 <ul class="nav-links clean-list flex">
-                    <li> <a data-trans="gallery" href="#" class="nav-link active" onclick="hideEditor(this.dataset.trans)">Gallery</a> </li>
+                    <li> <a data-trans="gallery" href="#" class="nav-link active" onclick="onGalleryBtnNav(this)">Gallery</a> </li>
                     <li> <a data-trans="editor" href="#" class="nav-link">Editor</a> </li>
-                    <li> <a data-trans="saved" href="#" class="nav-link" onclick="hideEditor(this.dataset.trans)">Saved</a> </li>
+                    <li> <a data-trans="saved" href="#" class="nav-link" onclick="onSavedBtnNav(this)">Saved</a> </li>
                 </ul>
                 <ul class="langs-list clean-list flex">
                     <li><a onclick="onSetLang(this)" data-lang="he" href="#">HE</a></li>
@@ -36,7 +36,7 @@
         <section class="meme-gallery grid">
         </section>
         <section class="meme-editor hide">
-            <div class="wrapper flex justify-center">
+            <div class="wrapper flex align-center justify-center">
                 <div class="editor-ui">
                     <button onclick="hideEditor('gallery')" class="close-editor btn-editor-ui">✕</button>
                     <button class="load-file-input btn">
@@ -44,6 +44,10 @@
                         <input hidden type="file" id="imageUpload" name="imageUpload" onchange="onImgInput(event)"/>
                     </button>
                 </div>
+                <!-- <div class="meme-title-wrapper">
+                    <label for="memeTitle">Meme title:</label>
+                    <input type="text" name="memeTitle" id="memeTitle">
+                </div> -->
                 <div class="canvas-container">
                     <canvas id="meme-canvas" width="200" height="200"></canvas>
                 </div>
