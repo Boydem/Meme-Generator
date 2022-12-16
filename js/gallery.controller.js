@@ -18,6 +18,9 @@ function renderGallery() {
 }
 
 function onImageClick(elImg) {
+    const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
+    elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
+    elNavlinks.find(elLink => elLink.innerHTML === 'Editor').classList.add('active')
     setImg(elImg)
     renderMeme()
 }

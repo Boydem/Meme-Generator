@@ -8,9 +8,13 @@ function measureLineSizes(line) {
     }
 }
 
-function hideEditor() {
+function hideEditor(linkTo) {
+
+    const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
+    elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
+    elNavlinks.find(elLink => elLink.innerHTML === linkTo).classList.add('active')
+
     const elEditor = document.querySelector('.meme-editor')
-    elEditor.classList.add('hide')
     elEditor.classList.remove('show')
     resetLines()
     // reset text line in editor
@@ -22,5 +26,4 @@ function hideEditor() {
 function showEditor() {
     const elEditor = document.querySelector('.meme-editor')
     elEditor.classList.add('show')
-    elEditor.classList.remove('hide')
 }

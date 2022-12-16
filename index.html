@@ -12,13 +12,13 @@
 
     <header class="main-header flex align-center">
             <div class="brand-logo">Mem'o'zaurus</div>
-            <button class="mobile-menu-btn" onclick="onHamburgerBtnToggle()">☰</button>
+            <button class="mobile-menu-btn" onclick="onHamburgerBtnToggle()"><i class="fa-solid fa-bars"></i></button>
             <nav class="main-nav">
-                <button class="close-mobile-menu" onclick="onHamburgerBtnToggle()">✕</button>
+                <button class="close-mobile-menu" onclick="onHamburgerBtnToggle()"><i class="fa-solid fa-xmark"></i></button>
                 <ul class="nav-links clean-list flex">
-                    <li> <a href="#" class="nav-link active">Gallery</a> </li>
+                    <li> <a href="#" class="nav-link active" onclick="hideEditor(this.innerHTML)">Gallery</a> </li>
                     <li> <a href="#" class="nav-link">Editor</a> </li>
-                    <li> <a href="#" class="nav-link">Saved</a> </li>
+                    <li> <a href="#" class="nav-link" onclick="hideEditor(this.innerHTML)">Saved</a> </li>
                 </ul>
             </nav>
             <div class="app-clrs-btns flex align-center justify-center">
@@ -33,7 +33,7 @@
         <section class="meme-editor hide">
             <div class="wrapper flex justify-center">
                 <div class="editor-ui">
-                    <button onclick="hideEditor()" class="close-editor btn-editor-ui">✕</button>
+                    <button onclick="hideEditor('Gallery')" class="close-editor btn-editor-ui">✕</button>
                     <button class="load-file-input btn">
                         <label for="imageUpload">Upload</label>
                         <input hidden type="file" id="imageUpload" name="imageUpload" onchange="onImgInput(event)"/>
