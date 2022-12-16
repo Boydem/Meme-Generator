@@ -8,6 +8,18 @@ function onInit() {
     initCanvas()
 }
 
+function onSetLang(elLang) {
+    const lang = elLang.dataset.lang
+    setLang(lang)
+    doTrans()
+    if (lang === 'he') document.body.classList.add('rtl')
+    else document.body.classList.remove('rtl')
+    // setTimeout(() => {
+
+    // }, 500)
+
+}
+
 function onHamburgerBtnToggle() {
     document.querySelector('.main-nav').classList.toggle('open')
 }
@@ -21,7 +33,7 @@ function renderGallery() {
 function onImageClick(elImg) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
-    elNavlinks.find(elLink => elLink.innerHTML === 'Editor').classList.add('active')
+    elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
     elGallery.classList.add('hide')
     setImg(elImg)
     renderMeme()

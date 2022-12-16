@@ -16,16 +16,21 @@
             <nav class="main-nav">
                 <button class="close-mobile-menu" onclick="onHamburgerBtnToggle()"><i class="fa-solid fa-xmark"></i></button>
                 <ul class="nav-links clean-list flex">
-                    <li> <a href="#" class="nav-link active" onclick="hideEditor(this.innerHTML)">Gallery</a> </li>
-                    <li> <a href="#" class="nav-link">Editor</a> </li>
-                    <li> <a href="#" class="nav-link" onclick="hideEditor(this.innerHTML)">Saved</a> </li>
+                    <li> <a data-trans="gallery" href="#" class="nav-link active" onclick="hideEditor(this.dataset.trans)">Gallery</a> </li>
+                    <li> <a data-trans="editor" href="#" class="nav-link">Editor</a> </li>
+                    <li> <a data-trans="saved" href="#" class="nav-link" onclick="hideEditor(this.dataset.trans)">Saved</a> </li>
                 </ul>
+                <ul class="langs-list clean-list flex">
+                    <li><a onclick="onSetLang(this)" data-lang="he" href="#">HE</a></li>
+                    <li><a onclick="onSetLang(this)" data-lang="en" href="#">EN</a></li>
+                </ul>
+                <div class="app-clrs-btns flex align-center justify-center">
+                    <label data-trans="app-colors">App Colors:</label>
+                            <input oninput="onSetAppColors('clr1',this.value)" type="color" value="#FFEF0C">
+                            <input oninput="onSetAppColors('clr2',this.value)" type="color" value="#BD2F76">
+                </div>
             </nav>
-            <div class="app-clrs-btns flex align-center justify-center">
-                <label>App Colors:</label>
-                        <input oninput="onSetAppColors('clr1',this.value)" type="color" name="fillColor" id="fillColor" value="#FFEF0C">
-                        <input oninput="onSetAppColors('clr2',this.value)" type="color" name="strokeColor" id="strokeColor" value="#BD2F76">
-            </div>
+
     </header>
     <main class="main-content">
         <section class="meme-gallery grid">
@@ -33,9 +38,9 @@
         <section class="meme-editor hide">
             <div class="wrapper flex justify-center">
                 <div class="editor-ui">
-                    <button onclick="hideEditor('Gallery')" class="close-editor btn-editor-ui">✕</button>
+                    <button onclick="hideEditor('gallery')" class="close-editor btn-editor-ui">✕</button>
                     <button class="load-file-input btn">
-                        <label for="imageUpload">Upload</label>
+                        <label data-trans="upload" for="imageUpload">Upload</label>
                         <input hidden type="file" id="imageUpload" name="imageUpload" onchange="onImgInput(event)"/>
                     </button>
                 </div>
@@ -43,7 +48,7 @@
                     <canvas id="meme-canvas" width="200" height="200"></canvas>
                 </div>
                 <aside class="controls flex justify-center align-center">
-                    <h2>Editor</h2>
+                    <h2 data-trans="editor">Editor</h2>
                     <div class="selection-controls control-widget-center">
                         <button onclick="onSwitchLine()"><i class="fa-solid fa-arrow-down-up-across-line"></i></button>
                         <button onclick="onAddLine()"><i class="fa-regular fa-square-plus"></i></button>
@@ -51,11 +56,11 @@
                     </div>
                     <input oninput="onSetLineTxt(event)" class="text-line" type="text" name="textline" id="textLine" placeholder="Your Text Line">
                     <div class="colors-controls control-widget-center">
-                        <label for="fillColor">Text</label>
+                        <label data-trans="fill" for="fillColor">Fill</label>
                         <input oninput="onSetColors('fill',this.value)" type="color" name="fillColor" id="fillColor" value="#ffffff">
-                        <label for="strokeColor">Stroke</label>
+                        <label data-trans="stroke" for="strokeColor">Stroke</label>
                         <input oninput="onSetColors('stroke',this.value)" type="color" name="strokeColor" id="strokeColor" value="#000000">
-                        <label for="fontFamily">Font</label>
+                        <label data-trans="font" for="fontFamily">Font</label>
                         <select onchange="onChangeFont('family',this)" name="fontFamilies" id="fontFamily">
                             <option value="impact">Impact</option>
                             <option value="arial">Arial</option>
@@ -73,6 +78,7 @@
                     </div>
                     <div class="links-controls control-widget-space-between">
                         <button><a onclick="onShareMeme()" href="#" class="share-link"><i class="fa-brands fa-facebook"></i></a></button>
+                        <button data-trans="save" class="save-meme-btn" onclick="onSaveMeme()">Save</button>
                         <button><a onclick="onDownloadMeme(this)" href="#" class="share-link" download="myMeme"><i class="fa-solid fa-download"></i></a></button>
                     </div>
                 </aside>
@@ -87,6 +93,8 @@
     </footer>
 
     <script src="js/utils.service.js"></script>
+    <script src="js/i18.service.js"></script>
+    <script src="js/storage.service.js"></script>
     <script src="js/meme.utils.js"></script>
     <script src="js/meme.service.js"></script>
     <script src="js/meme.controller.js"></script>

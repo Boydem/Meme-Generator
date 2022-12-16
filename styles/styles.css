@@ -5,6 +5,10 @@
   src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Bold.ttf);
 }
 @font-face {
+  font-family: "he";
+  src: url(./fonts/Karantina/Karantina-Bold.ttf);
+}
+@font-face {
   font-family: "Oswald";
   src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Regular.ttf);
 }
@@ -125,6 +129,23 @@ select:focus-visible {
 
 /* general stylings */
 
+body.rtl {
+  direction: rtl;
+}
+body.rtl
+  *:not(
+    .brand-logo,
+    i,
+    select,
+    input[type="text"],
+    .langs-list > li > a,
+    small
+  ) {
+  font-family: "he";
+}
+small {
+  font-family: "textual";
+}
 h1,
 h2,
 h3,
@@ -404,6 +425,17 @@ footer {
   z-index: 4;
 }
 
+.langs-list {
+  align-items: center;
+  justify-content: center;
+  /* position: absolute;
+  top: 0;
+  left: 0; */
+}
+.langs-list > * {
+  padding: 1em;
+}
+
 .brand-logo {
   font-size: 2.3rem;
   font-family: "logo";
@@ -433,7 +465,7 @@ footer {
   border-radius: 2em;
   width: 100%;
   font-size: 3em;
-  padding: 0.25em 2em;
+  padding: 0.2em 1.66em;
   /* margin-bottom: 20px; */
   color: var(--white);
   background-color: var(--clr1);
@@ -535,6 +567,7 @@ option[value="tahoma"] {
     height: calc(100vh - 55px - 24px);
     transform: translateX(100%);
     transition: 0.5s transform, opacity 0.5s;
+    flex-direction: column;
   }
   .main-nav.open {
     opacity: 1;
@@ -549,6 +582,9 @@ option[value="tahoma"] {
     font-size: 1.9em;
     padding: 0.33rem 1.6rem;
   }
+  .nav-links {
+    margin: unset;
+  }
 }
 /* Medium */
 @media (min-width: 960px) {
@@ -556,12 +592,16 @@ option[value="tahoma"] {
   .close-mobile-menu {
     display: none;
   }
+  .main-nav {
+    justify-content: flex-end;
+  }
   .nav-links {
     flex-direction: row;
     width: unset;
+    margin: auto;
   }
   .nav-links > *:not(:last-of-type) > a {
-    margin-inline-end: 1em;
+    margin-inline-end: 0.5em;
   }
   .nav-link {
     font-size: 1.25em;
@@ -637,7 +677,8 @@ option[value="tahoma"] {
     font-size: 3rem;
   }
   .main-nav {
-    display: block;
+    display: flex;
+    flex-direction: column;
     width: 100%;
   }
   .nav-link {
@@ -671,8 +712,4 @@ option[value="tahoma"] {
     margin-inline-end: 2em;
     order: 0;
   }
-}
-
-.meme-gallery.hide {
-  overflow: hidden;
 }
