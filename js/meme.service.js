@@ -155,13 +155,18 @@ function getEvPosLine(mouseX, mouseY, evType = '') {
         let actualLineY = 0
         if (TOUCH_EVS.includes(evType)) {
             actualLineX = line.pos.x - line.sizes.width / 2
-            actualLineY = line.pos.y - line.sizes.height
-            return (
-                mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
-                mouseY <= line.pos.y + line.sizes.height && mouseY >= actualLineY
-            )
+            actualLineY = gElCanvas.getBoundingClientRect().top + line.pos.y
+
+            return (mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
+                mouseY >= actualLineY - line.sizes.height && mouseY <= actualLineY)
         } else {
             actualLineX = line.pos.x - line.sizes.width / 2
+            console.log('mouseY:', mouseY)
+            console.log('line.pos.y:', line.pos.y)
+            if (mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
+                mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height) {
+                console.log('line found')
+            }
             return (
                 mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
                 mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height

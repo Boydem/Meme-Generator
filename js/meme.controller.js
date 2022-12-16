@@ -70,7 +70,13 @@ function drawLines() {
         // draw line
         gCtx.beginPath()
         // font
-        gCtx.font = `${line.fontSize}px ${line.fontFamily}`
+        console.log('gElCanvas.offsetWidth:', gElCanvas.offsetWidth)
+        console.log('gElCanvas.width:', gElCanvas.width)
+        let fontBase = gElCanvas.offsetWidth
+        let fontRatio = line.fontSize / fontBase
+        let actualFontSize = gElCanvas.offsetWidth * fontRatio
+
+        gCtx.font = `${actualFontSize}px ${line.fontFamily}`
         gCtx.textAlign = 'center'
         gCtx.direction = 'ltr'
         // stroke
@@ -138,7 +144,6 @@ function getEvPos(ev) {
             x: ev.pageX,
             y: ev.pageY
         }
-
     }
     return pos
 }
@@ -149,10 +154,11 @@ function onMove(ev) {
     const line = gDraggedLine
     if (line.isSelected && line.isDrag) {
         const pos = getEvPos(ev)
+        console.log('touchMove');
         if (TOUCH_EVS.includes(ev.type)) {
             newPos = {
                 x: pos.x,
-                y: pos.y
+                y: pos.y - gElCanvas.getBoundingClientRect().top + line.sizes.height / 2
             }
         } else {
             newPos = {
@@ -167,9 +173,10 @@ function onMove(ev) {
 }
 
 function onDown(ev) {
+    console.log('getEvPos(ev):', getEvPos(ev))
     let line
     if (TOUCH_EVS.includes(ev.type)) {
-        ev.preventDefault()
+        // ev.preventDefault()
         ev = ev.changedTouches[0]
         line = getEvPosLine(ev.pageX, ev.pageY, 'touchstart')
     } else {
@@ -183,11 +190,11 @@ function onDown(ev) {
         renderCanvas()
         return
     }
-    gDraggedLine = line
     allowDrag(line)
+    gDraggedLine = line
 }
 
-function onUp(ev) {
+function onUp() {
     gDraggedLine = null
     // disableDrag(gDraggedLine)
 }
@@ -198,9 +205,14 @@ function clearCanvas() {
 }
 
 function resizeCanvas(elImg) {
+    if (!elImg) return
     const elCanvasContainer = document.querySelector('.canvas-container')
-    const imgH = elImg.offsetHeight
-    const imgW = elImg.offsetWidth
+    const imgH = elImg.height
+    const imgW = elImg.width
+    console.log('elImg.height:', elImg.height)
+    console.log('elImg.offsetHeight:', elImg.offsetHeight)
+    console.log('elImg.width:', elImg.width)
+    console.log('elImg.offsetWidth:', elImg.offsetWidth)
     if (imgH < imgW) {
         const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
         gElCanvas.width = elCanvasContainer.offsetWidth
@@ -326,9 +338,17 @@ function onShareMeme() {
     doUploadImg(imgDataUrl, onSuccess)
 }
 
+function renderUploadedImg(img) {
+    gElCurrMemeImg = img
+    resizeCanvas(img)
+    drawImg(img)
+    drawLines()
+    drawRect()
+}
+
 // The next 2 functions handle IMAGE UPLOADING to img tag from file system:
 function onImgInput(ev) {
-    loadImageFromInput(ev, drawImg)
+    loadImageFromInput(ev, renderUploadedImg)
 }
 
 // CallBack func will run on success load of the img

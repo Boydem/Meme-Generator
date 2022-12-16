@@ -219,6 +219,7 @@ body.grid {
 }
 footer {
   grid-column: -1/1;
+  box-shadow: 0px -4px 0;
 }
 
 /* helpers */
@@ -245,10 +246,11 @@ footer {
 }
 
 .meme-editor.show {
-  position: sticky;
+  /* position: sticky; */
   opacity: 1;
   pointer-events: auto;
 }
+
 /* .canvas-container {
 } */
 
@@ -269,13 +271,13 @@ footer {
 /* CONTENT */
 .main-content {
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 /* GALLERY */
 .meme-gallery {
-  position: relative;
-  flex-grow: 1;
+  /* position: relative; */
+  /* flex-grow: 1; */
   gap: 2em;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   grid-template-rows: masonry;
@@ -310,11 +312,12 @@ footer {
 /* CANVAS */
 
 .meme-editor {
-  position: absolute;
+  position: fixed;
+  max-width: calc(100vw);
+  max-height: calc(100vh - 55.19px);
   inset: 0;
-  margin: auto;
+  margin-block-start: auto;
   background-color: var(--white);
-  /* border-radius: 2rem; */
   padding: 1.33em;
   box-shadow: 0px 30px 50px -30px var(--blacka);
   transition: opacity 0.4s, transform 0.5s;
@@ -322,6 +325,7 @@ footer {
   height: 100%;
   opacity: 0;
   pointer-events: none;
+  /* overflow-y: auto; */
 }
 .meme-editor .wrapper {
   flex-direction: column;
@@ -583,6 +587,11 @@ option[value="tahoma"] {
     max-height: 500px;
     max-width: 1100px;
   }
+  .meme-editor.show {
+    /* position: fixed; */
+    opacity: 1;
+    pointer-events: auto;
+  }
   .close-editor {
     border-radius: 0 0.5rem 2rem 0.5rem;
   }
@@ -603,11 +612,9 @@ option[value="tahoma"] {
   }
   .load-file-input {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    top: unset;
-    right: unset;
-    border-radius: 0.5rem 2rem 0.5rem 0rem;
+    top: 0;
+    right: 0;
+    border-radius: 0.5rem 0rem 0.5rem 2rem;
   }
   /* controls */
 }
@@ -641,7 +648,6 @@ option[value="tahoma"] {
     margin-bottom: 0;
     margin-block-start: 1em;
   }
-
   .app-clrs-btns {
     margin-top: auto;
   }
@@ -652,6 +658,12 @@ option[value="tahoma"] {
   .nav-links > *:not(:last-of-type) > a {
     margin-inline-end: 0em;
   }
+  .meme-editor {
+    max-width: calc(100vw - 357.703px);
+    max-height: calc(100vh - 24px);
+    margin-inline-start: auto;
+    margin-block-start: unset;
+  }
   .meme-editor .wrapper {
     max-width: 900px;
   }
@@ -659,4 +671,8 @@ option[value="tahoma"] {
     margin-inline-end: 2em;
     order: 0;
   }
+}
+
+.meme-gallery.hide {
+  overflow: hidden;
 }

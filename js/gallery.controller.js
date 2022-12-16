@@ -1,5 +1,7 @@
 'use strict'
 
+const elGallery = document.querySelector('.meme-gallery')
+
 function onInit() {
     createInitImgs()
     renderGallery()
@@ -11,7 +13,6 @@ function onHamburgerBtnToggle() {
 }
 
 function renderGallery() {
-    const elGallery = document.querySelector('.meme-gallery')
     let images = getImgs()
     const strHTMLS = images.map(image => `<img onclick="onImageClick(this)" src="${image.url}" class="meme-${image.id}" alt="">`)
     elGallery.innerHTML = strHTMLS.join('')
@@ -21,6 +22,7 @@ function onImageClick(elImg) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.innerHTML === 'Editor').classList.add('active')
+    elGallery.classList.add('hide')
     setImg(elImg)
     renderMeme()
 }
