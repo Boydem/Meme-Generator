@@ -17,7 +17,7 @@ function initCanvas() {
     addListeners()
 }
 
-function renderMeme() {
+function renderMeme(meme) {
     const memeLines = getMemeLines()
     resizeCanvas(gElCurrMemeImg)
     selectLine(memeLines[0])
@@ -367,6 +367,8 @@ function loadImageFromInput(ev, onImageReady) {
 }
 
 function onSaveMeme() {
+    unselectLines()
+    renderCanvas()
     const data = gElCanvas.toDataURL('image/png')
     // loadImageFromInput(ev, renderUploadedImg)
     saveMeme(data)

@@ -32,7 +32,7 @@ function renderGallery() {
 
 function renderSaved() {
     if (!gMemes.length) return
-    const strHTMLS = gMemes.map(meme => `<img onclick="onSavedClick(this)" src="${meme.imgDataURL}" id="${meme.selectedImgId}" alt="">`)
+    const strHTMLS = gMemes.map(meme => `<img onclick="onImageClick(this)" src="${meme.imgDataURL}" id="${meme.selectedImgId}" alt="">`)
     gElGalleryContainer.innerHTML = strHTMLS.join('')
 }
 
@@ -40,7 +40,6 @@ function onImageClick(elImg) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
-
     setImg(elImg)
     renderMeme()
 }

@@ -2,23 +2,23 @@
 
 @font-face {
   font-family: "logo";
-  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Bold.ttf);
+  src: url(./fonts/Oswald/Oswald-Bold.ttf);
 }
 @font-face {
   font-family: "he";
-  src: url(./fonts/Karantina/Karantina-Bold.ttf);
+  src: url(./fonts/Abraham/Abraham-Regular.ttf);
 }
 @font-face {
   font-family: "Oswald";
-  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Regular.ttf);
+  src: url(./fonts/Oswald/Oswald-Regular.ttf);
 }
 @font-face {
   font-family: "Oswald-Bold";
-  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Bold.ttf);
+  src: url(./fonts/Oswald/Oswald-Bold.ttf);
 }
 @font-face {
   font-family: "textual";
-  src: url(./fonts/OswaldQuattrocento/Oswald/Oswald-Regular.ttf);
+  src: url(./fonts/Oswald/Oswald-Regular.ttf);
 }
 
 :root {
@@ -297,17 +297,13 @@ footer {
 
 /* GALLERY */
 .meme-gallery {
-  /* position: relative; */
-  /* flex-grow: 1; */
+  min-height: 100vh;
   gap: 2em;
-  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-  grid-template-rows: masonry;
-  align-tracks: start;
-  justify-tracks: start;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
   place-items: center;
-  /* grid-auto-flow: dense; */
-  padding: 3em;
-  /* grid-template-rows: ; */
+  place-content: baseline;
+  grid-auto-flow: dense;
+  padding: 2em;
 }
 .meme-gallery > img {
   cursor: pointer;

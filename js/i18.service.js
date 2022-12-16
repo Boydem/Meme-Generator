@@ -4,7 +4,7 @@
 const gTrans = {
     gallery: {
         en: 'Gallery',
-        he: `הגרליה`
+        he: `הגלריה`
     },
     editor: {
         en: 'Editor',
