@@ -101,6 +101,10 @@ function getCurrMeme() {
     return gMeme
 }
 
+function chooseMeme(memeIdx) {
+    gMeme = gMemes[memeIdx]
+}
+
 function getMemeLines() {
     return gMeme.lines
 }
@@ -232,9 +236,7 @@ function setLineFont(action, fontFamily) {
 
 
 function saveMeme(imgDataURL) {
-    if (!gElCurrMemeImg.id) return
     gMeme.imgDataURL = imgDataURL
-    gMeme.selectedImgId = +gElCurrMemeImg.id
     gMemes.push(gMeme)
     saveToStorage(MEMES_DB_KEY, gMemes)
 }
