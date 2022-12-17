@@ -1,10 +1,6 @@
 'use strict'
 
-let gKeywordSearchCountMap = {
-    'funny': 12,
-    'cat': 16,
-    'baby': 2
-}
+
 
 let gImgs = [
     ['trump', 'ugly', 'american'],
@@ -34,7 +30,35 @@ let gImgs = [
     ['white', 'man']
 ]
 
-let gKeyWords = ['funny', 'cat', 'baby', 'cute', 'animals']
+let gKeywordSearchCountMap = getKeyWordsMap()
+let gKeyWords = getKeyWords()
+console.log('gKeyWords:', gKeyWords)
+
+function getKeyWords() {
+    let keywords = gImgs.reduce((acc, imgKeys) => {
+        imgKeys.forEach(key => {
+            if (!acc.includes(key)) {
+                acc.push(key)
+            }
+        })
+        return acc
+    }, [])
+    return keywords
+}
+
+function getKeyWordsMap() {
+    let keywordsMap = gImgs.reduce((acc, imgKeys) => {
+        imgKeys.forEach(key => {
+            if (!acc[key]) {
+                acc[key] = 1
+            } else {
+                acc[key] += 1
+            }
+        })
+        return acc
+    }, {})
+    return keywordsMap
+}
 
 function createInitImgs() {
     gImgs = gImgs.reduce((acc, img, id) => {

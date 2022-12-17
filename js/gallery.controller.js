@@ -87,3 +87,13 @@ function onGalleryBtnNav(elLink) {
     hideEditor(elLink.dataset.trans)
     renderGallery()
 }
+
+// Keywords
+renderKeywords()
+
+function renderKeywords() {
+    const elKeywordsWrapper = document.querySelector('.keywords')
+    const keywords = getKeyWords()
+    const strHTMLS = keywords.map(key => `<span data-pop="${key}" class="keyword">${key}</span>`)
+    elKeywordsWrapper.innerHTML = strHTMLS.join('')
+}

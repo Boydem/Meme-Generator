@@ -1,3 +1,6 @@
+/* Setup */
+/* @import */
+
 /* basics */
 
 @font-face {
@@ -843,4 +846,10 @@ option[value="tahoma"] {
 .module-wrapper .next-page:hover,
 .module-wrapper .prev-page:hover {
   color: var(--clr2);
+}
+.keyword:first-of-type {
+  margin-inline-start: 1em;
+}
+.keyword:not(:last-of-type) {
+  margin-inline-end: 1em;
 }
