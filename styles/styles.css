@@ -612,7 +612,7 @@ option[value="tahoma"] {
   opacity: 0;
   position: absolute;
   top: 100%;
-  left: -50%;
+  left: 0%;
   transform: translateX(-100%);
   padding: 0.5em;
   background: #fff;
@@ -620,6 +620,9 @@ option[value="tahoma"] {
   box-shadow: 0 20px 30px -15px var(--blacka);
   margin: 0;
   transition: 0.25s opacity, top 0.5s;
+}
+body.rtl .module-wrapper {
+  transform: translateX(0);
 }
 .emojis-module.grid {
   display: grid;
@@ -633,6 +636,7 @@ option[value="tahoma"] {
   top: 150%;
   opacity: 1;
 }
+
 .module-wrapper.open .emoji-item {
   opacity: 1;
 }
