@@ -568,6 +568,9 @@ option[value="tahoma"] {
   text-transform: uppercase;
   color: var(--clr1);
 }
+.keyword {
+  font-family: "textual" !important;
+}
 .search-bar input {
   border-color: var(--clr1a);
 }

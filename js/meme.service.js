@@ -54,6 +54,7 @@ function genLineId() {
 }
 
 function setImg(imgId) {
+    console.log('imgId:', imgId)
     gMeme.selectedImgId = imgId
     gElCurrMemeImg = document.querySelector(`img[data-id="${imgId}"]`)
 }
@@ -116,7 +117,6 @@ function disableDrag(line) {
 }
 
 function getCurrMeme() {
-    console.log('gMeme:', gMeme)
     return gMeme
 }
 

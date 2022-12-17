@@ -33,10 +33,10 @@
 
     </header>
     <div class="search-bar">
-        <label for="searchMeme">Search</label>
+        <label data-trans="search" for="searchMeme">Search</label>
         <input oninput="onSetFilterBy(this.value)" type="search" name="searchMeme" id="searchMeme">
-        <div onclick="onOpenFiltersModule()" class="filter-gallery">Filters</div>
-        <div onclick="showAllGallery()" class="all-gallery">All</div>
+        <div data-trans="filters" onclick="onOpenFiltersModule()" class="filter-gallery">Filters</div>
+        <div data-trans="all" onclick="showAllGallery()" class="all-gallery">All</div>
         <div class="keywords"></div>
     </div>
     <main class="main-content">

@@ -41,6 +41,14 @@ const gTrans = {
     save: {
         en: 'Save',
         he: `לשמורים`
+    },
+    all: {
+        en: 'All',
+        he: `הכל`
+    },
+    search: {
+        en: 'Search',
+        he: 'החיפוש'
     }
 }
 
