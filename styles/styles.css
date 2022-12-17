@@ -642,6 +642,7 @@ option[value="tahoma"] {
   }
   .meme-editor .controls {
     flex-direction: column;
+    margin: auto;
     /* max-width: max-content; */
   }
   .meme-editor .wrapper {
