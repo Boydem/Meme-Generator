@@ -66,6 +66,13 @@ function onSavedBtnNav(elLink) {
     renderSaved()
 }
 
+function onEditorBtnNav(elLink) {
+    if (!gElCurrMemeImg) return
+    drawImg(gElCurrMemeImg)
+    resizeCanvas(gElCurrMemeImg)
+    showEditor()
+}
+
 function onGalleryBtnNav(elLink) {
     hideEditor(elLink.dataset.trans)
     renderGallery()

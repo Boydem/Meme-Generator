@@ -17,7 +17,7 @@ function initCanvas() {
     addListeners()
 }
 
-function renderMeme(meme) {
+function renderMeme() {
     const memeLines = getMemeLines()
     resizeCanvas(gElCurrMemeImg)
     selectLine(memeLines[0])
