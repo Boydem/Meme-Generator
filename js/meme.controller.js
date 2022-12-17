@@ -25,6 +25,7 @@ function renderMeme(imgId, meme) {
     selectLine(meme.lines[0])
     drawRect()
     showEditor()
+    document.querySelector('.text-line').focus()
 }
 // Every time canvas render redraw img and lines
 function renderCanvas() {
@@ -123,6 +124,7 @@ function addListeners() {
 function addMouseListeners() {
     gElCanvas.addEventListener('mousemove', onMove)
     gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('click', onInlineEditClick)
     gElCanvas.addEventListener('mouseup', onUp)
 }
 
@@ -172,12 +174,27 @@ function onMove(ev) {
     }
 }
 
+function onInlineEditClick(ev) {
+    let line
+    if (TOUCH_EVS.includes(ev.type)) {
+        // ev.preventDefault()
+        ev = ev.changedTouches[0]
+        line = getEvPosLine(ev.pageX, ev.pageY, 'touchstart')
+    } else {
+        line = getEvPosLine(ev.offsetX, ev.offsetY)
+    }
+    if (line) {
+        document.querySelector('.text-line').focus()
+    }
+}
+
 function onDown(ev) {
     let line
     if (TOUCH_EVS.includes(ev.type)) {
         // ev.preventDefault()
         ev = ev.changedTouches[0]
         line = getEvPosLine(ev.pageX, ev.pageY, 'touchstart')
+
     } else {
         line = getEvPosLine(ev.offsetX, ev.offsetY)
     }
@@ -191,6 +208,7 @@ function onDown(ev) {
     }
     allowDrag(line)
     gDraggedLine = line
+
 }
 
 function onUp() {
@@ -253,6 +271,7 @@ function onAddLine(text = 'Another Line') {
     selectLine(memeLines[memeLines.length - 1])
     renderCanvas()
     drawRect(memeLines[memeLines.length - 1])
+    document.querySelector('.text-line').focus()
 }
 
 function onDeleteLine() {
