@@ -1,6 +1,6 @@
 'use strict'
 
-
+let gFilterBy = null
 
 let gImgs = [
     ['trump', 'ugly', 'american'],
@@ -32,7 +32,7 @@ let gImgs = [
 
 let gKeywordSearchCountMap = getKeyWordsMap()
 let gKeyWords = getKeyWords()
-console.log('gKeyWords:', gKeyWords)
+
 
 function getKeyWords() {
     let keywords = gImgs.reduce((acc, imgKeys) => {
@@ -75,6 +75,13 @@ function getImgById(imgId) {
     return gImgs.find(img => img.id === imgId)
 }
 
+function setFilterBy(value) {
+    gFilterBy = value
+}
+
 function getImgs() {
-    return gImgs
+    if (!gFilterBy) return gImgs
+    return gImgs.filter(img => {
+        return img.keywords.includes(gFilterBy)
+    })
 }

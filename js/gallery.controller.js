@@ -71,12 +71,14 @@ function onSetAppColors(action, color) {
 }
 
 function onSavedBtnNav(elLink) {
+    setFilterBy(null)
     if (!gMemes.length) return
     hideEditor(elLink.dataset.trans)
     renderSaved()
 }
 
 function onEditorBtnNav(elLink) {
+    setFilterBy(null)
     if (!gElCurrMemeImg) return
     drawImg(gElCurrMemeImg)
     resizeCanvas(gElCurrMemeImg)
@@ -84,6 +86,7 @@ function onEditorBtnNav(elLink) {
 }
 
 function onGalleryBtnNav(elLink) {
+    showAllGallery()
     hideEditor(elLink.dataset.trans)
     renderGallery()
 }
@@ -94,6 +97,16 @@ renderKeywords()
 function renderKeywords() {
     const elKeywordsWrapper = document.querySelector('.keywords')
     const keywords = getKeyWords()
-    const strHTMLS = keywords.map(key => `<span data-pop="${key}" class="keyword">${key}</span>`)
+    const strHTMLS = keywords.map(key => `<span onclick="onSetFilterBy('${key}')" data-pop="${key}" class="keyword">${key}</span>`)
     elKeywordsWrapper.innerHTML = strHTMLS.join('')
+}
+
+function onSetFilterBy(keyword) {
+    setFilterBy(keyword)
+    renderGallery()
+}
+
+function showAllGallery() {
+    setFilterBy(null)
+    renderGallery()
 }

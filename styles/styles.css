@@ -849,17 +849,38 @@ option[value="tahoma"] {
   color: var(--clr2);
 }
 
-.keyword {
+/* SEARCH BAR */
+.search-bar {
+  flex-wrap: wrap;
+  justify-content: center;
+}
+input[type="search"] {
+  width: 80%;
+}
+.keywords {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.keyword,
+.all-gallery {
   cursor: pointer;
   color: var(--clr1a);
   transition: color 0.3s;
 }
-.keyword:hover {
+.keyword:hover,
+.all-gallery:hover {
   color: var(--clr1);
 }
-.keyword:first-of-type {
-  margin-inline-start: 1em;
+
+.keyword:not(:last-of-type),
+.search-bar input,
+.all-gallery {
+  margin-inline-end: 0.5em;
 }
-.keyword:not(:last-of-type) {
-  margin-inline-end: 1em;
+
+.all-gallery {
+  font-size: 2em;
+  cursor: pointer;
 }
