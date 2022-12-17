@@ -30,6 +30,24 @@ _createEmojis()
 var gEmojiPageIdx = 0
 const PAGE_SIZE = 20
 
+function resetMeme() {
+    gMeme = {
+        selectedImgId: 5,
+        selectedLineIdx: 0,
+        lines: [{
+            id: 1,
+            text: 'Your Text Here',
+            fontSize: 48,
+            strokeColor: 'black',
+            fillColor: 'white',
+            alignTo: 'center',
+            fontFamily: 'impact',
+            isSelected: true,
+            isDrag: false
+        }]
+    }
+}
+
 function genLineId() {
     gLastLineId = (gMeme.lines.length ? gMeme.lines[gMeme.lines.length - 1].id + 1 : 1)
     return gLastLineId || 1
@@ -102,7 +120,11 @@ function getCurrMeme() {
 }
 
 function chooseMeme(memeIdx) {
-    gMeme = gMemes[memeIdx]
+    const meme = {
+        ...gMemes[memeIdx]
+    }
+    gMeme = meme
+    console.log('gMeme:', gMeme)
 }
 
 function getMemeLines() {

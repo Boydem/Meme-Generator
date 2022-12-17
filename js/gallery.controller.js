@@ -42,11 +42,11 @@ function onSavedClick(imgId, memeIdx) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
-    console.log(gMemes[memeIdx]);
     renderMeme(imgId, gMemes[memeIdx])
 }
 
 function onImageClick(imgId) {
+    resetMeme()
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
