@@ -24,13 +24,20 @@ let gLastLineId
 let gSelectedLine
 let gPrevSelectedLine = gMeme.lines[0]
 
+// EMOJIS
+let gEmojis = []
+_createEmojis()
+var gEmojiPageIdx = 0
+const PAGE_SIZE = 20
+
 function genLineId() {
     gLastLineId = (gMeme.lines.length ? gMeme.lines[gMeme.lines.length - 1].id + 1 : 1)
     return gLastLineId || 1
 }
 
-function setImg(elImg) {
-    gElCurrMemeImg = elImg
+function setImg(imgId) {
+    gMeme.selectedImgId = imgId
+    gElCurrMemeImg = document.querySelector(`img[data-id="${imgId}"]`)
 }
 
 function getSelectedLine() {
@@ -116,10 +123,10 @@ function setLineTxt(text) {
     gMeme.lines[idx].text = text
 }
 
-function addLine() {
+function addLine(text = 'Another Line') {
     gMeme.lines.push({
         id: genLineId(),
-        text: 'Another Line',
+        text,
         fontSize: 48,
         strokeColor: 'black',
         fillColor: 'white',
@@ -160,17 +167,10 @@ function getEvPosLine(mouseX, mouseY, evType = '') {
         if (TOUCH_EVS.includes(evType)) {
             actualLineX = line.pos.x - line.sizes.width / 2
             actualLineY = gElCanvas.getBoundingClientRect().top + line.pos.y
-
             return (mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
                 mouseY >= actualLineY - line.sizes.height && mouseY <= actualLineY)
         } else {
             actualLineX = line.pos.x - line.sizes.width / 2
-            console.log('mouseY:', mouseY)
-            console.log('line.pos.y:', line.pos.y)
-            if (mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
-                mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height) {
-                console.log('line found')
-            }
             return (
                 mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
                 mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height
@@ -237,4 +237,40 @@ function saveMeme(imgDataURL) {
     gMeme.selectedImgId = +gElCurrMemeImg.id
     gMemes.push(gMeme)
     saveToStorage(MEMES_DB_KEY, gMemes)
+}
+
+// EMOJIS
+
+
+
+function _createEmojis() {
+    for (let i = 128512; i < 128591; i++) {
+        gEmojis.push(`${i}`)
+    }
+    for (let i = 129296; i < 129356; i++) {
+        gEmojis.push(`${i}`)
+    }
+}
+
+function nextPage() {
+    gEmojiPageIdx++
+    if (gEmojiPageIdx * PAGE_SIZE >= gEmojis.length) {
+        gEmojiPageIdx = 0
+    }
+    return gEmojiPageIdx
+}
+
+function prevPage() {
+    gEmojiPageIdx--
+    if (gEmojiPageIdx * PAGE_SIZE < 0) {
+        gEmojiPageIdx = Math.floor(gEmojis.length / PAGE_SIZE)
+    }
+    return gEmojiPageIdx
+}
+
+
+function getEmojis() {
+    var emojis = gEmojis
+    var startIdx = gEmojiPageIdx * PAGE_SIZE
+    return emojis.slice(startIdx, startIdx + PAGE_SIZE)
 }

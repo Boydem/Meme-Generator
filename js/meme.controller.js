@@ -15,13 +15,15 @@ function initCanvas() {
     gElCanvas.width = elCanvasContainer.offsetWidth
     gElCanvas.height = elCanvasContainer.clientHeight
     addListeners()
+    renderEmojis()
 }
 
-function renderMeme() {
-    const memeLines = getMemeLines()
+
+function renderMeme(imgId, meme) {
+    setImg(imgId)
     resizeCanvas(gElCurrMemeImg)
-    selectLine(memeLines[0])
-    drawRect(memeLines[0])
+    selectLine(meme.lines[0])
+    drawRect()
     showEditor()
 }
 // Every time canvas render redraw img and lines
@@ -70,8 +72,6 @@ function drawLines() {
         // draw line
         gCtx.beginPath()
         // font
-        // console.log('gElCanvas.offsetWidth:', gElCanvas.offsetWidth)
-        // console.log('gElCanvas.width:', gElCanvas.width)
         const gElCanvasContainer = document.querySelector('.canvas-container')
         let fontBase = gElCanvasContainer.offsetWidth
         let fontRatio = line.fontSize / fontBase
@@ -173,7 +173,6 @@ function onMove(ev) {
 }
 
 function onDown(ev) {
-    console.log('getEvPos(ev):', getEvPos(ev))
     let line
     if (TOUCH_EVS.includes(ev.type)) {
         // ev.preventDefault()
@@ -209,15 +208,11 @@ function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
     const imgH = elImg.height
     const imgW = elImg.width
-    if (imgH < imgW) {
-        const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
-        gElCanvas.width = elCanvasContainer.offsetWidth
-        gElCanvas.height = canvasH
-    } else {
-        const canvasW = imgH * elCanvasContainer.offsetHeight / imgW
-        gElCanvas.width = canvasW
-        gElCanvas.height = getInnerHeight(elCanvasContainer)
-    }
+    console.log('imgH:', imgH)
+    console.log('imgW:', imgW)
+    const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
+    gElCanvas.width = elCanvasContainer.offsetWidth
+    gElCanvas.height = canvasH
     renderCanvas()
 }
 
@@ -247,11 +242,13 @@ function onSwitchLine() {
     switchLine()
     renderCanvas()
     // show action success msg
+    flashMsg(`Line Switched`)
 }
 
-function onAddLine() {
-    addLine()
+function onAddLine(text = 'Another Line') {
+    addLine(text)
     // show action success msg
+    flashMsg(`Line Added`)
     const memeLines = getMemeLines()
     selectLine(memeLines[memeLines.length - 1])
     renderCanvas()
@@ -261,6 +258,7 @@ function onAddLine() {
 function onDeleteLine() {
     deleteLine()
     renderCanvas()
+    flashMsg(`Line Deleted`)
     // show action success msg
 }
 
@@ -317,14 +315,54 @@ function onChangeFont(action, elFontInput) {
 
 }
 
+// EMOJIS
+
+function onEmojiClick(ev, emoji) {
+    ev.stopPropagation()
+    onAddLine(emoji)
+    console.log('elEmoji.innerText:', emoji)
+}
+
+
+function renderEmojis() {
+    let emojis = getEmojis()
+
+    const elEmojisModule = document.querySelector('.emojis-module')
+    const strHTMLS = emojis.map(emoji => `<button onclick="onEmojiClick(event,'&#${emoji}')" class="emoji-item">&#${emoji}</button>`)
+    elEmojisModule.innerHTML = strHTMLS.join('')
+}
+
+function onEmojiSelect(elEmoji) {
+    const elEmojisModule = elEmoji.querySelector('.module-wrapper')
+    elEmojisModule.classList.toggle('open')
+}
+
+function onNextPage(ev) {
+    ev.stopPropagation()
+    console.log('next');
+    nextPage()
+    renderEmojis()
+}
+
+function onPrevPage(ev) {
+    ev.stopPropagation()
+    console.log('prev');
+    prevPage()
+    renderEmojis()
+}
+
 // END OF FLOW => SHARE / DOWNLOAD
 
 function onDownloadMeme(elLink) {
+    unselectLines()
+    renderCanvas()
     const data = gElCanvas.toDataURL('image/png')
     elLink.href = data
 }
 
 function onShareMeme() {
+    unselectLines()
+    renderCanvas()
     const imgDataUrl = gElCanvas.toDataURL('image/jpeg') // Gets the canvas content as an image format
 
     // A function to be called if request succeeds
@@ -375,6 +413,16 @@ function onSaveMeme() {
     saveMeme(data)
     hideEditor('saved')
     renderSaved()
+    flashMsg(`Meme Saved`)
     // show action success msg
     // moveToSaved()
+}
+
+function flashMsg(msg) {
+    const el = document.querySelector('.action-msg')
+    el.innerText = msg
+    el.classList.add('open')
+    setTimeout(() => {
+        el.classList.remove('open')
+    }, 1000)
 }

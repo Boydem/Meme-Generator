@@ -26,22 +26,22 @@ function onHamburgerBtnToggle() {
 
 function renderGallery() {
     let images = getImgs()
-    const strHTMLS = images.map(image => `<img onclick="onImageClick(this)" src="${image.url}" id="${image.id}" alt="">`)
+    const strHTMLS = images.map(image => `<img onclick="onImageClick(this.dataset.id)" src="${image.url}" data-id="${image.id}" alt="">`)
     gElGalleryContainer.innerHTML = strHTMLS.join('')
 }
 
 function renderSaved() {
     if (!gMemes.length) return
-    const strHTMLS = gMemes.map(meme => `<img onclick="onImageClick(this)" src="${meme.imgDataURL}" id="${meme.selectedImgId}" alt="">`)
+    const strHTMLS = gMemes.map(meme => `<img onclick="onImageClick(this.dataset.id)" src="${meme.imgDataURL}" data-id="${meme.selectedImgId}" alt="">`)
     gElGalleryContainer.innerHTML = strHTMLS.join('')
 }
 
-function onImageClick(elImg) {
+function onImageClick(imgId) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
-    setImg(elImg)
-    renderMeme()
+    // setImg(elImg)
+    renderMeme(imgId, getCurrMeme())
 }
 
 function onSetAppColors(action, color) {

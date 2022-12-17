@@ -32,6 +32,10 @@
             </nav>
 
     </header>
+    <div class="search-bar">
+        <label for="searchMeme">Search</label>
+        <input type="search" name="searchMeme" id="searchMeme">
+    </div>
     <main class="main-content">
         <section class="meme-gallery grid">
         </section>
@@ -48,17 +52,28 @@
                     <label for="memeTitle">Meme title:</label>
                     <input type="text" name="memeTitle" id="memeTitle">
                 </div> -->
-                <div class="canvas-container">
+                <div class="canvas-container flex align-center">
                     <canvas id="meme-canvas" width="200" height="200"></canvas>
                 </div>
                 <aside class="controls flex justify-center align-center">
                     <h2 data-trans="editor">Editor</h2>
                     <div class="selection-controls control-widget-center">
-                        <button onclick="onSwitchLine()"><i class="fa-solid fa-arrow-down-up-across-line"></i></button>
-                        <button onclick="onAddLine()"><i class="fa-regular fa-square-plus"></i></button>
-                        <button onclick="onDeleteLine()"><i class="fa-regular fa-trash-can"></i></button>
+                        <button title="Switch line" onclick="onSwitchLine()"><i class="fa-solid fa-arrow-down-up-across-line"></i></button>
+                        <button title="Add line" onclick="onAddLine()"><i class="fa-regular fa-square-plus"></i></button>
+                        <button title="Delete line" onclick="onDeleteLine()"><i class="fa-regular fa-trash-can"></i></button>
                     </div>
-                    <input oninput="onSetLineTxt(event)" class="text-line" type="text" name="textline" id="textLine" placeholder="Your Text Line">
+                    <div class="control-widget-center">
+                        <input oninput="onSetLineTxt(event)" class="text-line" type="text" name="textline" id="textLine" placeholder="Your Text Line">
+                        <div class="emoji-select" onclick="onEmojiSelect(this)">&#128512
+                            <div class="module-wrapper">
+                                <div class="emojis-module grid"></div>
+                                <div class="module-pages flex space-between">
+                                    <button onclick="onPrevPage(event)" class="prev-page"><i class="fa-solid fa-chevron-left"></i></button>
+                                    <button onclick="onNextPage(event)" class="next-page"><i class="fa-solid fa-chevron-right"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     <div class="colors-controls control-widget-center">
                         <label data-trans="fill" for="fillColor">Fill</label>
                         <input oninput="onSetColors('fill',this.value)" type="color" name="fillColor" id="fillColor" value="#ffffff">
@@ -72,29 +87,31 @@
                         </select>
                     </div>
                     <div class="font-controls control-widget-center">
-                        <button onclick="onChangeFont('size+')"><i class="fa-solid fa-font"></i><i class="fa-solid fa-plus fa-plusminus"></i></button>
-                        <button onclick="onChangeFont('size-')"><i class="fa-solid fa-font"></i><i class="fa-solid fa-minus fa-plusminus"></i></button>
+                        <button  title="Bigger text" onclick="onChangeFont('size+')"><i class="fa-solid fa-font"></i><i class="fa-solid fa-plus fa-plusminus"></i></button>
+                        <button title="Smaller text" onclick="onChangeFont('size-')"><i class="fa-solid fa-font"></i><i class="fa-solid fa-minus fa-plusminus"></i></button>
                     </div>
                     <div class="text-align-controls control-widget-center">
-                        <button onclick="onAlign('left')" class="btn"><i class="fa-solid fa-align-left"></i></button>
-                        <button onclick="onAlign('center')" class="btn"><i class="fa-solid fa-align-center"></i></button>
-                        <button onclick="onAlign('right')" class="btn"><i class="fa-solid fa-align-right"></i></button>
+                        <button title="Align left" onclick="onAlign('left')" class="btn"><i class="fa-solid fa-align-left"></i></button>
+                        <button title="Align center" onclick="onAlign('center')" class="btn"><i class="fa-solid fa-align-center"></i></button>
+                        <button title="Align right" onclick="onAlign('right')" class="btn"><i class="fa-solid fa-align-right"></i></button>
                     </div>
                     <div class="links-controls control-widget-space-between">
-                        <button><a onclick="onShareMeme()" href="#" class="share-link"><i class="fa-brands fa-facebook"></i></a></button>
+                        <button title="Share to facebook"><a onclick="onShareMeme()" href="#" class="share-link"><i class="fa-brands fa-facebook"></i></a></button>
                         <button data-trans="save" class="save-meme-btn" onclick="onSaveMeme()">Save</button>
-                        <button><a onclick="onDownloadMeme(this)" href="#" class="share-link" download="myMeme"><i class="fa-solid fa-download"></i></a></button>
+                        <button title="Download Meme"><a onclick="onDownloadMeme(this)" href="#" class="share-link" download="myMeme"><i class="fa-solid fa-download"></i></a></button>
                     </div>
                 </aside>
             </div>
         </div>
-        </section>
+    </section>
+    <div class="action-msg">Action Message</div>
     </main>
     <footer class="main-footer">
         <div class="wrapper">
             <small>This Meme-Generator Designed and Built By Noam Dahan</small>
         </div>
     </footer>
+
 
     <script src="js/utils.service.js"></script>
     <script src="js/i18.service.js"></script>
