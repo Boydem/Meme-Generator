@@ -369,7 +369,7 @@ footer {
   border-radius: 0.5em;
   margin: auto;
   /* max-height: 350px; */
-  margin: 45px auto;
+  margin: 2.5em auto 1em;
 }
 .meme-title-wrapper {
   /* position: absolute; */
@@ -397,7 +397,7 @@ footer {
   box-shadow: 0px 30px 30px -20px var(--blacka);
   padding: 1.33em;
   max-width: 480px;
-  margin: auto;
+  margin: 0 auto 2.5em;
 }
 .links-controls {
   width: 100%;
