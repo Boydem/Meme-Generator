@@ -228,8 +228,6 @@ function resizeCanvas(elImg) {
     const elCanvasContainer = document.querySelector('.canvas-container')
     const imgH = elImg.height
     const imgW = elImg.width
-    console.log('imgH:', imgH)
-    console.log('imgW:', imgW)
     const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
     gElCanvas.width = elCanvasContainer.offsetWidth
     gElCanvas.height = canvasH

@@ -1,6 +1,8 @@
 'use strict'
 
 const gElGalleryContainer = document.querySelector('.meme-gallery')
+let gIsSavedEditor = false
+let gActualMemeImg
 
 function onInit() {
     createInitImgs()
@@ -32,13 +34,18 @@ function renderGallery() {
 
 function renderSaved() {
     if (!gMemes.length) return
-    const strHTMLS = gMemes.map((meme, idx) => `<img onclick="onSavedClick(this.dataset.id,${idx})" src="${meme.imgDataURL}" data-id="${meme.selectedImgId}" alt="">`)
+    let images = getImgs()
+    const strHTMLS = gMemes.map((meme, idx) => `<img onclick="onSavedClick(${meme.selectedImgId},${idx})" src="${meme.imgDataURL}" alt="">
+    <img src="${images[meme.selectedImgId-1].url}" data-id="${meme.selectedImgId}" alt="" style="display:none;opacity:0;">`)
     gElGalleryContainer.innerHTML = strHTMLS.join('')
 }
 
 function onSavedClick(imgId, memeIdx) {
+    gIsSavedEditor = true
+    gActualMemeImg = document.querySelector(`img[data-id="${imgId}"]`)
+    gActualMemeImg.style.display = 'block'
     chooseMeme(memeIdx)
-    renderGallery()
+    // renderGallery()
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')

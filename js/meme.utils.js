@@ -9,7 +9,10 @@ function measureLineSizes(line) {
 }
 
 function hideEditor(linkTo) {
-
+    if (gIsSavedEditor) {
+        gActualMemeImg.style.display = 'none'
+        gIsSavedEditor = false
+    }
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === linkTo).classList.add('active')

@@ -116,15 +116,16 @@ function disableDrag(line) {
 }
 
 function getCurrMeme() {
+    console.log('gMeme:', gMeme)
     return gMeme
 }
 
 function chooseMeme(memeIdx) {
-    const meme = {
-        ...gMemes[memeIdx]
+    const currMeme = gMemes[memeIdx]
+    const memeCopy = {
+        ...currMeme
     }
-    gMeme = meme
-    console.log('gMeme:', gMeme)
+    gMeme = memeCopy
 }
 
 function getMemeLines() {
