@@ -245,10 +245,10 @@ function setLineFont(action, fontFamily) {
             gMeme.lines[idx].fontFamily = fontFamily
             break;
         case 'size+':
-            gMeme.lines[idx].fontSize += 10
+            gMeme.lines[idx].fontSize += 1
             break;
         case 'size-':
-            gMeme.lines[idx].fontSize -= 10
+            gMeme.lines[idx].fontSize -= 1
             break;
         default:
             break;

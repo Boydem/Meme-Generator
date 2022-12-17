@@ -110,3 +110,7 @@ function showAllGallery() {
     setFilterBy(null)
     renderGallery()
 }
+
+function onOpenFiltersModule() {
+    document.querySelector('.keywords').classList.toggle('open')
+}

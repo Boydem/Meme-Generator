@@ -34,7 +34,8 @@
     </header>
     <div class="search-bar">
         <label for="searchMeme">Search</label>
-        <input type="search" name="searchMeme" id="searchMeme">
+        <input oninput="onSetFilterBy(this.value)" type="search" name="searchMeme" id="searchMeme">
+        <div onclick="onOpenFiltersModule()" class="filter-gallery">Filters</div>
         <div onclick="showAllGallery()" class="all-gallery">All</div>
         <div class="keywords"></div>
     </div>

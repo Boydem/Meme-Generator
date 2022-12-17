@@ -82,6 +82,9 @@ function setFilterBy(value) {
 function getImgs() {
     if (!gFilterBy) return gImgs
     return gImgs.filter(img => {
-        return img.keywords.includes(gFilterBy)
+        const x = img.keywords.filter(keyword => {
+            return keyword.includes(gFilterBy)
+        })
+        return x.includes(gFilterBy)
     })
 }
