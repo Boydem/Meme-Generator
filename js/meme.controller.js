@@ -155,6 +155,7 @@ function onMove(ev) {
     if (line.isSelected && line.isDrag) {
         const pos = getEvPos(ev)
         if (TOUCH_EVS.includes(ev.type)) {
+            ev.preventDefault()
             newPos = {
                 x: pos.x,
                 y: pos.y - gElCanvas.getBoundingClientRect().top + line.sizes.height / 2

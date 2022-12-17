@@ -342,7 +342,7 @@ footer {
   height: 100%;
   opacity: 0;
   pointer-events: none;
-  /* overflow-y: auto; */
+  overflow-y: auto;
 }
 .meme-editor .wrapper {
   flex-direction: column;
