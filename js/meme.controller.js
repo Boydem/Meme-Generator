@@ -168,7 +168,7 @@ function onMove(ev) {
                 y: pos.y + line.sizes.height / 2
             }
         }
-
+        gElCanvas.style.cursor = 'grabbing'
         moveLine(line, newPos)
         renderCanvas()
     }
@@ -206,6 +206,7 @@ function onDown(ev) {
         renderCanvas()
         return
     }
+    gElCanvas.style.cursor = 'grab'
     allowDrag(line)
     gDraggedLine = line
 
@@ -213,6 +214,7 @@ function onDown(ev) {
 
 function onUp() {
     gDraggedLine = null
+    gElCanvas.style.cursor = 'auto'
     // disableDrag(gDraggedLine)
 }
 
