@@ -694,6 +694,9 @@ input[type="search"] {
   cursor: pointer;
   color: var(--clr1a);
   transition: color 0.3s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .filter-gallery {
   font-size: 1.25em;

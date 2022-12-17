@@ -97,7 +97,8 @@ renderKeywords()
 function renderKeywords() {
     const elKeywordsWrapper = document.querySelector('.keywords')
     const keywords = getKeyWords()
-    const strHTMLS = keywords.map(key => `<span onclick="onSetFilterBy('${key}')" data-pop="${key}" class="keyword">${key}</span>`)
+    const keywordsMap = getKeyWordsMap()
+    const strHTMLS = keywords.map(key => `<span style="font-size:${keywordsMap[key] * 0.05 + 1}rem;" onclick="onSetFilterBy('${key}')" data-pop="${key}" class="keyword">${key}</span>`)
     elKeywordsWrapper.innerHTML = strHTMLS.join('')
 }
 
