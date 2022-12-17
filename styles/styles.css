@@ -772,6 +772,7 @@ option[value="tahoma"] {
 
 /* FLASH MSG */
 .action-msg {
+  pointer-events: none;
   position: fixed;
   top: 50px;
   left: 50%;
@@ -846,6 +847,15 @@ option[value="tahoma"] {
 .module-wrapper .next-page:hover,
 .module-wrapper .prev-page:hover {
   color: var(--clr2);
+}
+
+.keyword {
+  cursor: pointer;
+  color: var(--clr1a);
+  transition: color 0.3s;
+}
+.keyword:hover {
+  color: var(--clr1);
 }
 .keyword:first-of-type {
   margin-inline-start: 1em;
