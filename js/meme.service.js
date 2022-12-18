@@ -98,6 +98,13 @@ function saveLineSizes(lineSizes) {
     }
 }
 
+function getLineByIdx(lineIdx) {
+    if (lineIdx < 0) return
+    return {
+        ...gMeme.lines[lineIdx]
+    }
+}
+
 // function getLineSizes() {
 //     return {...gMeme.lines[gMeme.selectedLineIdx].sizes}
 // }

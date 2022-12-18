@@ -156,32 +156,29 @@ function getEvPos(ev) {
     return pos
 }
 
-function getEvPosLine(mouseX, mouseY, evType = null) {
+function getEvPosLineIdx(mouseX, mouseY, evType = null) {
     const meme = getCurrMeme()
-    const line = meme.lines[meme.selectedLineIdx]
-    const {
-        x: lineX,
-        y: lineY
-    } = line.pos
-    const {
-        height: lineH,
-        width: lineW
-    } = line.sizes
-    let actualLineX
-    if (TOUCH_EVS.includes(evType)) {
-        actualLineX = lineX - lineW / 2
-        let actualLineY = gElCanvas.getBoundingClientRect().top + lineY
-        if (mouseX >= actualLineX && mouseX <= actualLineX + lineW &&
-            mouseY >= actualLineY - lineH && mouseY <= actualLineY) {
-            return meme.lines[meme.selectedLineIdx]
+    return meme.lines.findIndex(line => {
+        const {
+            x: lineX,
+            y: lineY
+        } = line.pos
+        const {
+            height: lineH,
+            width: lineW
+        } = line.sizes
+        let actualLineX
+        if (TOUCH_EVS.includes(evType)) {
+            actualLineX = lineX - lineW / 2
+            let actualLineY = gElCanvas.getBoundingClientRect().top + lineY
+            return (mouseX >= actualLineX && mouseX <= actualLineX + lineW &&
+                mouseY >= actualLineY - lineH && mouseY <= actualLineY)
+        } else {
+            actualLineX = lineX - lineW / 2
+            return (mouseX >= actualLineX && mouseX <= actualLineX + lineW &&
+                mouseY <= lineY && mouseY >= lineY - lineH)
         }
-    } else {
-        actualLineX = lineX - lineW / 2
-        if (mouseX >= actualLineX && mouseX <= actualLineX + lineW &&
-            mouseY <= lineY && mouseY >= lineY - lineH) {
-            return meme.lines[meme.selectedLineIdx]
-        }
-    }
+    })
 }
 
 function onMove(ev) {
@@ -206,15 +203,26 @@ function onMove(ev) {
     renderCanvas()
 }
 
-function onInlineEditClick(ev) {
+function getEvPosLine(ev) {
     let line
+    let lineIdx
     if (TOUCH_EVS.includes(ev.type)) {
         // ev.preventDefault()
         ev = ev.changedTouches[0]
-        line = getEvPosLine(ev.pageX, ev.pageY, 'touchstart')
+        lineIdx = getEvPosLineIdx(ev.pageX, ev.pageY, 'touchstart')
     } else {
-        line = getEvPosLine(ev.offsetX, ev.offsetY)
+        lineIdx = getEvPosLineIdx(ev.offsetX, ev.offsetY)
     }
+    line = getLineByIdx(lineIdx)
+    if (lineIdx >= 0) {
+        selectLine(lineIdx)
+        return line
+    }
+}
+
+function onInlineEditClick(ev) {
+    let line = getEvPosLine(ev)
+
     if (line) {
         document.querySelector('.text-line').focus()
     }
@@ -222,21 +230,13 @@ function onInlineEditClick(ev) {
 
 function onDown(ev) {
     const pos = getEvPos(ev)
-    let line
-    if (TOUCH_EVS.includes(ev.type)) {
-        // ev.preventDefault()
-        ev = ev.changedTouches[0]
-        line = getEvPosLine(pos.x, pos.y, 'touchstart')
-    } else {
-        line = getEvPosLine(pos.x, pos.y)
-    }
-    if (line) {
-        selectLine()
-        renderCanvas()
-        gIsDrag = true
-    } else {
+    let line = getEvPosLine(ev)
+    let lineIdx = getEvPosLineIdx(ev)
+    if (!line) {
         onUnselectLines()
         return
+    } else {
+        selectLine(lineIdx)
     }
     gElCanvas.style.cursor = 'grab'
     gIsDrag = true
