@@ -2,7 +2,6 @@
 
 const gElGalleryContainer = document.querySelector('.meme-gallery')
 let gIsSavedEditor = false
-let gActualMemeImg
 
 function onInit() {
     createInitImgs()
@@ -39,7 +38,6 @@ function onSavedClick(memeIdx) {
     chooseMeme(memeIdx)
     setNavTo('editor')
     const meme = getCurrMeme()
-    console.log('meme:', meme)
     renderMeme(getCurrMeme())
 }
 

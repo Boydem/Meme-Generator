@@ -185,7 +185,15 @@ function setLineFont(action, fontFamily) {
 
 function saveMeme(imgDataURL) {
     gMeme.imgDataURL = imgDataURL
-    gMemes.push(gMeme)
+    if (gIsSavedEditor) {
+        let memeIdx = gMemes.findIndex(meme => meme.savedMemeId === gMeme.savedMemeId)
+        gMemes[memeIdx] = {
+            ...gMeme
+        }
+    } else {
+        gMeme.savedMemeId = makeId()
+        gMemes.push(gMeme)
+    }
     saveToStorage(MEMES_DB_KEY, gMemes)
 }
 

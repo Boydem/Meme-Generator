@@ -221,10 +221,10 @@ function getEvPosLine(ev) {
     }
 }
 
-function onInlineEditClick(ev) {
-    let elTxtInput = document.querySelector('.text-line')
-    let line = getEvPosLine(ev)
-    if (!line) return
+function setInputTxt() {
+    const elTxtInput = document.querySelector('.text-line')
+    const meme = getCurrMeme()
+    const line = meme.lines[meme.selectedLineIdx]
     if (!gIgnoreStrs.includes(line.text.toLowerCase())) {
         elTxtInput.value = line.text
     } else {
@@ -232,6 +232,10 @@ function onInlineEditClick(ev) {
         elTxtInput.value = ''
     }
     document.querySelector('.text-line').focus()
+}
+
+function onInlineEditClick(ev) {
+    setInputTxt()
 }
 
 function onDown(ev) {
@@ -283,6 +287,7 @@ function onSetLineTxt(ev) {
 
 function onSwitchLine() {
     switchLine()
+    setInputTxt()
     renderCanvas()
     // show action success msg
     flashMsg(`Line Switched`)
@@ -461,6 +466,7 @@ function onUnselectLines() {
 }
 
 function onSaveMeme() {
+
     onUnselectLines()
     const data = gElCanvas.toDataURL('image/png')
     // loadImageFromInput(ev, renderUploadedImg)
