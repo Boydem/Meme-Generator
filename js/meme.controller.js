@@ -466,7 +466,7 @@ function onUnselectLines() {
 }
 
 function onSaveMeme() {
-
+    setNavTo('saved')
     onUnselectLines()
     const data = gElCanvas.toDataURL('image/png')
     // loadImageFromInput(ev, renderUploadedImg)
