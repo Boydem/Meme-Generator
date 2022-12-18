@@ -7,6 +7,7 @@ let gElCurrMemeImg
 let gIsDrag = false
 
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
+const gIgnoreStrs = ['another line', 'your text here']
 
 function initCanvas() {
     gElCanvas = document.querySelector('canvas')
@@ -221,11 +222,16 @@ function getEvPosLine(ev) {
 }
 
 function onInlineEditClick(ev) {
+    let elTxtInput = document.querySelector('.text-line')
     let line = getEvPosLine(ev)
-
-    if (line) {
-        document.querySelector('.text-line').focus()
+    if (!line) return
+    if (!gIgnoreStrs.includes(line.text.toLowerCase())) {
+        elTxtInput.value = line.text
+    } else {
+        elTxtInput.placeholder = 'Your text line'
+        elTxtInput.value = ''
     }
+    document.querySelector('.text-line').focus()
 }
 
 function onDown(ev) {
@@ -290,7 +296,10 @@ function onAddLine(text = 'Another Line') {
     selectLine(memeLines.length - 1)
     renderCanvas()
     drawRect()
-    document.querySelector('.text-line').focus()
+    const elTxtInput = document.querySelector('.text-line')
+    elTxtInput.focus()
+    elTxtInput.placeholder = 'Your text line'
+    elTxtInput.value = ''
 }
 
 function onDeleteLine() {
