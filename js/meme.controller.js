@@ -38,12 +38,10 @@ function renderMeme(meme) {
         document.querySelector('.text-line').focus()
     }
 }
-// function renderMeme(imgId, meme) {
-
-// }
 // Every time canvas render redraw img and lines
 // draw img
 function drawImg(img) {
+    if (!img) return
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 // draw line
@@ -215,7 +213,9 @@ function getEvPosLine(ev) {
     }
     line = getLineByIdx(lineIdx)
     if (lineIdx >= 0) {
+        // ALSO SELECT THE LINE
         selectLine(lineIdx)
+        renderCanvas()
         return line
     }
 }
@@ -229,7 +229,6 @@ function onInlineEditClick(ev) {
 }
 
 function onDown(ev) {
-    const pos = getEvPos(ev)
     let line = getEvPosLine(ev)
     let lineIdx = getEvPosLineIdx(ev)
     if (!line) {
@@ -455,7 +454,7 @@ function onSaveMeme() {
     const data = gElCanvas.toDataURL('image/png')
     // loadImageFromInput(ev, renderUploadedImg)
     saveMeme(data)
-    hideEditor('saved')
+    toggleEditor('saved')
     renderSaved()
     flashMsg(`Meme Saved`)
     // show action success msg

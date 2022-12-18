@@ -16,10 +16,6 @@ function onSetLang(elLang) {
     doTrans()
     if (lang === 'he') document.body.classList.add('rtl')
     else document.body.classList.remove('rtl')
-    // setTimeout(() => {
-
-    // }, 500)
-
 }
 
 function onHamburgerBtnToggle() {
@@ -34,28 +30,20 @@ function renderGallery() {
 
 function renderSaved() {
     if (!gMemes.length) return
-    let images = getImgs()
-    const strHTMLS = gMemes.map((meme, idx) => `<img onclick="onSavedClick(${meme.selectedImgId},${idx})" src="${meme.imgDataURL}" alt="">
-    <img src="${images[meme.selectedImgId-1].url}" data-id="${meme.selectedImgId}" alt="" style="display:none;opacity:0;">`)
+    const strHTMLS = gMemes.map((meme, idx) => `<img onclick="onSavedClick(${idx})" src="${meme.imgDataURL}" alt="">`)
     gElGalleryContainer.innerHTML = strHTMLS.join('')
 }
 
-function onSavedClick(imgId, memeIdx) {
-    gIsSavedEditor = true
-    gActualMemeImg = document.querySelector(`img[data-id="${imgId}"]`)
-    gActualMemeImg.style.display = 'block'
+function onSavedClick(memeIdx) {
     chooseMeme(memeIdx)
-    // renderGallery()
-    const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
-    elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
-    elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
-    renderMeme(gMemes[memeIdx])
+    setNavTo('editor')
+    const meme = getCurrMeme()
+    console.log('meme:', meme)
+    renderMeme(getCurrMeme())
 }
 
 function onImgClick(imgIdx) {
-    const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
-    elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
-    elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
+    setNavTo('editor')
     const img = getImg(imgIdx)
     setMemeImg(img)
     renderMeme(getCurrMeme())
@@ -87,8 +75,8 @@ function onSavedBtnNav(elLink) {
 function onEditorBtnNav(elLink) {
     setFilterBy(null)
     if (!gElCurrMemeImg) return
-    drawImg(gElCurrMemeImg)
-    resizeCanvas(gElCurrMemeImg)
+    setMemeImg(gElCurrMemeImg)
+    renderMeme(getCurrMeme())
     toggleEditor()
 }
 

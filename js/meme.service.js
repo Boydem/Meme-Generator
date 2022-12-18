@@ -105,10 +105,6 @@ function getLineByIdx(lineIdx) {
     }
 }
 
-// function getLineSizes() {
-//     return {...gMeme.lines[gMeme.selectedLineIdx].sizes}
-// }
-
 function setLineTxt(text) {
     gMeme.lines[gMeme.selectedLineIdx].text = text
 }
@@ -127,17 +123,6 @@ function addLine(text = 'Another Line') {
 function deleteLine() {
     gMeme.lines.splice(gMeme.selectedLineIdx, 1)
 }
-
-// function resetLines() {
-//     gMeme.lines = [{
-//         text: 'Your Text Here',
-//         fontSize: 48,
-//         strokeColor: 'black',
-//         fillColor: 'white',
-//         alignTo: 'center',
-//         fontFamily: 'impact'
-//     }]
-// }
 
 // EDITOR SERVICE
 

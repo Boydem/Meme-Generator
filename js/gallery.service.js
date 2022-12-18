@@ -77,20 +77,11 @@ function getImg(imgIdx) {
     }
 }
 
-// function getImgById(imgId) {
-//     return gImgs.find(img => img.id === imgId)
-// }
-
 function setFilterBy(value) {
     gFilterBy = value
 }
 
 function getImgs() {
     if (!gFilterBy) return gImgs
-    return gImgs.filter(img => {
-        const x = img.keywords.filter(keyword => {
-            return keyword.includes(gFilterBy)
-        })
-        return x.includes(gFilterBy)
-    })
+    return gImgs.filter(img => img.keywords.find(word => word.includes(gFilterBy.toLowerCase())))
 }

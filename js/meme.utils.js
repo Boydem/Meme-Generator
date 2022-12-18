@@ -26,6 +26,12 @@ function toggleEditor(linkTo = 'gallery') {
     textLine.value = ''
 }
 
+function hideEditor(linkTo = 'gallery') {
+    const elEditor = document.querySelector('.meme-editor')
+    elEditor.classList.remove('show')
+    setNavTo(linkTo)
+}
+
 function setNavTo(linkTo) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
