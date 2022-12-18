@@ -5,23 +5,18 @@ const MEMES_DB_KEY = 'memesDB'
 let gMemes = loadFromStorage(MEMES_DB_KEY) || []
 
 let gMeme = {
-    selectedImgId: 5,
+    selectedImg: {},
     selectedLineIdx: 0,
     lines: [{
-        id: 1,
         text: 'Your Text Here',
         fontSize: 48,
         strokeColor: 'black',
         fillColor: 'white',
         alignTo: 'center',
         fontFamily: 'impact',
-        isSelected: true,
-        isDrag: false
     }]
 }
 
-let gLastLineId
-let gSelectedLine
 let gPrevSelectedLine = gMeme.lines[0]
 
 // EMOJIS
@@ -30,191 +25,122 @@ _createEmojis()
 var gEmojiPageIdx = 0
 const PAGE_SIZE = 20
 
-function resetMeme() {
-    gMeme = {
-        selectedImgId: 5,
-        selectedLineIdx: 0,
-        lines: [{
-            id: 1,
-            text: 'Your Text Here',
-            fontSize: 48,
-            strokeColor: 'black',
-            fillColor: 'white',
-            alignTo: 'center',
-            fontFamily: 'impact',
-            isSelected: true,
-            isDrag: false
-        }]
-    }
+function selectLine(lineIdx = 0) {
+    if (lineIdx < 0) return
+    gMeme.selectedLineIdx = lineIdx
 }
 
-function genLineId() {
-    gLastLineId = (gMeme.lines.length ? gMeme.lines[gMeme.lines.length - 1].id + 1 : 1)
-    return gLastLineId || 1
-}
-
-function setImg(imgId) {
-    console.log('imgId:', imgId)
-    gMeme.selectedImgId = imgId
-    gElCurrMemeImg = document.querySelector(`img[data-id="${imgId}"]`)
+function setMemeImg(img) {
+    gMeme.selectedImg = img
 }
 
 function getSelectedLine() {
-    return gMeme.lines.find(gLine => gLine.isSelected) || null
-}
-
-function getSelectedLineIdx() {
-    return gMeme.lines.findIndex(gLine => gLine.isSelected) || 0
+    return {
+        ...gMeme.lines[gMeme.selectedLineIdx]
+    }
 }
 
 function unselectLines() {
-    gMeme.lines.forEach(line => {
-        if (line.isSelected === true) {
-            line.isSelected = false
-        }
-    })
-}
-
-function selectLine(line) {
-    if (!line) return
-    const currSelectedIdx = gMeme.lines.findIndex(gLine => gPrevSelectedLine.id === gLine.id && gLine.isSelected === true)
-    gPrevSelectedLine = line
-    if (currSelectedIdx >= 0) {
-        gMeme.lines[currSelectedIdx].isSelected = false
-    }
-    gMeme.lines.find(gLine => line.id === gLine.id).isSelected = true
+    gMeme.selectedLineIdx = null
 }
 
 function switchLine() {
-    const currSelectedIdx = gMeme.lines.findIndex(line => line.isSelected === true)
-    if (currSelectedIdx === -1) {
-        if (!gMeme.lines.length) return
-        gMeme.lines[0].isSelected = true
+    if (!gMeme.lines.length) return
+    const currSelectedIdx = gMeme.selectedLineIdx
+    if (currSelectedIdx >= gMeme.lines.length - 1) {
+        gMeme.selectedLineIdx = 0
         return
     }
-    gMeme.lines[currSelectedIdx].isSelected = false
     if (currSelectedIdx === 0) {
-        gMeme.lines[gMeme.lines.length - 1].isSelected = true
+        gMeme.selectedLineIdx = gMeme.lines.length - 1
     } else {
-        gMeme.lines[currSelectedIdx - 1].isSelected = true
+        gMeme.selectedLineIdx += 1
     }
 }
 
-function moveLine(line, toPos) {
-    if (!line) return
-    gMeme.lines[line.id - 1].pos.x = toPos.x
-    gMeme.lines[line.id - 1].pos.y = toPos.y
-}
-
-function allowDrag(line) {
-    if (!line) return
-    gMeme.lines.find(gLine => line.id === gLine.id).isDrag = true
-}
-
-function disableDrag(line) {
-    if (!line) return
-    gMeme.lines.find(gLine => line.id === gLine.id).isDrag = false
+function moveLine(toPos) {
+    gMeme.lines[gMeme.selectedLineIdx].pos.x = toPos.x
+    gMeme.lines[gMeme.selectedLineIdx].pos.y = toPos.y
 }
 
 function getCurrMeme() {
-    return gMeme
+    return {
+        ...gMeme
+    }
 }
 
 function chooseMeme(memeIdx) {
-    const currMeme = gMemes[memeIdx]
-    const memeCopy = {
-        ...currMeme
+    gMeme = {
+        ...gMemes[memeIdx]
     }
-    gMeme = memeCopy
 }
 
 function getMemeLines() {
     return gMeme.lines
 }
 
-function saveLinePos(idx, pos) {
-    gMeme.lines[idx].pos = pos
+function saveLineProperties(lineSizes, pos) {
+    saveLineSizes(lineSizes)
+    saveLinePos(pos)
 }
 
-function saveLineSizes(idx, lineSizes) {
-    gMeme.lines[idx].sizes = lineSizes
+function saveLinePos(pos) {
+    if (!pos) return
+    gMeme.lines[gMeme.selectedLineIdx].pos = {
+        ...pos
+    }
 }
 
-function getLineSizes(idx) {
-    return gMeme.lines[idx].sizes
+function saveLineSizes(lineSizes) {
+    if (!lineSizes) return
+    gMeme.lines[gMeme.selectedLineIdx].sizes = {
+        ...lineSizes
+    }
 }
+
+// function getLineSizes() {
+//     return {...gMeme.lines[gMeme.selectedLineIdx].sizes}
+// }
 
 function setLineTxt(text) {
-    let idx = getSelectedLineIdx()
-    if (idx < 0) return 'not selected line'
-    gMeme.lines[idx].text = text
+    gMeme.lines[gMeme.selectedLineIdx].text = text
 }
 
 function addLine(text = 'Another Line') {
     gMeme.lines.push({
-        id: genLineId(),
         text,
         fontSize: 48,
         strokeColor: 'black',
         fillColor: 'white',
         alignTo: 'center',
         fontFamily: 'impact',
-        isSelected: true,
-        isDrag: false,
     })
 }
 
 function deleteLine() {
-    const lineIdx = gMeme.lines.findIndex(line => line.isSelected)
-    if (lineIdx < 0) return
-    gMeme.lines.splice(lineIdx, 1)
+    gMeme.lines.splice(gMeme.selectedLineIdx, 1)
 }
 
-function resetLines() {
-    gMeme.lines = [{
-        id: 1,
-        text: 'Your Text Here',
-        fontSize: 48,
-        strokeColor: 'black',
-        fillColor: 'white',
-        alignTo: 'center',
-        fontFamily: 'impact',
-        isSelected: true,
-        isDrag: false,
-    }]
-}
+// function resetLines() {
+//     gMeme.lines = [{
+//         text: 'Your Text Here',
+//         fontSize: 48,
+//         strokeColor: 'black',
+//         fillColor: 'white',
+//         alignTo: 'center',
+//         fontFamily: 'impact'
+//     }]
+// }
 
 // EDITOR SERVICE
 
-
-function getEvPosLine(mouseX, mouseY, evType = '') {
-    return gMeme.lines.find(line => {
-        let actualLineX = 0
-        let actualLineY = 0
-        if (TOUCH_EVS.includes(evType)) {
-            actualLineX = line.pos.x - line.sizes.width / 2
-            actualLineY = gElCanvas.getBoundingClientRect().top + line.pos.y
-            return (mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
-                mouseY >= actualLineY - line.sizes.height && mouseY <= actualLineY)
-        } else {
-            actualLineX = line.pos.x - line.sizes.width / 2
-            return (
-                mouseX >= actualLineX && mouseX <= actualLineX + line.sizes.width &&
-                mouseY <= line.pos.y && mouseY >= line.pos.y - line.sizes.height
-            )
-        }
-    })
-}
-
-
 function setColor(action, color) {
-    let idx = getSelectedLineIdx()
     switch (action) {
         case 'stroke':
-            gMeme.lines[idx].strokeColor = color
+            gMeme.lines[gMeme.selectedLineIdx].strokeColor = color
             break;
         case 'fill':
-            gMeme.lines[idx].fillColor = color
+            gMeme.lines[gMeme.selectedLineIdx].fillColor = color
             break;
         default:
             break;
@@ -222,41 +148,37 @@ function setColor(action, color) {
 }
 
 function alignTo(action) {
-    let idx = getSelectedLineIdx()
     switch (action) {
         case 'left':
-            gMeme.lines[idx].pos.x = gMeme.lines[idx].sizes.width / 2 + 20
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gMeme.lines[gMeme.selectedLineIdx].sizes.width / 2 + 20
             break;
         case 'center':
-            gMeme.lines[idx].pos.x = gElCanvas.width / 2
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width / 2
             break;
         case 'right':
-            gMeme.lines[idx].pos.x = gElCanvas.width - gMeme.lines[idx].sizes.width / 2 - 20
+            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width - gMeme.lines[gMeme.selectedLineIdx].sizes.width / 2 - 20
             break;
         default:
             break;
     }
-    gMeme.lines[idx].alignTo = action
+    gMeme.lines[gMeme.selectedLineIdx].alignTo = action
 }
 
 function setLineFont(action, fontFamily) {
-    let idx = getSelectedLineIdx()
     switch (action) {
         case 'family':
-            gMeme.lines[idx].fontFamily = fontFamily
+            gMeme.lines[gMeme.selectedLineIdx].fontFamily = fontFamily
             break;
         case 'size+':
-            gMeme.lines[idx].fontSize += 2
+            gMeme.lines[gMeme.selectedLineIdx].fontSize += 2
             break;
         case 'size-':
-            gMeme.lines[idx].fontSize -= 2
+            gMeme.lines[gMeme.selectedLineIdx].fontSize -= 2
             break;
         default:
             break;
     }
 }
-
-
 
 function saveMeme(imgDataURL) {
     gMeme.imgDataURL = imgDataURL
@@ -265,8 +187,6 @@ function saveMeme(imgDataURL) {
 }
 
 // EMOJIS
-
-
 
 function _createEmojis() {
     for (let i = 128512; i < 128591; i++) {

@@ -1,0 +1,34 @@
+.flex {
+  display: flex;
+}
+.align-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.space-between {
+  justify-content: space-between;
+}
+.space-around {
+  justify-content: space-around;
+}
+.grid {
+  display: grid;
+}
+.clean-list {
+  list-style: none;
+}
+.widget-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.widget-space-between {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.widget-center > *:not(:last-child) {
+  margin-inline-end: 0.6em;
+}

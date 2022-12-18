@@ -1,0 +1,27 @@
+/* Setup */
+@import "./setup/vars.css";
+@import "./setup/font-face.css";
+@import "./setup/css-reset.css";
+
+/* Basic Styles */
+@import "./basic/basic-styles.css";
+@import "./basic/typography.css";
+@import "./basic/buttons.css";
+@import "./basic/forms-and-inputs.css";
+@import "./basic/layout.css";
+@import "./basic/helpers.css";
+
+/* Components */
+/* Main cpts */
+@import "./cmps/header.css";
+@import "./cmps/search-bar.css";
+@import "./cmps/main-content.css";
+@import "./cmps/gallery.css";
+@import "./cmps/editor.css";
+@import "./cmps/footer.css";
+/* helper cpts */
+@import "./cmps/push-msg.css";
+/* Media bps */
+@import "./cmps/mobile-menu.css";
+@import "./media/medium.css";
+@import "./media/large.css";

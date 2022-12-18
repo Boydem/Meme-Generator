@@ -71,9 +71,15 @@ function createInitImgs() {
     }, [])
 }
 
-function getImgById(imgId) {
-    return gImgs.find(img => img.id === imgId)
+function getImg(imgIdx) {
+    return {
+        ...gImgs[imgIdx]
+    }
 }
+
+// function getImgById(imgId) {
+//     return gImgs.find(img => img.id === imgId)
+// }
 
 function setFilterBy(value) {
     gFilterBy = value

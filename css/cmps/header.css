@@ -1,0 +1,89 @@
+/* HEADER */
+.main-header {
+  z-index: 4;
+  padding: 0 1em;
+  justify-content: space-between;
+  background-color: var(--clr2);
+  color: var(--clr1);
+  box-shadow: 13px 1px 20px -10px var(--blacka);
+}
+/* LOGO */
+.brand-logo {
+  font-size: 2.3rem;
+  font-family: "logo";
+  text-transform: uppercase;
+  color: var(--white);
+  text-shadow: -3px -3px 0px var(--clr1a), 3px 3px 0px var(--clr1);
+}
+/* APP MAIN NAV */
+.main-nav {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.nav-links > * {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.nav-link {
+  border-radius: 2em;
+  width: 100%;
+  font-size: 3em;
+  padding: 0.2em 1.66em;
+  color: var(--white);
+  background-color: var(--clr1);
+  transition: color 0.3s, background-color 0.3s, box-shadow 0.3s,
+    text-shadow 0.3s;
+  max-width: 400px;
+}
+.nav-links > *:not(:last-child) {
+  margin-bottom: 1em;
+}
+.nav-links > * > a:hover {
+  box-shadow: 0px 0px 0px 0.15em var(--whitea) inset,
+    0px 0px 0px 2px var(--clr1);
+  text-shadow: -3px -3px 0px var(--whitea), -3px -3px 6px var(--blacka);
+}
+.nav-links > * > a.active:hover {
+  box-shadow: 0px 0px 0px 0.15em var(--clr1a) inset, 0px 0px 0px 2px var(--clr1);
+  text-shadow: -3px -3px 0px var(--clr1a), -3px -3px 6px var(--clr1a);
+}
+.nav-links > * > a.active {
+  background-color: var(--white);
+  color: var(--clr1);
+  box-shadow: 0px 0px 0px 0.15em var(--clr1a) inset, 0px 0px 0px 2px var(--clr1);
+}
+.nav-links {
+  flex-direction: column;
+  width: 100%;
+}
+.nav-links > *:not(:last-of-type) > a {
+  margin-inline-end: 0em;
+}
+/* LANGUEAGE */
+.langs-list {
+  align-items: center;
+  justify-content: center;
+}
+.langs-list > * {
+  padding: 1em;
+}
+/* APP COLORS */
+.app-clrs-btns > img {
+  display: none;
+}
+.app-clrs-btns > *:not(:last-child) {
+  margin-inline-end: 0.5em;
+}
+.app-clrs-btns {
+  text-transform: uppercase;
+
+  background-color: var(--white);
+  padding: 0.55em 1em;
+  border-radius: 0.2em;
+  box-shadow: 0px 5px 10px -8px var(--blacka);
+}

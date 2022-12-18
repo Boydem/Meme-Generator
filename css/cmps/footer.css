@@ -1,0 +1,7 @@
+/* FOOTER */
+.main-footer {
+  background-color: var(--white);
+  color: var(--clr1);
+  text-align: center;
+  z-index: 4;
+}

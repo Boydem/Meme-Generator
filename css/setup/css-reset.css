@@ -1,0 +1,38 @@
+html,
+body {
+  overflow: hidden;
+  position: relative;
+  height: 100%;
+  touch-action: none;
+  -ms-touch-action: none;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+input,
+button,
+textarea,
+select {
+  font: inherit;
+  border: inherit;
+}
+a,
+button {
+  text-decoration: none;
+  font: inherit;
+  font-family: "Oswald-Bold";
+  border: none;
+  cursor: pointer;
+  color: inherit;
+  text-transform: uppercase;
+}

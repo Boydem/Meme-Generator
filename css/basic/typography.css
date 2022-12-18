@@ -1,0 +1,61 @@
+html {
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--white);
+  font-family: "textual";
+  -webkit-font-smoothing: antialiased;
+}
+body.rtl {
+  direction: rtl;
+}
+p {
+  font-size: 1rem;
+  margin-block-end: 1.6rem;
+}
+body.rtl
+  *:not(
+    .brand-logo,
+    i,
+    select,
+    input[type="text"],
+    .langs-list > li > a,
+    small
+  ) {
+  font-family: "he";
+}
+small {
+  font-family: "textual";
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Oswald";
+  color: var(--clr2);
+  font-weight: unset;
+  margin-block-end: 0.875rem;
+}
+h1 {
+  font-size: 4.209rem;
+}
+h2 {
+  text-transform: uppercase;
+  letter-spacing: -1px;
+  font-size: 3.157rem;
+}
+h3 {
+  text-transform: uppercase;
+  font-size: 2.369rem;
+  letter-spacing: -1px;
+}
+h4 {
+  font-size: 1.777rem;
+}
+button i {
+  font-size: 1.25em;
+}
+.fa-plusminus {
+  font-size: 1em;
+}

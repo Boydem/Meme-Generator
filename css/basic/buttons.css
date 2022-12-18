@@ -1,0 +1,13 @@
+button {
+  padding: 0.5rem 1.25rem;
+  border-radius: 0.25em;
+  color: var(--clr1);
+  background-color: var(--clr2);
+}
+button {
+  transition: color 0.3s, background-color 0.3s;
+}
+button:hover {
+  color: var(--clr1);
+  background-color: var(--white);
+}

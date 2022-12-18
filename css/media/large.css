@@ -1,0 +1,58 @@
+/* Full/Large */
+@media (min-width: 1300px) {
+  /* layout */
+  body.grid {
+    grid-template-columns: max-content 1fr;
+    grid-template-rows: 1fr;
+  }
+  .search-bar {
+    grid-row: 1/2;
+    grid-column: 2/-1;
+  }
+  /* header */
+  .main-header,
+  .nav-links {
+    flex-direction: column;
+  }
+  .main-header {
+    grid-row: 1/3;
+    grid-column: 1/2;
+    padding: 2em;
+  }
+  .brand-logo {
+    font-size: 3rem;
+  }
+  .main-nav {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  .nav-link {
+    border-radius: 2em;
+    font-size: 1.75rem;
+    padding-block-start: 0.5em;
+    padding-block-end: 0.5em;
+    margin-bottom: 0;
+    margin-block-start: 1em;
+  }
+  .app-clrs-btns {
+    margin-top: auto;
+  }
+  .app-clrs-btns,
+  .brand-logo {
+    margin: 0;
+  }
+  .nav-links > *:not(:last-of-type) > a {
+    margin-inline-end: 0em;
+  }
+  .meme-editor {
+    max-width: calc(100vw - 357.703px);
+    max-height: calc(100vh - 24px);
+    margin-inline-start: auto;
+    margin-block-start: unset;
+  }
+  .canvas-container {
+    margin-inline-end: 2em;
+    order: 0;
+  }
+}

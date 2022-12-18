@@ -28,7 +28,7 @@ function onHamburgerBtnToggle() {
 
 function renderGallery() {
     let images = getImgs()
-    const strHTMLS = images.map(image => `<img onclick="onImageClick(this.dataset.id)" src="${image.url}" data-id="${image.id}" alt="">`)
+    const strHTMLS = images.map((image, idx) => `<img onclick="onImgClick(${idx})" src="${image.url}"" alt="">`)
     gElGalleryContainer.innerHTML = strHTMLS.join('')
 }
 
@@ -49,16 +49,16 @@ function onSavedClick(imgId, memeIdx) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
-    renderMeme(imgId, gMemes[memeIdx])
+    renderMeme(gMemes[memeIdx])
 }
 
-function onImageClick(imgId) {
-    resetMeme()
+function onImgClick(imgIdx) {
     const elNavlinks = Array.from(document.querySelectorAll('.nav-link'))
     elNavlinks.find(elLink => elLink.classList.contains('active')).classList.remove('active')
     elNavlinks.find(elLink => elLink.dataset.trans === 'editor').classList.add('active')
-    // setImg(elImg)
-    renderMeme(imgId, getCurrMeme())
+    const img = getImg(imgIdx)
+    setMemeImg(img)
+    renderMeme(getCurrMeme())
 }
 
 function onSetAppColors(action, color) {
@@ -89,7 +89,7 @@ function onEditorBtnNav(elLink) {
     if (!gElCurrMemeImg) return
     drawImg(gElCurrMemeImg)
     resizeCanvas(gElCurrMemeImg)
-    showEditor()
+    toggleEditor()
 }
 
 function onGalleryBtnNav(elLink) {

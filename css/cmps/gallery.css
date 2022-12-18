@@ -1,0 +1,19 @@
+.meme-gallery {
+  min-height: 100vh;
+  gap: 2em;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  place-items: center;
+  place-content: baseline;
+  grid-auto-flow: dense;
+  padding: 2em;
+}
+.meme-gallery > img {
+  cursor: pointer;
+  border-radius: 0.5em;
+  box-shadow: 0px 10px 20px -10px var(--blacka);
+  transition: transform 0.2s, box-shadow 0.3s;
+}
+.meme-gallery > img:hover {
+  box-shadow: 0px 30px 30px -20px var(--blacka);
+  transform: scale(1.05);
+}

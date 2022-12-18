@@ -1,0 +1,17 @@
+/* root vars */
+:root {
+  --app-clr1: 190, 47, 118;
+  --app-clr2: 255, 239, 12;
+  --a: 0.25;
+  /* colors */
+  --clr2: rgb(var(--app-clr2));
+  --white: rgb(255, 255, 255);
+  --whitea: rgba(255, 255, 255, var(--a));
+  --clr1: rgb(var(--app-clr1));
+  --clr1a: rgba(var(--app-clr1), var(--a));
+  --blacka: rgba(0, 0, 0, 0.3);
+  /* breakpoints */
+  --s: 600px;
+  --m: 740px;
+  --l: 1140px;
+}

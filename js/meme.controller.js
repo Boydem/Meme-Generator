@@ -4,7 +4,7 @@ let gElCanvas
 let gCtx
 
 let gElCurrMemeImg
-let gDraggedLine
+let gIsDrag = false
 
 const TOUCH_EVS = ['touchmove', 'touchstart', 'touchend']
 
@@ -18,31 +18,39 @@ function initCanvas() {
     renderEmojis()
 }
 
-
-function renderMeme(imgId, meme) {
-    setImg(imgId)
-    resizeCanvas(gElCurrMemeImg)
-    selectLine(meme.lines[0])
-    drawRect()
-    showEditor()
-    document.querySelector('.text-line').focus()
-}
-// Every time canvas render redraw img and lines
 function renderCanvas() {
-    if (!gElCurrMemeImg) return
     drawImg(gElCurrMemeImg)
     drawLines()
     drawRect()
 }
+
+function renderMeme(meme) {
+    let img = new Image() // Create a new html img element
+    img.src = meme.selectedImg.url // Set the img src
+    img.onload = () => {
+        gElCurrMemeImg = img
+        resizeCanvas(img)
+        drawImg(img)
+        drawLines()
+        selectLine()
+        drawRect()
+        toggleEditor()
+        document.querySelector('.text-line').focus()
+    }
+}
+// function renderMeme(imgId, meme) {
+
+// }
+// Every time canvas render redraw img and lines
 // draw img
 function drawImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 // draw line
 function drawLines() {
-    const memeLines = getMemeLines()
+    const meme = getCurrMeme()
 
-    memeLines.forEach((line, idx) => {
+    meme.lines.forEach((line, idx) => {
         let pos = {}
         // if line already have position , place it there else init line pos
         if (line.pos) {
@@ -61,7 +69,7 @@ function drawLines() {
                 pos.y = gElCanvas.height - 20
             }
             // more then two lines pos
-            if (idx === memeLines.length - 1 && idx > 1 & !line.pos) {
+            if (idx === meme.lines.length - 1 && idx > 1 & !line.pos) {
                 pos.y = getRandomInt(60, gElCanvas.height - 60)
                 pos.x = getRandomInt(60, gElCanvas.width - 60)
                 // pos.x = gElCanvas.width / 2
@@ -93,24 +101,21 @@ function drawLines() {
         gCtx.fillText(line.text, pos.x, pos.y)
         gCtx.closePath()
         // if selected save new pos and sizes
-        if (line.isSelected) {
-            const lineSizes = measureLineSizes(line)
-            saveLineSizes(idx, lineSizes)
-            saveLinePos(idx, pos)
+        const lineSizes = measureLineSizes(line)
+        if (idx === meme.selectedLineIdx) {
+            saveLineProperties(lineSizes, pos)
         }
     })
 }
 // draw rect
 function drawRect() {
     const line = getSelectedLine()
-    if (!line) return
-    if (line.isSelected) {
-        gCtx.beginPath()
-        gCtx.lineWidth = 2
-        gCtx.strokeStyle = "white"
-        gCtx.setLineDash([15, 5])
-        gCtx.strokeRect(line.pos.x - line.sizes.width / 2 - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
-    }
+    if (!line.pos) return
+    gCtx.beginPath()
+    gCtx.lineWidth = 2
+    gCtx.strokeStyle = "white"
+    gCtx.setLineDash([15, 5])
+    gCtx.strokeRect(line.pos.x - line.sizes.width / 2 - 10, line.pos.y - line.sizes.height - 10, line.sizes.width + 25, line.sizes.height + 25)
 }
 
 function addListeners() {
@@ -118,6 +123,7 @@ function addListeners() {
     addTouchListeners()
     window.addEventListener('resize', () => {
         resizeCanvas(gElCurrMemeImg)
+        renderCanvas()
     })
 }
 
@@ -150,28 +156,54 @@ function getEvPos(ev) {
     return pos
 }
 
-function onMove(ev) {
-    if (!gDraggedLine) return
-    let newPos
-    const line = gDraggedLine
-    if (line.isSelected && line.isDrag) {
-        const pos = getEvPos(ev)
-        if (TOUCH_EVS.includes(ev.type)) {
-            ev.preventDefault()
-            newPos = {
-                x: pos.x,
-                y: pos.y - gElCanvas.getBoundingClientRect().top + line.sizes.height / 2
-            }
-        } else {
-            newPos = {
-                x: pos.x,
-                y: pos.y + line.sizes.height / 2
-            }
+function getEvPosLine(mouseX, mouseY, evType = null) {
+    const meme = getCurrMeme()
+    const line = meme.lines[meme.selectedLineIdx]
+    const {
+        x: lineX,
+        y: lineY
+    } = line.pos
+    const {
+        height: lineH,
+        width: lineW
+    } = line.sizes
+    let actualLineX
+    if (TOUCH_EVS.includes(evType)) {
+        actualLineX = lineX - lineW / 2
+        let actualLineY = gElCanvas.getBoundingClientRect().top + lineY
+        if (mouseX >= actualLineX && mouseX <= actualLineX + lineW &&
+            mouseY >= actualLineY - lineH && mouseY <= actualLineY) {
+            return meme.lines[meme.selectedLineIdx]
         }
-        gElCanvas.style.cursor = 'grabbing'
-        moveLine(line, newPos)
-        renderCanvas()
+    } else {
+        actualLineX = lineX - lineW / 2
+        if (mouseX >= actualLineX && mouseX <= actualLineX + lineW &&
+            mouseY <= lineY && mouseY >= lineY - lineH) {
+            return meme.lines[meme.selectedLineIdx]
+        }
     }
+}
+
+function onMove(ev) {
+    if (!gIsDrag) return
+    const line = getSelectedLine()
+    let newPos
+    const pos = getEvPos(ev)
+    if (TOUCH_EVS.includes(ev.type)) {
+        ev.preventDefault()
+        newPos = {
+            x: pos.x,
+            y: pos.y - gElCanvas.getBoundingClientRect().top + line.sizes.height / 2
+        }
+    } else {
+        newPos = {
+            x: pos.x,
+            y: pos.y + line.sizes.height / 2
+        }
+    }
+    gElCanvas.style.cursor = 'grabbing'
+    moveLine(newPos)
+    renderCanvas()
 }
 
 function onInlineEditClick(ev) {
@@ -189,33 +221,30 @@ function onInlineEditClick(ev) {
 }
 
 function onDown(ev) {
+    const pos = getEvPos(ev)
     let line
     if (TOUCH_EVS.includes(ev.type)) {
         // ev.preventDefault()
         ev = ev.changedTouches[0]
-        line = getEvPosLine(ev.pageX, ev.pageY, 'touchstart')
-
+        line = getEvPosLine(pos.x, pos.y, 'touchstart')
     } else {
-        line = getEvPosLine(ev.offsetX, ev.offsetY)
+        line = getEvPosLine(pos.x, pos.y)
     }
     if (line) {
-        selectLine(line)
+        selectLine()
         renderCanvas()
+        gIsDrag = true
     } else {
-        unselectLines()
-        renderCanvas()
+        onUnselectLines()
         return
     }
     gElCanvas.style.cursor = 'grab'
-    allowDrag(line)
-    gDraggedLine = line
-
+    gIsDrag = true
 }
 
 function onUp() {
-    gDraggedLine = null
+    gIsDrag = false
     gElCanvas.style.cursor = 'auto'
-    // disableDrag(gDraggedLine)
 }
 
 function clearCanvas() {
@@ -231,9 +260,7 @@ function resizeCanvas(elImg) {
     const canvasH = imgH * elCanvasContainer.offsetWidth / imgW
     gElCanvas.width = elCanvasContainer.offsetWidth
     gElCanvas.height = canvasH
-    renderCanvas()
 }
-
 
 function getInnerHeight(elm) {
     var computed = getComputedStyle(elm),
@@ -241,14 +268,7 @@ function getInnerHeight(elm) {
     return elm.clientHeight - padding
 }
 
-
-
 // ON CONTROLS EVENTS
-
-// function disableControls() {
-
-// }
-
 
 function onSetLineTxt(ev) {
     const txt = ev.target.value
@@ -268,9 +288,9 @@ function onAddLine(text = 'Another Line') {
     // show action success msg
     flashMsg(`Line Added`)
     const memeLines = getMemeLines()
-    selectLine(memeLines[memeLines.length - 1])
+    selectLine(memeLines.length - 1)
     renderCanvas()
-    drawRect(memeLines[memeLines.length - 1])
+    drawRect()
     document.querySelector('.text-line').focus()
 }
 
@@ -334,12 +354,15 @@ function onChangeFont(action, elFontInput) {
 
 }
 
+function onBtnCloseEditor() {
+    toggleEditor()
+}
+
 // EMOJIS
 
 function onEmojiClick(ev, emoji) {
     ev.stopPropagation()
     onAddLine(emoji)
-    console.log('elEmoji.innerText:', emoji)
 }
 
 
@@ -373,15 +396,13 @@ function onPrevPage(ev) {
 // END OF FLOW => SHARE / DOWNLOAD
 
 function onDownloadMeme(elLink) {
-    unselectLines()
-    renderCanvas()
+    onUnselectLines()
     const data = gElCanvas.toDataURL('image/png')
     elLink.href = data
 }
 
 function onShareMeme() {
-    unselectLines()
-    renderCanvas()
+    onUnselectLines()
     const imgDataUrl = gElCanvas.toDataURL('image/jpeg') // Gets the canvas content as an image format
 
     // A function to be called if request succeeds
@@ -424,9 +445,13 @@ function loadImageFromInput(ev, onImageReady) {
 
 }
 
-function onSaveMeme() {
+function onUnselectLines() {
     unselectLines()
     renderCanvas()
+    selectLine()
+}
+
+function onSaveMeme() {
     const data = gElCanvas.toDataURL('image/png')
     // loadImageFromInput(ev, renderUploadedImg)
     saveMeme(data)

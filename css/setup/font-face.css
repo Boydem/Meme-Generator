@@ -1,0 +1,20 @@
+@font-face {
+  font-family: "logo";
+  src: url(/css/fonts/Oswald/Oswald-Bold.ttf);
+}
+@font-face {
+  font-family: "he";
+  src: url(/css/fonts/Abraham/Abraham-Regular.ttf);
+}
+@font-face {
+  font-family: "Oswald";
+  src: url(/css/fonts/Oswald/Oswald-Regular.ttf);
+}
+@font-face {
+  font-family: "Oswald-Bold";
+  src: url(/css/fonts/Oswald/Oswald-Bold.ttf);
+}
+@font-face {
+  font-family: "textual";
+  src: url(/css/fonts/Oswald/Oswald-Regular.ttf);
+}
