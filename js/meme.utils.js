@@ -8,17 +8,9 @@ function measureLineSizes(line) {
     }
 }
 
-function toggleEditor(linkTo = 'gallery') {
+function toggleEditor() {
     const elEditor = document.querySelector('.meme-editor')
     elEditor.classList.toggle('show')
-    // nav
-    if (gIsSavedEditor) {
-        gActualMemeImg.style.display = 'none'
-        gIsSavedEditor = false
-        setNavTo('saved')
-    } else {
-        setNavTo(linkTo)
-    }
     // resetLines()
     // reset text line in editor
     const textLine = document.querySelector('.text-line')
@@ -29,7 +21,12 @@ function toggleEditor(linkTo = 'gallery') {
 function hideEditor(linkTo = 'gallery') {
     const elEditor = document.querySelector('.meme-editor')
     elEditor.classList.remove('show')
-    setNavTo(linkTo)
+    if (gIsSavedEditor) {
+        gIsSavedEditor = false
+        setNavTo('saved')
+    } else {
+        setNavTo(linkTo)
+    }
 }
 
 function setNavTo(linkTo) {

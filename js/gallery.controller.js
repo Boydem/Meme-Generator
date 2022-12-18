@@ -18,7 +18,7 @@ function onSetLang(elLang) {
     else document.body.classList.remove('rtl')
 }
 
-function onHamburgerBtnToggle() {
+function onBtnMobileMenu() {
     document.querySelector('.main-nav').classList.toggle('open')
 }
 
@@ -35,6 +35,7 @@ function renderSaved() {
 }
 
 function onSavedClick(memeIdx) {
+    gIsSavedEditor = true
     chooseMeme(memeIdx)
     setNavTo('editor')
     const meme = getCurrMeme()
@@ -73,6 +74,7 @@ function onSavedBtnNav(elLink) {
 }
 
 function onEditorBtnNav(elLink) {
+    setNavTo(elLink.dataset.trans)
     setFilterBy(null)
     if (!gElCurrMemeImg) return
     setMemeImg(gElCurrMemeImg)

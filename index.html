@@ -12,13 +12,13 @@
 
     <header class="main-header flex align-center">
             <div class="brand-logo">Mem'o'zaurus</div>
-            <button class="mobile-menu-btn" onclick="onHamburgerBtnToggle()"><i class="fa-solid fa-bars"></i></button>
+            <button class="mobile-menu-btn" onclick="onBtnMobileMenu()"><i class="fa-solid fa-bars"></i></button>
             <nav class="main-nav">
-                <button class="close-mobile-menu" onclick="onHamburgerBtnToggle()"><i class="fa-solid fa-xmark"></i></button>
+                <button class="close-mobile-menu" onclick="onBtnMobileMenu()"><i class="fa-solid fa-xmark"></i></button>
                 <ul class="nav-links clean-list flex">
-                    <li> <a data-trans="gallery" href="#" class="nav-link active" onclick="onGalleryBtnNav(this);onHamburgerBtnToggle()">Gallery</a> </li>
-                    <li> <a data-trans="saved" href="#" class="nav-link" onclick="onSavedBtnNav(this);onHamburgerBtnToggle()">Saved</a> </li>
-                    <li> <a data-trans="editor" href="#" class="nav-link" onclick="onEditorBtnNav(this);onHamburgerBtnToggle();">Editor</a> </li>
+                    <li> <a data-trans="gallery" href="#" class="nav-link active" onclick="onGalleryBtnNav(this);onBtnMobileMenu()">Gallery</a> </li>
+                    <li> <a data-trans="saved" href="#" class="nav-link" onclick="onSavedBtnNav(this);onBtnMobileMenu()">Saved</a> </li>
+                    <li> <a data-trans="editor" href="#" class="nav-link" onclick="onEditorBtnNav(this);onBtnMobileMenu();">Editor</a> </li>
                 </ul>
                 <ul class="langs-list clean-list flex">
                     <li><a onclick="onSetLang(this)" data-lang="he" href="#">HE</a></li>

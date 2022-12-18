@@ -354,7 +354,8 @@ function onChangeFont(action, elFontInput) {
 }
 
 function onBtnCloseEditor() {
-    toggleEditor()
+    resetMemeLines()
+    hideEditor()
 }
 
 // EMOJIS
@@ -451,6 +452,7 @@ function onUnselectLines() {
 }
 
 function onSaveMeme() {
+    onUnselectLines()
     const data = gElCanvas.toDataURL('image/png')
     // loadImageFromInput(ev, renderUploadedImg)
     saveMeme(data)

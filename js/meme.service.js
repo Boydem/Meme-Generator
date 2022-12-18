@@ -44,6 +44,17 @@ function unselectLines() {
     gMeme.selectedLineIdx = null
 }
 
+function resetMemeLines() {
+    gMeme.lines = [{
+        text: 'Your Text Here',
+        fontSize: 48,
+        strokeColor: 'black',
+        fillColor: 'white',
+        alignTo: 'center',
+        fontFamily: 'impact',
+    }]
+}
+
 function switchLine() {
     if (!gMeme.lines.length) return
     const currSelectedIdx = gMeme.selectedLineIdx
