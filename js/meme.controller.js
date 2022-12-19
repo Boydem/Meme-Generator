@@ -482,7 +482,7 @@ function onSaveMeme() {
 
 function flashMsg(msg) {
     const el = document.querySelector('.action-msg')
-    el.innerText = msg
+    el.innerHTML = `<i class="fa-solid fa-circle-check"></i> ${msg}`
     el.classList.add('open')
     setTimeout(() => {
         el.classList.remove('open')

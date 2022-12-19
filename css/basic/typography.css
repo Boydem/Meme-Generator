@@ -59,3 +59,6 @@ button i {
 .fa-plusminus {
   font-size: 1em;
 }
+.keyword {
+  font-family: "textual" !important;
+}

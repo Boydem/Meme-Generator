@@ -116,6 +116,10 @@ option[value="tahoma"] {
 .emoji-select {
   position: relative;
   cursor: pointer;
+  font-size: 24px;
+}
+.emoji-select .emoji-item {
+  font-size: 1rem;
 }
 .module-wrapper {
   cursor: auto;
