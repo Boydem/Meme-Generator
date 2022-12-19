@@ -17,15 +17,13 @@ let gMeme = {
     }]
 }
 
-let gPrevSelectedLine = gMeme.lines[0]
-
 // EMOJIS
 let gEmojis = []
 _createEmojis()
 var gEmojiPageIdx = 0
 const PAGE_SIZE = 20
 
-function selectLine(lineIdx = 0) {
+function selectLine(lineIdx = null) {
     if (lineIdx < 0) return
     gMeme.selectedLineIdx = lineIdx
 }
@@ -117,6 +115,11 @@ function getLineByIdx(lineIdx) {
 }
 
 function setLineTxt(text) {
+    const line = gMeme.lines[gMeme.selectedLineIdx]
+    if (!line) {
+        flashMsg('Must select a line first')
+        return
+    }
     gMeme.lines[gMeme.selectedLineIdx].text = text
 }
 
@@ -138,12 +141,17 @@ function deleteLine() {
 // EDITOR SERVICE
 
 function setColor(action, color) {
+    const line = gMeme.lines[gMeme.selectedLineIdx]
+    if (!line) {
+        flashMsg('Must select a line first')
+        return
+    }
     switch (action) {
         case 'stroke':
-            gMeme.lines[gMeme.selectedLineIdx].strokeColor = color
+            line.strokeColor = color
             break;
         case 'fill':
-            gMeme.lines[gMeme.selectedLineIdx].fillColor = color
+            line.fillColor = color
             break;
         default:
             break;
@@ -151,32 +159,42 @@ function setColor(action, color) {
 }
 
 function alignTo(action) {
+    const line = gMeme.lines[gMeme.selectedLineIdx]
+    if (!line) {
+        flashMsg('Must select a line first')
+        return
+    }
     switch (action) {
         case 'left':
-            gMeme.lines[gMeme.selectedLineIdx].pos.x = gMeme.lines[gMeme.selectedLineIdx].sizes.width / 2 + 20
+            line.pos.x = line.sizes.width / 2 + 20
             break;
         case 'center':
-            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width / 2
+            line.pos.x = gElCanvas.width / 2
             break;
         case 'right':
-            gMeme.lines[gMeme.selectedLineIdx].pos.x = gElCanvas.width - gMeme.lines[gMeme.selectedLineIdx].sizes.width / 2 - 20
+            line.pos.x = gElCanvas.width - line.sizes.width / 2 - 20
             break;
         default:
             break;
     }
-    gMeme.lines[gMeme.selectedLineIdx].alignTo = action
+    line.alignTo = action
 }
 
 function setLineFont(action, fontFamily) {
+    const line = gMeme.lines[gMeme.selectedLineIdx]
+    if (!line) {
+        flashMsg('Must select a line first')
+        return
+    }
     switch (action) {
         case 'family':
-            gMeme.lines[gMeme.selectedLineIdx].fontFamily = fontFamily
+            line.fontFamily = fontFamily
             break;
         case 'size+':
-            gMeme.lines[gMeme.selectedLineIdx].fontSize += 2
+            line.fontSize += 2
             break;
         case 'size-':
-            gMeme.lines[gMeme.selectedLineIdx].fontSize -= 2
+            line.fontSize -= 2
             break;
         default:
             break;

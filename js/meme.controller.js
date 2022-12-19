@@ -33,7 +33,7 @@ function renderMeme(meme) {
         resizeCanvas(img)
         drawImg(img)
         drawLines()
-        selectLine()
+        selectLine(0)
         drawRect()
         toggleEditor()
         document.querySelector('.text-line').focus()
@@ -225,7 +225,7 @@ function setInputTxt() {
     const elTxtInput = document.querySelector('.text-line')
     const meme = getCurrMeme()
     const line = meme.lines[meme.selectedLineIdx]
-    if (!gIgnoreStrs.includes(line.text.toLowerCase())) {
+    if (line && !gIgnoreStrs.includes(line.text.toLowerCase())) {
         elTxtInput.value = line.text
     } else {
         elTxtInput.placeholder = 'Your text line'
