@@ -22,6 +22,7 @@ function hideEditor(linkTo = 'gallery') {
     const elEditor = document.querySelector('.meme-editor')
     elEditor.classList.remove('show')
     if (gIsSavedEditor) {
+        resetMemeLines()
         gIsSavedEditor = false
         setNavTo('saved')
     } else {
