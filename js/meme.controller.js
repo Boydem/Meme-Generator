@@ -309,6 +309,8 @@ function onAddLine(text = 'Another Line') {
 
 function onDeleteLine() {
     deleteLine()
+    const memeLines = getMemeLines()
+    selectLine(memeLines.length - 1)
     renderCanvas()
     flashMsg(`Line Deleted`)
     // show action success msg
